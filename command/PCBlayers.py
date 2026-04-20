@@ -25,7 +25,7 @@
 #*                                                                          *
 #****************************************************************************
 
-from PySide import QtCore, QtGui
+from PySide6 import QtCore, QtGui, QtWidgets
 from functools import partial
 import FreeCAD
 from collections import OrderedDict
@@ -36,9 +36,9 @@ from PCBboard import getPCBheight
 #***********************************************************************
 #*                               GUI
 #***********************************************************************
-class przycisk(QtGui.QPushButton):
+class przycisk(QtWidgets.QPushButton):
     def __init__(self, parent=None):
-        QtGui.QPushButton.__init__(self, parent)
+        QtWidgets.QPushButton.__init__(self, parent)
 
         self.setFlat(True)
         self.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
@@ -59,9 +59,9 @@ class przycisk(QtGui.QPushButton):
             ''')
 
 
-class layersSettings(QtGui.QWidget):
+class layersSettings(QtWidgets.QWidget):
     def __init__(self, parent=None):
-        QtGui.QWidget.__init__(self, parent)
+        QtWidgets.QWidget.__init__(self, parent)
         
         self.form = self
         self.form.setWindowTitle(u"Layers settings")
@@ -69,7 +69,7 @@ class layersSettings(QtGui.QWidget):
         #
         self.layerslist = {}
         #
-        self.mainLay = QtGui.QGridLayout()
+        self.mainLay = QtWidgets.QGridLayout()
         pcb = getPCBheight()
         try:
             if FreeCAD.activeDocument() and pcb[0]:
@@ -134,7 +134,7 @@ class layersSettings(QtGui.QWidget):
         par = partial(self.hideAll, value)
         self.connect(hideAll, QtCore.SIGNAL("clicked ()"), par)
         #
-        self.mainLay.addWidget(QtGui.QLabel(value), nr, 0, 1, 1)
+        self.mainLay.addWidget(QtWidgets.QLabel(value), nr, 0, 1, 1)
         self.mainLay.addWidget(showAll, nr, 1, 1, 1)
         self.mainLay.addWidget(hideAll, nr, 2, 1, 1)
     

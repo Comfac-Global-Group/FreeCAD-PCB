@@ -28,7 +28,7 @@
 import FreeCAD, FreeCADGui
 from Draft import _DraftObject
 if FreeCAD.GuiUp:
-    from PySide import QtCore, QtGui
+    from PySide6 import QtCore, QtGui, QtWidgets
 import sys, os
 import Part
 from pivy.coin import *
@@ -144,9 +144,9 @@ class createAnnotation:
 #***********************************************************************
 #*                               GUI
 #***********************************************************************
-class createAnnotation_Gui(QtGui.QWidget):
+class createAnnotation_Gui(QtWidgets.QWidget):
     def __init__(self, searchPhrase=None, parent=None):
-        QtGui.QWidget.__init__(self, parent)
+        QtWidgets.QWidget.__init__(self, parent)
         #partsManaging.__init__(self, parent)
         
         self.gruboscPlytki = getPCBheight()[1]
@@ -157,102 +157,102 @@ class createAnnotation_Gui(QtGui.QWidget):
         self.form.setWindowTitle("Add annotation")
         self.form.setWindowIcon(QtGui.QIcon(":/data/img/addAnnotation.svg"))
         #
-        self.text = QtGui.QTextEdit('')
+        self.text = QtWidgets.QTextEdit('')
         self.text.setFixedHeight(100)
         
-        self.align = QtGui.QComboBox()
+        self.align = QtWidgets.QComboBox()
         self.align.addItems(alignParam)
         
-        self.spin = QtGui.QComboBox()
+        self.spin = QtWidgets.QComboBox()
         self.spin.addItems(['True', 'False'])
         self.spin.setCurrentIndex(1)
         
-        self.fontSize = QtGui.QDoubleSpinBox()
+        self.fontSize = QtWidgets.QDoubleSpinBox()
         self.fontSize.setValue(1.27)
         self.fontSize.setSuffix(' mm')
         
-        self.fontName = QtGui.QComboBox()
+        self.fontName = QtWidgets.QComboBox()
         self.fontName.addItems(fonts)
         self.fontName.setCurrentIndex(self.fontName.findText("Fixed"))
         
-        self.tracking = QtGui.QDoubleSpinBox()
+        self.tracking = QtWidgets.QDoubleSpinBox()
         self.tracking.setSingleStep(0.5)
         self.tracking.setRange(-1000, 1000)
         self.tracking.setSuffix(' mm')
         
-        self.lineDistance = QtGui.QSpinBox()
+        self.lineDistance = QtWidgets.QSpinBox()
         self.lineDistance.setValue(50)
         self.lineDistance.setSingleStep(1)
         self.lineDistance.setRange(-1000, 1000)
         self.lineDistance.setSuffix(' %')
         
-        self.val_x = QtGui.QDoubleSpinBox()
+        self.val_x = QtWidgets.QDoubleSpinBox()
         self.val_x.setSingleStep(0.5)
         self.val_x.setRange(-1000, 1000)
         self.val_x.setSuffix(' mm')
         
-        self.val_y = QtGui.QDoubleSpinBox()
+        self.val_y = QtWidgets.QDoubleSpinBox()
         self.val_y.setSingleStep(0.5)
         self.val_y.setRange(-1000, 1000)
         self.val_y.setSuffix(' mm')
         
-        self.val_z = QtGui.QDoubleSpinBox()
+        self.val_z = QtWidgets.QDoubleSpinBox()
         self.val_z.setSingleStep(0.5)
         self.val_z.setRange(-1000, 1000)
         self.val_z.setSuffix(' mm')
         
-        self.rotation = QtGui.QDoubleSpinBox()
+        self.rotation = QtWidgets.QDoubleSpinBox()
         self.rotation.setSingleStep(1)
         self.rotation.setSuffix(' deg')
         self.rotation.setRange(-360, 360)
         
-        self.side = QtGui.QComboBox()
+        self.side = QtWidgets.QComboBox()
         self.side.addItems(objectSides)
         
-        self.error = QtGui.QLabel(u'')
+        self.error = QtWidgets.QLabel(u'')
         
-        self.continueCheckBox = QtGui.QCheckBox(u'Continue')
+        self.continueCheckBox = QtWidgets.QCheckBox(u'Continue')
         
         self.fontColor = kolorWarstwy()
         self.fontColor.setColor(getFromSettings_Color_1('AnnotationsColor', 4294967295))
         self.fontColor.setToolTip(u"Click to change color")
         #
-        lay = QtGui.QGridLayout()
-        lay.addWidget(QtGui.QLabel(u'Text:'), 0, 0, 1, 1)
+        lay = QtWidgets.QGridLayout()
+        lay.addWidget(QtWidgets.QLabel(u'Text:'), 0, 0, 1, 1)
         lay.addWidget(self.text, 0, 1, 1, 2)
         
-        lay.addWidget(QtGui.QLabel(u'Font:'), 1, 0, 1, 1)
+        lay.addWidget(QtWidgets.QLabel(u'Font:'), 1, 0, 1, 1)
         lay.addWidget(self.fontName, 1, 1, 1, 2)
-        lay.addWidget(QtGui.QLabel(u'FontFile:'), 2, 0, 1, 1)
+        lay.addWidget(QtWidgets.QLabel(u'FontFile:'), 2, 0, 1, 1)
         
-        lay.addWidget(QtGui.QLabel(u'Font size:'), 3, 0, 1, 1)
+        lay.addWidget(QtWidgets.QLabel(u'Font size:'), 3, 0, 1, 1)
         lay.addWidget(self.fontSize, 3, 1, 1, 2)
-        lay.addWidget(QtGui.QLabel(u'Tracking:'), 4, 0, 1, 1)
+        lay.addWidget(QtWidgets.QLabel(u'Tracking:'), 4, 0, 1, 1)
         lay.addWidget(self.tracking, 4, 1, 1, 2)
-        lay.addWidget(QtGui.QLabel(u'Line Distance:'), 5, 0, 1, 1)
+        lay.addWidget(QtWidgets.QLabel(u'Line Distance:'), 5, 0, 1, 1)
         lay.addWidget(self.lineDistance, 5, 1, 1, 2)
         
-        lay.addWidget(QtGui.QLabel(u'Font color:'), 6, 0, 1, 1)
+        lay.addWidget(QtWidgets.QLabel(u'Font color:'), 6, 0, 1, 1)
         lay.addWidget(self.fontColor, 6, 1, 1, 2)
-        lay.addWidget(QtGui.QLabel(u'Align:'), 7, 0, 1, 1)
+        lay.addWidget(QtWidgets.QLabel(u'Align:'), 7, 0, 1, 1)
         lay.addWidget(self.align, 7, 1, 1, 2)
-        lay.addWidget(QtGui.QLabel(u'Side:'), 8, 0, 1, 1)
+        lay.addWidget(QtWidgets.QLabel(u'Side:'), 8, 0, 1, 1)
         lay.addWidget(self.side, 8, 1, 1, 2)
-        lay.addWidget(QtGui.QLabel(u'Spin:'), 9, 0, 1, 1)
+        lay.addWidget(QtWidgets.QLabel(u'Spin:'), 9, 0, 1, 1)
         lay.addWidget(self.spin, 9, 1, 1, 2)
         
-        lay.addWidget(QtGui.QLabel(u'X:'), 10, 0, 1, 1)
+        lay.addWidget(QtWidgets.QLabel(u'X:'), 10, 0, 1, 1)
         lay.addWidget(self.val_x, 10, 1, 1, 2)
-        lay.addWidget(QtGui.QLabel(u'Y:'), 11, 0, 1, 1)
+        lay.addWidget(QtWidgets.QLabel(u'Y:'), 11, 0, 1, 1)
         lay.addWidget(self.val_y, 11, 1, 1, 2)
-        lay.addWidget(QtGui.QLabel(u'Z:'), 12, 0, 1, 1)
+        lay.addWidget(QtWidgets.QLabel(u'Z:'), 12, 0, 1, 1)
         lay.addWidget(self.val_z, 12, 1, 1, 2)
-        lay.addWidget(QtGui.QLabel(u'Rotation:'), 13, 0, 1, 1)
+        lay.addWidget(QtWidgets.QLabel(u'Rotation:'), 13, 0, 1, 1)
         lay.addWidget(self.rotation, 13, 1, 1, 2)
         
-        lay.addItem(QtGui.QSpacerItem(1, 10), 14, 0, 1, 3)
+        lay.addItem(QtWidgets.QSpacerItem(1, 10), 14, 0, 1, 3)
         lay.addWidget(self.continueCheckBox, 15, 0, 1, 3)
-        lay.addItem(QtGui.QSpacerItem(1, 10), 16, 0, 1, 3)
+        lay.addItem(QtWidgets.QSpacerItem(1, 10), 16, 0, 1, 3)
         lay.addWidget(self.error, 17, 0, 1, 3)
         lay.setRowStretch(18, 10)
         self.setLayout(lay)

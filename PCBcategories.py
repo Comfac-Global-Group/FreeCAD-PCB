@@ -28,7 +28,7 @@ import json
 from functools import partial
 import FreeCAD
 if FreeCAD.GuiUp:
-    from PySide import QtGui, QtCore
+    from PySide6 import QtGui, QtCore, QtWidgets
 
 try:
     from PCBconf import modelsCategories
@@ -39,9 +39,9 @@ except:
 __freecadSettings__ = FreeCAD.ParamGet("User parameter:BaseApp/Preferences/Mod/PCB")
 
 
-class submenuCategorySelector(QtGui.QMenu):
+class submenuCategorySelector(QtWidgets.QMenu):
     def __init__(self, title, categoryID, parent, button):
-        QtGui.QMenu.__init__(self, parent)
+        QtWidgets.QMenu.__init__(self, parent)
         #
         self.setTitle(title)
         self.button = button
@@ -53,12 +53,12 @@ class submenuCategorySelector(QtGui.QMenu):
         except Exception as e:
             pass
         #
-        return QtGui.QMenu.mousePressEvent(self, event)
+        return QtWidgets.QMenu.mousePressEvent(self, event)
 
 
-class categorySelector(QtGui.QPushButton):
+class categorySelector(QtWidgets.QPushButton):
     def __init__(self, parent=None):
-        QtGui.QPushButton.__init__(self, parent)
+        QtWidgets.QPushButton.__init__(self, parent)
         #
         self.reset()
 
@@ -90,7 +90,7 @@ class categorySelector(QtGui.QPushButton):
 
     def setMenuF(self, data):
         #
-        mainMenu = QtGui.QMenu(self)
+        mainMenu = QtWidgets.QMenu(self)
         action = mainMenu.addAction("None")
         action.triggered.connect(partial(self.showMenuF, "None", 0))
         #
@@ -107,9 +107,9 @@ class categorySelector(QtGui.QPushButton):
         # self.menu().setVisible(False)
 
 
-class setOneCategoryGui(QtGui.QDialog):
+class setOneCategoryGui(QtWidgets.QDialog):
     def __init__(self, parent=None):
-        QtGui.QDialog.__init__(self, parent)
+        QtWidgets.QDialog.__init__(self, parent)
         self.setWindowTitle(u'Set one category for all selected models')
         self.setWindowIcon(QtGui.QIcon(":/data/img/assignModels.png"))
         #
@@ -122,8 +122,8 @@ class setOneCategoryGui(QtGui.QDialog):
         self.connect(buttons, QtCore.SIGNAL("accepted()"), self, QtCore.SLOT("accept()"))
         self.connect(buttons, QtCore.SIGNAL("rejected()"), self, QtCore.SLOT("reject()"))
         #
-        lay = QtGui.QGridLayout(self)
-        lay.addWidget(QtGui.QLabel(u'New category'), 0, 0, 1, 1)
+        lay = QtWidgets.QGridLayout(self)
+        lay.addWidget(QtWidgets.QLabel(u'New category'), 0, 0, 1, 1)
         lay.addWidget(self.parentCategory, 0, 1, 1, 1)
         lay.setSpacing(10)
         lay.addWidget(buttons, 1, 0, 1, 2, QtCore.Qt.AlignRight)
@@ -134,18 +134,18 @@ class setOneCategoryGui(QtGui.QDialog):
         self.parentCategory.setMenuF(categories)
 
 
-class addCategoryGui(QtGui.QDialog):
+class addCategoryGui(QtWidgets.QDialog):
     def __init__(self, parent=None):
-        QtGui.QDialog.__init__(self, parent)
+        QtWidgets.QDialog.__init__(self, parent)
         self.setWindowTitle(u'Add new category')
         self.setWindowIcon(QtGui.QIcon(":/data/img/assignModels.png"))
         #
-        self.categoryName = QtGui.QLineEdit('')
+        self.categoryName = QtWidgets.QLineEdit('')
         self.categoryName.setStyleSheet('background-color:#FFF;')
         #
         self.parentCategory = categorySelector()
         #
-        self.categoryDescription = QtGui.QTextEdit('')
+        self.categoryDescription = QtWidgets.QTextEdit('')
         # buttons
         buttons = QtGui.QDialogButtonBox()
         buttons.setOrientation(QtCore.Qt.Vertical)
@@ -154,12 +154,12 @@ class addCategoryGui(QtGui.QDialog):
         self.connect(buttons, QtCore.SIGNAL("accepted()"), self, QtCore.SLOT("accept()"))
         self.connect(buttons, QtCore.SIGNAL("rejected()"), self, QtCore.SLOT("reject()"))
         #
-        lay = QtGui.QGridLayout(self)
-        lay.addWidget(QtGui.QLabel(u'Name*'), 0, 0, 1, 1)
+        lay = QtWidgets.QGridLayout(self)
+        lay.addWidget(QtWidgets.QLabel(u'Name*'), 0, 0, 1, 1)
         lay.addWidget(self.categoryName, 0, 1, 1, 1)
-        lay.addWidget(QtGui.QLabel(u'Parent category'), 1, 0, 1, 1)
+        lay.addWidget(QtWidgets.QLabel(u'Parent category'), 1, 0, 1, 1)
         lay.addWidget(self.parentCategory, 1, 1, 1, 1)
-        lay.addWidget(QtGui.QLabel(u'Desctiption'), 2, 0, 1, 1, QtCore.Qt.AlignTop)
+        lay.addWidget(QtWidgets.QLabel(u'Desctiption'), 2, 0, 1, 1, QtCore.Qt.AlignTop)
         lay.addWidget(self.categoryDescription, 2, 1, 1, 1)
         lay.addWidget(buttons, 0, 2, 2, 1, QtCore.Qt.AlignCenter)
         lay.setRowStretch(2, 10)
@@ -173,30 +173,30 @@ class addCategoryGui(QtGui.QDialog):
             self.parentCategory.setData(0, '')
 
 
-class removeCategoryGui(QtGui.QMessageBox):
+class removeCategoryGui(QtWidgets.QMessageBox):
     def __init__(self, categoryName, parent=None):
-        QtGui.QMessageBox.__init__(self, parent)
+        QtWidgets.QMessageBox.__init__(self, parent)
         #
         self.setText(u"Delete selected category '{0}'?".format(categoryName))
         self.setWindowTitle("Caution!")
-        self.setIcon(QtGui.QMessageBox.Question)
-        self.delete = self.addButton('Yes', QtGui.QMessageBox.AcceptRole)
-        self.addButton('No', QtGui.QMessageBox.RejectRole)
+        self.setIcon(QtWidgets.QMessageBox.Question)
+        self.delete = self.addButton('Yes', QtWidgets.QMessageBox.AcceptRole)
+        self.addButton('No', QtWidgets.QMessageBox.RejectRole)
 
 
-class updateCategoryGui(QtGui.QDialog):
+class updateCategoryGui(QtWidgets.QDialog):
     def __init__(self, parent=None):
-        QtGui.QDialog.__init__(self, parent)
+        QtWidgets.QDialog.__init__(self, parent)
         self.setWindowTitle(u'Update category')
         self.setWindowIcon(QtGui.QIcon(":/data/img/assignModels.png"))
         #
-        self.categoryName = QtGui.QLineEdit('')
+        self.categoryName = QtWidgets.QLineEdit('')
         self.categoryName.setStyleSheet('background-color:#FFF;')
         # self.categoryName.setText()
         #
         self.parentCategory = categorySelector()
         #
-        self.categoryDescription = QtGui.QTextEdit('')
+        self.categoryDescription = QtWidgets.QTextEdit('')
         # self.categoryDescription.setText()
         # buttons
         buttons = QtGui.QDialogButtonBox()
@@ -206,12 +206,12 @@ class updateCategoryGui(QtGui.QDialog):
         self.connect(buttons, QtCore.SIGNAL("accepted()"), self, QtCore.SLOT("accept()"))
         self.connect(buttons, QtCore.SIGNAL("rejected()"), self, QtCore.SLOT("reject()"))
         #
-        lay = QtGui.QGridLayout(self)
-        lay.addWidget(QtGui.QLabel(u'Name*'), 0, 0, 1, 1)
+        lay = QtWidgets.QGridLayout(self)
+        lay.addWidget(QtWidgets.QLabel(u'Name*'), 0, 0, 1, 1)
         lay.addWidget(self.categoryName, 0, 1, 1, 1)
-        lay.addWidget(QtGui.QLabel(u'Parent category'), 1, 0, 1, 1)
+        lay.addWidget(QtWidgets.QLabel(u'Parent category'), 1, 0, 1, 1)
         lay.addWidget(self.parentCategory, 1, 1, 1, 1)
-        lay.addWidget(QtGui.QLabel(u'Desctiption'), 2, 0, 1, 1, QtCore.Qt.AlignTop)
+        lay.addWidget(QtWidgets.QLabel(u'Desctiption'), 2, 0, 1, 1, QtCore.Qt.AlignTop)
         lay.addWidget(self.categoryDescription, 2, 1, 1, 1)
         lay.addWidget(buttons, 0, 2, 2, 1, QtCore.Qt.AlignCenter)
         lay.setRowStretch(2, 10)

@@ -26,7 +26,7 @@
 #****************************************************************************
 import FreeCAD, FreeCADGui
 if FreeCAD.GuiUp:
-    from PySide import QtGui
+    from PySide6 import QtGui, QtWidgets
 import Part
 from math import degrees
 import importlib
@@ -43,37 +43,37 @@ from command.PCBgroups import createGroup_Glue
 #***********************************************************************
 #*                             GUI
 #***********************************************************************
-class createGlueGui(QtGui.QWidget):
+class createGlueGui(QtWidgets.QWidget):
     def __init__(self, parent=None):
         try:
             importlib.reload(PCBconf)
         except:
             builtins.reload(PCBconf)
         
-        QtGui.QWidget.__init__(self, parent)
+        QtWidgets.QWidget.__init__(self, parent)
         
         self.form = self
         self.form.setWindowTitle(u"Create glue path")
         self.form.setWindowIcon(QtGui.QIcon(":/data/img/gluePath.png"))
         #
-        self.height = QtGui.QDoubleSpinBox(self)
+        self.height = QtWidgets.QDoubleSpinBox(self)
         self.height.setSingleStep(0.1)
         self.height.setValue(1)
         self.height.setRange(0.1, 1000)
         self.height.setSuffix(u" mm")
         #
-        self.width = QtGui.QDoubleSpinBox(self)
+        self.width = QtWidgets.QDoubleSpinBox(self)
         self.width.setSingleStep(0.1)
         self.width.setValue(0.2)
         self.width.setRange(0.1, 1000)
         self.width.setSuffix(u" mm")
         #
-        self.transparent = QtGui.QSpinBox(self)
+        self.transparent = QtWidgets.QSpinBox(self)
         self.transparent.setSingleStep(1)
         self.transparent.setValue(0)
         self.transparent.setRange(0, 100)
         #
-        self.wires = QtGui.QLineEdit('')
+        self.wires = QtWidgets.QLineEdit('')
         self.wires.setReadOnly(True)
         pickWires = pickSketch(self.wires)
         
@@ -81,35 +81,35 @@ class createGlueGui(QtGui.QWidget):
             if FreeCADGui.Selection.getSelection()[0].isDerivedFrom("Sketcher::SketchObject"):
                 self.wires.setText(FreeCADGui.Selection.getSelection()[0].Name)
         #
-        self.flat = QtGui.QComboBox()
+        self.flat = QtWidgets.QComboBox()
         self.flat.addItems(['True', 'False'])
         self.flat.setCurrentIndex(self.flat.findText('False'))
         #
-        self.side = QtGui.QComboBox()
+        self.side = QtWidgets.QComboBox()
         self.side.addItems(['TOP', 'BOTTOM'])
         #
         self.pcbColor = kolorWarstwy()
         self.pcbColor.setColor(PCBconf.layersList['glueT']["color"])
         self.pcbColor.setToolTip(u"Click to change color")
         #
-        lay = QtGui.QGridLayout(self)
-        lay.addWidget(QtGui.QLabel(u'Sketcher:'), 0, 0, 1, 1)
+        lay = QtWidgets.QGridLayout(self)
+        lay.addWidget(QtWidgets.QLabel(u'Sketcher:'), 0, 0, 1, 1)
         lay.addWidget(self.wires, 0, 1, 1, 1)
         lay.addWidget(pickWires, 0, 2, 1, 1)
         
-        lay.addWidget(QtGui.QLabel(u'Side:'), 2, 0, 1, 1)
+        lay.addWidget(QtWidgets.QLabel(u'Side:'), 2, 0, 1, 1)
         lay.addWidget(self.side, 2, 1, 1, 2)
-        lay.addWidget(QtGui.QLabel(u'Flat:'), 3, 0, 1, 1)
+        lay.addWidget(QtWidgets.QLabel(u'Flat:'), 3, 0, 1, 1)
         lay.addWidget(self.flat, 3, 1, 1, 2)
         
-        lay.addWidget(QtGui.QLabel(u'Height:'), 4, 0, 1, 1)
+        lay.addWidget(QtWidgets.QLabel(u'Height:'), 4, 0, 1, 1)
         lay.addWidget(self.height, 4, 1, 1, 2)
-        lay.addWidget(QtGui.QLabel(u'Width:'), 5, 0, 1, 1)
+        lay.addWidget(QtWidgets.QLabel(u'Width:'), 5, 0, 1, 1)
         lay.addWidget(self.width, 5, 1, 1, 2)
         
-        lay.addWidget(QtGui.QLabel(u'Color:'), 6, 0, 1, 1)
+        lay.addWidget(QtWidgets.QLabel(u'Color:'), 6, 0, 1, 1)
         lay.addWidget(self.pcbColor, 6, 1, 1, 2)
-        lay.addWidget(QtGui.QLabel(u'Transparent:'), 7, 0, 1, 1)
+        lay.addWidget(QtWidgets.QLabel(u'Transparent:'), 7, 0, 1, 1)
         lay.addWidget(self.transparent, 7, 1, 1, 2)
         
     def accept(self):

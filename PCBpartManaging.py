@@ -34,7 +34,7 @@ import builtins
 import glob
 import unicodedata
 import ImportGui
-from PySide import QtCore, QtGui
+from PySide6 import QtCore, QtGui, QtWidgets
 #
 from PCBdataBase import dataBase
 from PCBconf import *
@@ -451,14 +451,14 @@ class partsManaging(mathFunctions):
                 socketData = self.__SQL__.convertToTable(self.__SQL__.getModelByID(modelData['socketID'])[1])
                 
                 if socketData["isSocket"]:
-                    dial = QtGui.QMessageBox()
+                    dial = QtWidgets.QMessageBox()
                     dial.setText(u"Add socket to part {0} (Package: {1}, Library: {2})?".format(partNameTXT, newPart['package'], newPart["library"]))
                     dial.setWindowTitle("Socket")
-                    dial.setIcon(QtGui.QMessageBox.Question)
-                    dial.addButton('No', QtGui.QMessageBox.RejectRole)
-                    podstawkaTAK = dial.addButton('Yes', QtGui.QMessageBox.YesRole)
-                    zawszePodstawki = dial.addButton('Yes for all', QtGui.QMessageBox.YesRole)
-                    nigdyPodstawki = dial.addButton('No for all', QtGui.QMessageBox.RejectRole)
+                    dial.setIcon(QtWidgets.QMessageBox.Question)
+                    dial.addButton('No', QtWidgets.QMessageBox.RejectRole)
+                    podstawkaTAK = dial.addButton('Yes', QtWidgets.QMessageBox.YesRole)
+                    zawszePodstawki = dial.addButton('Yes for all', QtWidgets.QMessageBox.YesRole)
+                    nigdyPodstawki = dial.addButton('No for all', QtWidgets.QMessageBox.RejectRole)
                     dial.exec_()
                     
                     if dial.clickedButton() == nigdyPodstawki:
@@ -1176,15 +1176,15 @@ def getExtensionInfo(info, name):
     return None
 
 
-class modelTypes(QtGui.QDialog):
+class modelTypes(QtWidgets.QDialog):
     def __init__(self, modelName, paths, parent=None):
-        QtGui.QDialog.__init__(self, parent)
+        QtWidgets.QDialog.__init__(self, parent)
 
         self.setWindowTitle(u'Choose model')
         #
-        self.modelsList = QtGui.QListWidget()
+        self.modelsList = QtWidgets.QListWidget()
         for i in paths:
-            item = QtGui.QListWidgetItem(i[0])
+            item = QtWidgets.QListWidgetItem(i[0])
             item.setData(QtCore.Qt.UserRole, i[1])
             
             self.modelsList.addItem(item)
@@ -1198,8 +1198,8 @@ class modelTypes(QtGui.QDialog):
         self.connect(buttons, QtCore.SIGNAL("accepted()"), self, QtCore.SLOT("accept()"))
         self.connect(buttons, QtCore.SIGNAL("rejected()"), self, QtCore.SLOT("reject()"))
         #
-        lay = QtGui.QGridLayout(self)
-        lay.addWidget(QtGui.QLabel(u"Choose one of available models for part:"), 0, 0, 1, 1)
-        lay.addWidget(QtGui.QLabel(u"<div style='font-weight:bold;'>{0}</div>".format(modelName)), 1, 0, 1, 1, QtCore.Qt.AlignHCenter)
+        lay = QtWidgets.QGridLayout(self)
+        lay.addWidget(QtWidgets.QLabel(u"Choose one of available models for part:"), 0, 0, 1, 1)
+        lay.addWidget(QtWidgets.QLabel(u"<div style='font-weight:bold;'>{0}</div>".format(modelName)), 1, 0, 1, 1, QtCore.Qt.AlignHCenter)
         lay.addWidget(self.modelsList, 2, 0, 1, 1)
         lay.addWidget(buttons, 2, 1, 1, 1)

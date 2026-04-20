@@ -24,7 +24,7 @@
 #*   USA                                                                    *
 #*                                                                          *
 #****************************************************************************
-from PySide import QtCore, QtGui
+from PySide6 import QtCore, QtGui, QtWidgets
 from PCBmainModule import modelPreviewMain, modelGenerateGUIMain, modelPictureDim, autVariable
 
 __fcstdFile__ = "diodeThmDO.FCStd"
@@ -40,28 +40,28 @@ class modelGenerateGUI(modelGenerateGUIMain):
     def __init__(self, parent=None):
         modelGenerateGUIMain.__init__(self, __desc__, parent)
         #
-        self.diameter = QtGui.QDoubleSpinBox()
+        self.diameter = QtWidgets.QDoubleSpinBox()
         self.diameter.setValue(2.71)
         self.diameter.setMinimum(0.5)
         self.diameter.setSingleStep(0.5)
         self.diameter.setSuffix("mm")
         self.connect(self.diameter, QtCore.SIGNAL("valueChanged (double)"), self.checkParam)
         #
-        self.diameter2 = QtGui.QDoubleSpinBox()
+        self.diameter2 = QtWidgets.QDoubleSpinBox()
         self.diameter2.setValue(0.85)
         self.diameter2.setMinimum(0.5)
         self.diameter2.setSingleStep(0.5)
         self.diameter2.setSuffix("mm")
         self.connect(self.diameter2, QtCore.SIGNAL("valueChanged (double)"), self.checkParam)
         #
-        self.len_1 = QtGui.QDoubleSpinBox()
+        self.len_1 = QtWidgets.QDoubleSpinBox()
         self.len_1.setValue(5.2)
         self.len_1.setSuffix("mm")
         self.len_1.setMinimum(0.2)
         self.len_1.setSingleStep(0.2)
         self.connect(self.len_1, QtCore.SIGNAL("valueChanged (double)"), self.checkParam)
         #
-        self.len_2 = QtGui.QDoubleSpinBox()
+        self.len_2 = QtWidgets.QDoubleSpinBox()
         self.len_2.setMinimum(0.5)
         self.len_2.setSuffix("mm")
         self.len_2.setSingleStep(0.5)
@@ -69,10 +69,10 @@ class modelGenerateGUI(modelGenerateGUIMain):
         self.len_2.setValue(10)
         #
         self.addMainImageDim("diodeThmDODim.png")
-        self.mainFormLay.addRow(QtGui.QLabel("d1"), self.diameter)
-        self.mainFormLay.addRow(QtGui.QLabel("d2"), self.diameter2)
-        self.mainFormLay.addRow(QtGui.QLabel("l"), self.len_1)
-        self.mainFormLay.addRow(QtGui.QLabel("Raster (r)"), self.len_2)
+        self.mainFormLay.addRow(QtWidgets.QLabel("d1"), self.diameter)
+        self.mainFormLay.addRow(QtWidgets.QLabel("d2"), self.diameter2)
+        self.mainFormLay.addRow(QtWidgets.QLabel("l"), self.len_1)
+        self.mainFormLay.addRow(QtWidgets.QLabel("Raster (r)"), self.len_2)
     
     def checkParam(self, dummy):
         self.errors = False

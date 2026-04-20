@@ -24,7 +24,7 @@
 #*   USA                                                                    *
 #*                                                                          *
 #****************************************************************************
-from PySide import QtCore, QtGui
+from PySide6 import QtCore, QtGui, QtWidgets
 from PCBmainModule import modelPreviewMain, modelGenerateGUIMain, modelPictureDim
 
 __fcstdFile__ = "hexStandoffMaleFemale.FCStd"
@@ -40,34 +40,34 @@ class modelGenerateGUI(modelGenerateGUIMain):
     def __init__(self, parent=None):
         modelGenerateGUIMain.__init__(self, __desc__, parent)
         #
-        self.diameter1 = QtGui.QDoubleSpinBox()
+        self.diameter1 = QtWidgets.QDoubleSpinBox()
         self.diameter1.setValue(5.6)
         self.diameter1.setMinimum(0.5)
         self.diameter1.setSingleStep(0.5)
         self.diameter1.setSuffix("mm")
         self.connect(self.diameter1, QtCore.SIGNAL("valueChanged (double)"), self.checkParam)
         #
-        self.diameter2 = QtGui.QDoubleSpinBox()
+        self.diameter2 = QtWidgets.QDoubleSpinBox()
         self.diameter2.setMinimum(0.5)
         self.diameter2.setSingleStep(0.5)
         self.diameter2.setSuffix("mm")
         self.connect(self.diameter2, QtCore.SIGNAL("valueChanged (double)"), self.checkParam)
         self.diameter2.setValue(3)
         #
-        self.length1 = QtGui.QDoubleSpinBox()
+        self.length1 = QtWidgets.QDoubleSpinBox()
         self.length1.setValue(10)
         self.length1.setMinimum(0.1)
         self.length1.setSingleStep(0.5)
         self.length1.setSuffix("mm")
         self.connect(self.length1, QtCore.SIGNAL("valueChanged (double)"), self.checkParam)
         #
-        self.length2 = QtGui.QDoubleSpinBox()
+        self.length2 = QtWidgets.QDoubleSpinBox()
         self.length2.setValue(6)
         self.length2.setMinimum(0.1)
         self.length2.setSingleStep(0.5)
         self.length2.setSuffix("mm")
         #
-        self.length3 = QtGui.QDoubleSpinBox()
+        self.length3 = QtWidgets.QDoubleSpinBox()
         self.length3.setValue(6)
         self.length3.setMinimum(0.1)
         self.length3.setSingleStep(0.5)
@@ -75,11 +75,11 @@ class modelGenerateGUI(modelGenerateGUIMain):
         self.connect(self.length3, QtCore.SIGNAL("valueChanged (double)"), self.checkParam)
         #
         self.addMainImageDim("hexStandoffMaleFemaleDim.png")
-        self.mainFormLay.addRow(QtGui.QLabel("d1"), self.diameter1)
-        self.mainFormLay.addRow(QtGui.QLabel("d2"), self.diameter2)
-        self.mainFormLay.addRow(QtGui.QLabel("l1"), self.length1)
-        self.mainFormLay.addRow(QtGui.QLabel("l2"), self.length2)
-        self.mainFormLay.addRow(QtGui.QLabel("l3"), self.length3)
+        self.mainFormLay.addRow(QtWidgets.QLabel("d1"), self.diameter1)
+        self.mainFormLay.addRow(QtWidgets.QLabel("d2"), self.diameter2)
+        self.mainFormLay.addRow(QtWidgets.QLabel("l1"), self.length1)
+        self.mainFormLay.addRow(QtWidgets.QLabel("l2"), self.length2)
+        self.mainFormLay.addRow(QtWidgets.QLabel("l3"), self.length3)
     
     def checkParam(self, dummy):
         self.errors = False

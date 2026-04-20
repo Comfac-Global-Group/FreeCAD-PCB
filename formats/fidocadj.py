@@ -31,7 +31,7 @@ import glob
 import re
 import os
 import zipfile
-from PySide import QtGui
+from PySide6 import QtGui, QtWidgets
 #
 from PCBconf import PCBlayers, softLayers
 from PCBobjects import *
@@ -50,12 +50,12 @@ class dialogMAIN(dialogMAIN_FORM):
         if FreeCAD.ParamGet("User parameter:BaseApp/Preferences/Mod/PCB").GetBool("boardImportThickness", True):
             self.gruboscPlytki.setValue(self.getBoardThickness())
         #
-        self.fidocadjBiblioteki = QtGui.QLineEdit('')
+        self.fidocadjBiblioteki = QtWidgets.QLineEdit('')
         if supSoftware[self.databaseType]['libPath'] != "":
             self.fidocadjBiblioteki.setText(supSoftware[self.databaseType]['libPath'])
         
-        lay = QtGui.QHBoxLayout()
-        lay.addWidget(QtGui.QLabel('Library'))
+        lay = QtWidgets.QHBoxLayout()
+        lay.addWidget(QtWidgets.QLabel('Library'))
         lay.addWidget(self.fidocadjBiblioteki)
         self.lay.addLayout(lay, 12, 0, 1, 6)
         ##

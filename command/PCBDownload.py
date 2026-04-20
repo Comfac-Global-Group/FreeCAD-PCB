@@ -27,34 +27,34 @@
 
 import FreeCAD
 if FreeCAD.GuiUp:
-    from PySide import QtGui
+    from PySide6 import QtGui, QtWidgets
     
 
-class dodatkowaIkonka_klucz(QtGui.QLabel):
+class dodatkowaIkonka_klucz(QtWidgets.QLabel):
     def __init__(self, parent=None):
-        QtGui.QLabel.__init__(self, parent)
+        QtWidgets.QLabel.__init__(self, parent)
         #
         self.setPixmap(QtGui.QPixmap(':/data/img/user_profile.png'))
         self.setToolTip('Registration is necessary')
 
 
-class dodatkowaIkonka_lista(QtGui.QLabel):
+class dodatkowaIkonka_lista(QtWidgets.QLabel):
      def __init__(self, parent=None):
-        QtGui.QLabel.__init__(self, parent)
+        QtWidgets.QLabel.__init__(self, parent)
         #
         self.setPixmap(QtGui.QPixmap(':/data/img/arrow-forward.png'))
 
 
-class odnosnik(QtGui.QLabel):
+class odnosnik(QtWidgets.QLabel):
      def __init__(self, txt, parent=None):
-        QtGui.QLabel.__init__(self, txt, parent)
+        QtWidgets.QLabel.__init__(self, txt, parent)
         #
         self.setOpenExternalLinks(True)
 
 
-class downloadModelW(QtGui.QWidget):
+class downloadModelW(QtWidgets.QWidget):
     def __init__(self, searchPhrase=None, parent=None):
-        QtGui.QWidget.__init__(self, parent)
+        QtWidgets.QWidget.__init__(self, parent)
         #
         self.form = self
         self.form.setWindowIcon(QtGui.QIcon(":/data/img/assignModels.png"))
@@ -70,7 +70,7 @@ class downloadModelW(QtGui.QWidget):
             url_2 = odnosnik("<a href='http://www.tracepartsonline.net/(S(q4odzm45rnnypc4513kjgy45))/content.aspx'>trace<b>parts</b></a>")
             url_3 = odnosnik("<a href='http://www.3dcontentcentral.com/'>3D ContentCentral</a>")
         #
-        lay = QtGui.QGridLayout(self)
+        lay = QtWidgets.QGridLayout(self)
         lay.addWidget(dodatkowaIkonka_lista(), 0, 0, 1, 1)
         lay.addWidget(url_1, 0, 1, 1, 1)
 
@@ -83,6 +83,6 @@ class downloadModelW(QtGui.QWidget):
         lay.addWidget(url_3, 2, 1, 1, 1)
         lay.addWidget(dodatkowaIkonka_klucz(), 2, 2, 1, 1)
         
-        lay.addItem(QtGui.QSpacerItem(5, 20), 3, 0, 1, 3)
-        lay.addWidget(QtGui.QLabel('Printed Circuit Board supported formats: IGS, STEP'), 3, 0, 1, 3)
+        lay.addItem(QtWidgets.QSpacerItem(5, 20), 3, 0, 1, 3)
+        lay.addWidget(QtWidgets.QLabel('Printed Circuit Board supported formats: IGS, STEP'), 3, 0, 1, 3)
         lay.setColumnStretch(1, 10)

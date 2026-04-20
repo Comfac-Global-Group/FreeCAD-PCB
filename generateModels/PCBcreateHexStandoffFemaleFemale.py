@@ -24,7 +24,7 @@
 #*   USA                                                                    *
 #*                                                                          *
 #****************************************************************************
-from PySide import QtCore, QtGui
+from PySide6 import QtCore, QtGui, QtWidgets
 from PCBmainModule import modelPreviewMain, modelGenerateGUIMain, modelPictureDim
 
 __fcstdFile__ = "hexStandoffFemaleFemale.FCStd"
@@ -40,30 +40,30 @@ class modelGenerateGUI(modelGenerateGUIMain):
     def __init__(self, parent=None):
         modelGenerateGUIMain.__init__(self, __desc__, parent)
         #
-        self.diameter1 = QtGui.QDoubleSpinBox()
+        self.diameter1 = QtWidgets.QDoubleSpinBox()
         self.diameter1.setValue(5.6)
         self.diameter1.setMinimum(0.5)
         self.diameter1.setSingleStep(0.5)
         self.diameter1.setSuffix("mm")
         self.connect(self.diameter1, QtCore.SIGNAL("valueChanged (double)"), self.checkParam)
         #
-        self.diameter2 = QtGui.QDoubleSpinBox()
+        self.diameter2 = QtWidgets.QDoubleSpinBox()
         self.diameter2.setMinimum(0.5)
         self.diameter2.setSingleStep(0.5)
         self.diameter2.setSuffix("mm")
         self.connect(self.diameter2, QtCore.SIGNAL("valueChanged (double)"), self.checkParam)
         self.diameter2.setValue(3)
         #
-        self.length = QtGui.QDoubleSpinBox()
+        self.length = QtWidgets.QDoubleSpinBox()
         self.length.setValue(10)
         self.length.setMinimum(0.1)
         self.length.setSingleStep(0.5)
         self.length.setSuffix("mm")
         #
         self.addMainImageDim("hexStandoffFemaleFemaleDim.png")
-        self.mainFormLay.addRow(QtGui.QLabel("d1"), self.diameter1)
-        self.mainFormLay.addRow(QtGui.QLabel("d2"), self.diameter2)
-        self.mainFormLay.addRow(QtGui.QLabel("l"), self.length)
+        self.mainFormLay.addRow(QtWidgets.QLabel("d1"), self.diameter1)
+        self.mainFormLay.addRow(QtWidgets.QLabel("d2"), self.diameter2)
+        self.mainFormLay.addRow(QtWidgets.QLabel("l"), self.length)
     
     def checkParam(self, dummy):
         self.errors = False

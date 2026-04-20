@@ -30,7 +30,7 @@ import sys
 try:
     from PyQt4 import QtCore, QtGui
 except:
-    from PySide import QtCore, QtGui
+    from PySide6 import QtCore, QtGui, QtWidgets
 import FreeCAD
 #
 from dataBase import dataBase
@@ -39,21 +39,21 @@ from dataBase import dataBase
 __currentPath__ = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 
 
-class convertDB(QtGui.QDialog):
+class convertDB(QtWidgets.QDialog):
     def __init__(self, parent=None):
-        QtGui.QDialog.__init__(self, parent)
+        QtWidgets.QDialog.__init__(self, parent)
         self.setWindowTitle("Convert old database to a new format")
         self.setMinimumWidth(500)
         # stary plik z modelami
-        self.oldFilePath = QtGui.QLineEdit(os.path.join(__currentPath__, "param.py"))
+        self.oldFilePath = QtWidgets.QLineEdit(os.path.join(__currentPath__, "param.py"))
         # nowy plik z modelami
-        self.newFilePath = QtGui.QLineEdit(os.path.join(__currentPath__, "data/dane.cfg"))
+        self.newFilePath = QtWidgets.QLineEdit(os.path.join(__currentPath__, "data/dane.cfg"))
         #
-        self.pominDuplikaty = QtGui.QCheckBox(u"Skip duplicates")
+        self.pominDuplikaty = QtWidgets.QCheckBox(u"Skip duplicates")
         self.pominDuplikaty.setChecked(True)
         self.pominDuplikaty.setDisabled(True)
         #
-        self.removeOld = QtGui.QCheckBox(u"Remove old database")
+        self.removeOld = QtWidgets.QCheckBox(u"Remove old database")
         self.removeOld.setChecked(True)
         # przyciski
         buttons = QtGui.QDialogButtonBox()
@@ -62,11 +62,11 @@ class convertDB(QtGui.QDialog):
         self.connect(buttons, QtCore.SIGNAL("accepted()"), self.konwertuj)
         self.connect(buttons, QtCore.SIGNAL("rejected()"), self, QtCore.SLOT("reject()"))
         #
-        self.mainLayout = QtGui.QGridLayout(self)
+        self.mainLayout = QtWidgets.QGridLayout(self)
         #self.mainLayout.setContentsMargins(0, 0, 0, 0)
-        self.mainLayout.addWidget(QtGui.QLabel(u"Old database"), 0, 0, 1, 1)
+        self.mainLayout.addWidget(QtWidgets.QLabel(u"Old database"), 0, 0, 1, 1)
         self.mainLayout.addWidget(self.oldFilePath, 0, 1, 1, 1)
-        self.mainLayout.addWidget(QtGui.QLabel(u"New database"), 1, 0, 1, 1)
+        self.mainLayout.addWidget(QtWidgets.QLabel(u"New database"), 1, 0, 1, 1)
         self.mainLayout.addWidget(self.newFilePath, 1, 1, 1, 1)
         
         self.mainLayout.addWidget(self.pominDuplikaty, 3, 0, 1, 2)
@@ -115,5 +115,5 @@ class convertDB(QtGui.QDialog):
                     os.remove(str(self.oldFilePath.text()))
             except OSError:
                 pass
-            QtGui.QMessageBox().information(self, u"Conversion", u"Conversion finished.")
+            QtWidgets.QMessageBox().information(self, u"Conversion", u"Conversion finished.")
             self.reject()

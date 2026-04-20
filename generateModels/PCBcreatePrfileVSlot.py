@@ -24,7 +24,7 @@
 #*   USA                                                                    *
 #*                                                                          *
 #****************************************************************************
-from PySide import QtCore, QtGui
+from PySide6 import QtCore, QtGui, QtWidgets
 from PCBmainModule import modelPreviewMain, modelGenerateGUIMain, modelPictureDim
 
 __fcstdFile__ = "profileVSlot.FCStd"
@@ -40,21 +40,21 @@ class modelGenerateGUI(modelGenerateGUIMain):
     def __init__(self, parent=None):
         modelGenerateGUIMain.__init__(self, __desc__, parent)
         #
-        self.length = QtGui.QDoubleSpinBox()
+        self.length = QtWidgets.QDoubleSpinBox()
         self.length.setValue(100)
         self.length.setMinimum(10)
         self.length.setMaximum(2000)
         self.length.setSingleStep(1)
         self.length.setSuffix("mm")
         #
-        self.rows = QtGui.QDoubleSpinBox()
+        self.rows = QtWidgets.QDoubleSpinBox()
         self.rows.setValue(1)
         self.rows.setMinimum(1)
         self.rows.setSingleStep(1)
         #
         self.addMainImageDim("profileVSlotDim.png")
-        self.mainFormLay.addRow(QtGui.QLabel("Length (l)"), self.length)
-        self.mainFormLay.addRow(QtGui.QLabel("Rows (r)"), self.rows)
+        self.mainFormLay.addRow(QtWidgets.QLabel("Length (l)"), self.length)
+        self.mainFormLay.addRow(QtWidgets.QLabel("Rows (r)"), self.rows)
 
 
 def modelGenerate(doc, widget):

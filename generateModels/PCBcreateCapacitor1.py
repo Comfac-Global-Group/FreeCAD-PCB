@@ -24,7 +24,7 @@
 #*   USA                                                                    *
 #*                                                                          *
 #****************************************************************************
-from PySide import QtCore, QtGui
+from PySide6 import QtCore, QtGui, QtWidgets
 from PCBmainModule import modelPreviewMain, modelGenerateGUIMain, modelPictureDim, autVariable
 
 __fcstdFile__ = "capacitor1.FCStd"
@@ -40,32 +40,32 @@ class modelGenerateGUI(modelGenerateGUIMain):
     def __init__(self, parent=None):
         modelGenerateGUIMain.__init__(self, __desc__, parent)
         #
-        self.diameter = QtGui.QDoubleSpinBox()
+        self.diameter = QtWidgets.QDoubleSpinBox()
         self.diameter.setValue(0.5)
         self.diameter.setMinimum(0.2)
         self.diameter.setSingleStep(0.2)
         self.diameter.setSuffix("mm")
         #
-        self.len_1 = QtGui.QDoubleSpinBox()
+        self.len_1 = QtWidgets.QDoubleSpinBox()
         self.len_1.setValue(18)
         self.len_1.setSuffix("mm")
         self.len_1.setMinimum(0.2)
         self.len_1.setSingleStep(0.2)
         self.connect(self.len_1, QtCore.SIGNAL("valueChanged (double)"), self.checkParam)
         #
-        self.len_2 = QtGui.QDoubleSpinBox()
+        self.len_2 = QtWidgets.QDoubleSpinBox()
         self.len_2.setMinimum(0.5)
         self.len_2.setSuffix("mm")
         self.len_2.setSingleStep(0.5)
         self.len_2.setValue(13)
         #
-        self.len_3 = QtGui.QDoubleSpinBox()
+        self.len_3 = QtWidgets.QDoubleSpinBox()
         self.len_3.setMinimum(0.5)
         self.len_3.setSuffix("mm")
         self.len_3.setSingleStep(0.5)
         self.len_3.setValue(7)
         #
-        self.len_4 = QtGui.QDoubleSpinBox()
+        self.len_4 = QtWidgets.QDoubleSpinBox()
         self.len_4.setMinimum(0.5)
         self.len_4.setSuffix("mm")
         self.len_4.setSingleStep(0.5)
@@ -73,11 +73,11 @@ class modelGenerateGUI(modelGenerateGUIMain):
         self.len_4.setValue(15)
         #
         self.addMainImageDim("capacitor1Dim.png")
-        self.mainFormLay.addRow(QtGui.QLabel("w"), self.len_1)
-        self.mainFormLay.addRow(QtGui.QLabel("h"), self.len_2)
-        self.mainFormLay.addRow(QtGui.QLabel("d"), self.len_3)
-        self.mainFormLay.addRow(QtGui.QLabel("d1"), self.diameter)
-        self.mainFormLay.addRow(QtGui.QLabel("Raster (r)"), self.len_4)
+        self.mainFormLay.addRow(QtWidgets.QLabel("w"), self.len_1)
+        self.mainFormLay.addRow(QtWidgets.QLabel("h"), self.len_2)
+        self.mainFormLay.addRow(QtWidgets.QLabel("d"), self.len_3)
+        self.mainFormLay.addRow(QtWidgets.QLabel("d1"), self.diameter)
+        self.mainFormLay.addRow(QtWidgets.QLabel("Raster (r)"), self.len_4)
     
     def checkParam(self, dummy):
         self.errors = False

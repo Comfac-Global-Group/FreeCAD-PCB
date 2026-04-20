@@ -30,7 +30,7 @@ import Part
 import unicodedata
 if FreeCAD.GuiUp:
     #import FreeCADGui
-    from PySide import QtCore, QtGui
+    from PySide6 import QtCore, QtGui, QtWidgets
 #
 from PCBconf import *
 from PCBobjects import partObject, viewProviderPartObject, partObject_E, viewProviderPartObject_E
@@ -39,61 +39,61 @@ from PCBboard import getPCBheight
 from command.PCBannotations import createAnnotation
 
 
-class updateObjectTable(QtGui.QListWidget):
+class updateObjectTable(QtWidgets.QListWidget):
     def __init__(self, parent=None):
-        QtGui.QListWidget.__init__(self, parent)
+        QtWidgets.QListWidget.__init__(self, parent)
         
-        self.setFrameShape(QtGui.QFrame.NoFrame)
+        self.setFrameShape(QtWidgets.QFrame.NoFrame)
     
     def DeSelectAllObj(self, value):
         for i in range(self.count()):
             self.item(i).setCheckState(value)
 
 
-class updateWizardWidget(QtGui.QWidget):
+class updateWizardWidget(QtWidgets.QWidget):
     def __init__(self, parent=None):
-        QtGui.QWidget.__init__(self, parent)
+        QtWidgets.QWidget.__init__(self, parent)
         
         freecadSettings = FreeCAD.ParamGet("User parameter:BaseApp/Preferences/Mod/PCB")
         #
-        self.listaBibliotek = QtGui.QComboBox()
+        self.listaBibliotek = QtWidgets.QComboBox()
         
-        libraryFrame = QtGui.QGroupBox(u'Library:')
-        libraryFrameLay = QtGui.QHBoxLayout(libraryFrame)
+        libraryFrame = QtWidgets.QGroupBox(u'Library:')
+        libraryFrameLay = QtWidgets.QHBoxLayout(libraryFrame)
         libraryFrameLay.addWidget(self.listaBibliotek)
         #
         self.listaElementow = updateObjectTable()
 
-        przSelectAllT = QtGui.QPushButton('')
+        przSelectAllT = QtWidgets.QPushButton('')
         #przSelectAllT.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         przSelectAllT.setFlat(True)
         przSelectAllT.setIcon(QtGui.QIcon(":/data/img/checkbox_checked_16x16.png"))
         przSelectAllT.setToolTip('Select all')
         self.connect(przSelectAllT, QtCore.SIGNAL('pressed ()'), self.selectAllObj)
         
-        przSelectAllTF = QtGui.QPushButton('')
+        przSelectAllTF = QtWidgets.QPushButton('')
         #przSelectAllTF.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         przSelectAllTF.setFlat(True)
         przSelectAllTF.setIcon(QtGui.QIcon(":/data/img/checkbox_unchecked_16x16.png"))
         przSelectAllTF.setToolTip('Deselect all')
         self.connect(przSelectAllTF, QtCore.SIGNAL('pressed ()'), self.unselectAllObj)
         
-        self.adjustParts = QtGui.QCheckBox(u'Adjust part name/value')
+        self.adjustParts = QtWidgets.QCheckBox(u'Adjust part name/value')
         self.adjustParts.setChecked(freecadSettings.GetBool("adjustNameValue", False))
         
-        self.groupParts = QtGui.QCheckBox(u'Group parts')
+        self.groupParts = QtWidgets.QCheckBox(u'Group parts')
         self.groupParts.setChecked(freecadSettings.GetBool("groupParts", False))
         
-        self.plytkaPCB_elementyKolory = QtGui.QCheckBox(u"Colorize elements")
+        self.plytkaPCB_elementyKolory = QtWidgets.QCheckBox(u"Colorize elements")
         self.plytkaPCB_elementyKolory.setChecked(freecadSettings.GetBool("partsColorize", True))
         
-        packagesFrame = QtGui.QGroupBox(u'Packages:')
-        packagesFrameLay = QtGui.QGridLayout(packagesFrame)
+        packagesFrame = QtWidgets.QGroupBox(u'Packages:')
+        packagesFrameLay = QtWidgets.QGridLayout(packagesFrame)
         packagesFrameLay.addWidget(przSelectAllT, 0, 0, 1, 1)
         packagesFrameLay.addWidget(przSelectAllTF, 1, 0, 1, 1)
         packagesFrameLay.addWidget(self.listaElementow, 0, 1, 3, 1)
         #
-        lay = QtGui.QVBoxLayout()
+        lay = QtWidgets.QVBoxLayout()
         lay.addWidget(libraryFrame)
         lay.addWidget(packagesFrame)
         lay.addWidget(self.adjustParts)
@@ -143,7 +143,7 @@ class updateParts(partsManaging):
                     if not j.Package in self.listOfModels.keys():
                         self.listOfModels[j.Package] = []
                         ####
-                        a = QtGui.QListWidgetItem(j.Package)
+                        a = QtWidgets.QListWidgetItem(j.Package)
                         #a.setData(QtCore.Qt.UserRole, j.Package)
                         a.setFlags(QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsUserCheckable)
                         

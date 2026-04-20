@@ -45,7 +45,7 @@ import FreeCAD, FreeCADGui
 import random
 import builtins
 import Mesh
-from PySide import QtCore, QtGui
+from PySide6 import QtCore, QtGui, QtWidgets
 import os
 import sys
 
@@ -303,19 +303,19 @@ class exportTokerkythea:
 #
 ##############################################
 
-class exportToKerkytheaGui(QtGui.QWidget):
+class exportToKerkytheaGui(QtWidgets.QWidget):
     def __init__(self, parent=None):
-        QtGui.QWidget.__init__(self, parent)
+        QtWidgets.QWidget.__init__(self, parent)
         #
         self.form = self
         self.form.setWindowTitle(u"Export to Kerkythea v1.2")
         #
-        tab = QtGui.QTabWidget()
+        tab = QtWidgets.QTabWidget()
         tab.addTab(self.tabGeneral(), u'General')
         tab.addTab(self.tabCamera(), u'Cameras')
         tab.addTab(self.tabLight(), u'Lights')
         #
-        lay = QtGui.QVBoxLayout(self)
+        lay = QtWidgets.QVBoxLayout(self)
         lay.addWidget(tab)
         #
         self.connect(self.exportObjectsAs_YES, QtCore.SIGNAL("clicked ()"), self.setColors)
@@ -425,62 +425,62 @@ class exportToKerkytheaGui(QtGui.QWidget):
             self.exportObjectColorBox.setDisabled(False)
 
     def tabGeneral(self):
-        self.patherror = QtGui.QLabel('')
+        self.patherror = QtWidgets.QLabel('')
         
-        self.filePath = QtGui.QLineEdit('')
+        self.filePath = QtWidgets.QLineEdit('')
         self.connect(self.filePath, QtCore.SIGNAL("textChanged (const QString&)"), self.changePathFInfo)
         self.filePath.setText(os.path.join(os.path.expanduser("~"), 'Unnamed.xml'))
         self.filePath.setReadOnly(True)
         
-        changePath = QtGui.QPushButton('...')
+        changePath = QtWidgets.QPushButton('...')
         changePath.setFixedWidth(30)
         self.connect(changePath, QtCore.SIGNAL("clicked ()"), self.changePathF)
         
-        generalBox = QtGui.QGroupBox(u'General')
-        generalBoxLay = QtGui.QGridLayout(generalBox)
-        generalBoxLay.addWidget(QtGui.QLabel(u'Path           '), 0, 0, 1, 1)
+        generalBox = QtWidgets.QGroupBox(u'General')
+        generalBoxLay = QtWidgets.QGridLayout(generalBox)
+        generalBoxLay.addWidget(QtWidgets.QLabel(u'Path           '), 0, 0, 1, 1)
         generalBoxLay.addWidget(self.filePath, 0, 1, 1, 2)
         generalBoxLay.addWidget(changePath, 0, 3, 1, 1)
         generalBoxLay.addWidget(self.patherror, 1, 0, 1, 4)
 
         generalBoxLay.setColumnStretch(1, 10)
         #
-        self.exportObjects_All = QtGui.QRadioButton(u'All visible objects')
+        self.exportObjects_All = QtWidgets.QRadioButton(u'All visible objects')
         self.exportObjects_All.setChecked(True)
-        self.exportObjects_Selected = QtGui.QRadioButton(u'All selected objects')
-        self.exportObjects_SelectedFaces = QtGui.QRadioButton(u'All selected faces')
+        self.exportObjects_Selected = QtWidgets.QRadioButton(u'All selected objects')
+        self.exportObjects_SelectedFaces = QtWidgets.QRadioButton(u'All selected faces')
         self.exportObjects_SelectedFaces.setDisabled(True)
         
-        exportObjectsBox = QtGui.QGroupBox(u'Export objects')
-        exportObjectsBoxLay = QtGui.QVBoxLayout(exportObjectsBox)
+        exportObjectsBox = QtWidgets.QGroupBox(u'Export objects')
+        exportObjectsBoxLay = QtWidgets.QVBoxLayout(exportObjectsBox)
         exportObjectsBoxLay.addWidget(self.exportObjects_All)
         exportObjectsBoxLay.addWidget(self.exportObjects_Selected)
         exportObjectsBoxLay.addWidget(self.exportObjects_SelectedFaces)
         #
-        self.exportObjectsAs_YES = QtGui.QRadioButton(u'Yes')
+        self.exportObjectsAs_YES = QtWidgets.QRadioButton(u'Yes')
         self.exportObjectsAs_YES.setChecked(True)
-        self.exportObjectsAs_NO = QtGui.QRadioButton(u'No')
+        self.exportObjectsAs_NO = QtWidgets.QRadioButton(u'No')
         
-        exportObjectsAsBox = QtGui.QGroupBox(u'Group models by color')
-        exportObjectsAsBoxLay = QtGui.QVBoxLayout(exportObjectsAsBox)
+        exportObjectsAsBox = QtWidgets.QGroupBox(u'Group models by color')
+        exportObjectsAsBoxLay = QtWidgets.QVBoxLayout(exportObjectsAsBox)
         exportObjectsAsBoxLay.addWidget(self.exportObjectsAs_YES)
         exportObjectsAsBoxLay.addWidget(self.exportObjectsAs_NO)
         #
-        self.exportObjectColor_MulCol = QtGui.QRadioButton(u'Multi colors')
-        self.exportObjectColor_Gray = QtGui.QRadioButton(u'Grayscale')
-        self.exportObjectColor_SinCol = QtGui.QRadioButton(u'Single color (random)')
+        self.exportObjectColor_MulCol = QtWidgets.QRadioButton(u'Multi colors')
+        self.exportObjectColor_Gray = QtWidgets.QRadioButton(u'Grayscale')
+        self.exportObjectColor_SinCol = QtWidgets.QRadioButton(u'Single color (random)')
         self.exportObjectColor_SinCol.setChecked(True)
 
-        self.exportObjectColorBox = QtGui.QGroupBox(u'Colors')
+        self.exportObjectColorBox = QtWidgets.QGroupBox(u'Colors')
         self.exportObjectColorBox.setDisabled(True)
-        exportObjectColorBoxLay = QtGui.QVBoxLayout(self.exportObjectColorBox)
+        exportObjectColorBoxLay = QtWidgets.QVBoxLayout(self.exportObjectColorBox)
         exportObjectColorBoxLay.addWidget(self.exportObjectColor_MulCol)
         exportObjectColorBoxLay.addWidget(self.exportObjectColor_Gray)
         exportObjectColorBoxLay.addWidget(self.exportObjectColor_SinCol)
         #####
-        widget = QtGui.QWidget()
+        widget = QtWidgets.QWidget()
         
-        lay = QtGui.QGridLayout(widget)
+        lay = QtWidgets.QGridLayout(widget)
         lay.addWidget(generalBox, 0, 0, 1, 4)
         lay.addWidget(separator(), 1, 0, 1, 4)
         lay.addWidget(exportObjectsBox, 2, 0, 1, 4)
@@ -493,90 +493,90 @@ class exportToKerkytheaGui(QtGui.QWidget):
         pass
     
     def tabCamera(self):
-        self.resolution = QtGui.QComboBox()
+        self.resolution = QtWidgets.QComboBox()
         self.resolution.addItems(['200x200', '320x200', '320x240', '500x500', '512x384', '640x480', '768x576', '800x600', '1024x768', '1280x1024', '1600x1200', '2048x1536', '2816x2112'])
         self.resolution.setCurrentIndex(self.resolution.findText('1024x768'))
 
-        self.cameraName = QtGui.QLineEdit(u'Camera 1')
+        self.cameraName = QtWidgets.QLineEdit(u'Camera 1')
 
-        filmBox = QtGui.QGroupBox(u'General')
-        filmBoxLay = QtGui.QGridLayout(filmBox)
-        filmBoxLay.addWidget(QtGui.QLabel(u'Camera name'), 0, 0, 1, 1)
+        filmBox = QtWidgets.QGroupBox(u'General')
+        filmBoxLay = QtWidgets.QGridLayout(filmBox)
+        filmBoxLay.addWidget(QtWidgets.QLabel(u'Camera name'), 0, 0, 1, 1)
         filmBoxLay.addWidget(self.cameraName, 0, 1, 1, 1)
-        filmBoxLay.addWidget(QtGui.QLabel(u'Resolution'), 1, 0, 1, 1)
+        filmBoxLay.addWidget(QtWidgets.QLabel(u'Resolution'), 1, 0, 1, 1)
         filmBoxLay.addWidget(self.resolution, 1, 1, 1, 1)
 
         filmBoxLay.setHorizontalSpacing(50)
         #
-        self.fNumber = QtGui.QComboBox()
+        self.fNumber = QtWidgets.QComboBox()
         self.fNumber.addItems(['1', '1.4', '2', '2.8', '4', '5.6', '8', '16', '22', 'Pinhole'])
         self.fNumber.setCurrentIndex(self.fNumber.findText('Pinhole'))
 
-        self.focusDistance = QtGui.QDoubleSpinBox()
+        self.focusDistance = QtWidgets.QDoubleSpinBox()
         self.focusDistance.setValue(1.0)
         self.focusDistance.setRange(0.0, 1000.0)
 
-        self.lensSamples = QtGui.QSpinBox()
+        self.lensSamples = QtWidgets.QSpinBox()
         self.lensSamples.setValue(3)
         self.lensSamples.setRange(0, 1000)
         #
-        self.projection = QtGui.QComboBox()
+        self.projection = QtWidgets.QComboBox()
         self.projection.addItems(['Planar', 'Cylindrical', 'Spherical', 'Parallel'])
         self.projection.setCurrentIndex(self.projection.findText('Planar'))
 
-        self.diaphragm = QtGui.QComboBox()
+        self.diaphragm = QtWidgets.QComboBox()
         self.diaphragm.addItems(['Circular', 'Polygonal'])
         self.diaphragm.setCurrentIndex(self.diaphragm.findText('Circular'))
         
-        self.blades = QtGui.QSpinBox()
+        self.blades = QtWidgets.QSpinBox()
         self.blades.setValue(3)
         self.blades.setRange(3, 1000)
         #
-        layOptions = QtGui.QGridLayout()
-        layOptions.addWidget(QtGui.QLabel(u'<b>Lens</b>'), 0, 0, 1, 1)
-        layOptions.addWidget(QtGui.QLabel(u'f-number'), 0, 1, 1, 1, QtCore.Qt.AlignHCenter)
-        layOptions.addWidget(QtGui.QLabel(u'Focus Distance'), 0, 2, 1, 1, QtCore.Qt.AlignHCenter)
-        layOptions.addWidget(QtGui.QLabel(u'Lens Samples'), 0, 3, 1, 1, QtCore.Qt.AlignHCenter)
+        layOptions = QtWidgets.QGridLayout()
+        layOptions.addWidget(QtWidgets.QLabel(u'<b>Lens</b>'), 0, 0, 1, 1)
+        layOptions.addWidget(QtWidgets.QLabel(u'f-number'), 0, 1, 1, 1, QtCore.Qt.AlignHCenter)
+        layOptions.addWidget(QtWidgets.QLabel(u'Focus Distance'), 0, 2, 1, 1, QtCore.Qt.AlignHCenter)
+        layOptions.addWidget(QtWidgets.QLabel(u'Lens Samples'), 0, 3, 1, 1, QtCore.Qt.AlignHCenter)
         layOptions.addWidget(self.fNumber, 1, 1, 1, 1)
         layOptions.addWidget(self.focusDistance, 1, 2, 1, 1)
         layOptions.addWidget(self.lensSamples, 1, 3, 1, 1)
-        layOptions.addWidget(QtGui.QLabel(u'<b>Geometry</b>'), 2, 0, 1, 1)
-        layOptions.addWidget(QtGui.QLabel(u'Projection'), 2, 1, 1, 1, QtCore.Qt.AlignHCenter)
-        layOptions.addWidget(QtGui.QLabel(u'Diaphragm'), 2, 2, 1, 1, QtCore.Qt.AlignHCenter)
-        layOptions.addWidget(QtGui.QLabel(u'Blades'), 2, 3, 1, 1, QtCore.Qt.AlignHCenter)
+        layOptions.addWidget(QtWidgets.QLabel(u'<b>Geometry</b>'), 2, 0, 1, 1)
+        layOptions.addWidget(QtWidgets.QLabel(u'Projection'), 2, 1, 1, 1, QtCore.Qt.AlignHCenter)
+        layOptions.addWidget(QtWidgets.QLabel(u'Diaphragm'), 2, 2, 1, 1, QtCore.Qt.AlignHCenter)
+        layOptions.addWidget(QtWidgets.QLabel(u'Blades'), 2, 3, 1, 1, QtCore.Qt.AlignHCenter)
         layOptions.addWidget(self.projection, 3, 1, 1, 1)
         layOptions.addWidget(self.diaphragm, 3, 2, 1, 1)
         layOptions.addWidget(self.blades, 3, 3, 1, 1)
         layOptions.setSpacing(15)
         #
         # buttons
-        buttonAdd = QtGui.QPushButton(u'Add')
+        buttonAdd = QtWidgets.QPushButton(u'Add')
         self.connect(buttonAdd, QtCore.SIGNAL("clicked ()"), self.addCamera)
-        buttonRemove = QtGui.QPushButton(u'Remove')
+        buttonRemove = QtWidgets.QPushButton(u'Remove')
         self.connect(buttonRemove, QtCore.SIGNAL("clicked ()"), self.removeCamera)
-        buttonUpdate = QtGui.QPushButton(u'Update')
+        buttonUpdate = QtWidgets.QPushButton(u'Update')
         self.connect(buttonUpdate, QtCore.SIGNAL("clicked ()"), self.updateCamera)
         
-        layButtons = QtGui.QHBoxLayout()
+        layButtons = QtWidgets.QHBoxLayout()
         layButtons.setContentsMargins(0, 0, 0, 0)
         layButtons.addWidget(buttonAdd)
         layButtons.addWidget(buttonRemove)
         layButtons.addWidget(buttonUpdate)
         #
-        self.camerasList = QtGui.QListWidget()
+        self.camerasList = QtWidgets.QListWidget()
         self.camerasList.setStyleSheet('border:1px solid rgb(237, 237, 237);')
         self.connect(self.camerasList, QtCore.SIGNAL("itemClicked (QListWidgetItem*)"), self.showCamera)
         #####
-        widget = QtGui.QWidget()
-        lay = QtGui.QVBoxLayout(widget)
+        widget = QtWidgets.QWidget()
+        lay = QtWidgets.QVBoxLayout(widget)
         lay.addWidget(filmBox)
 
         lay.addLayout(layOptions)
-        lay.addItem(QtGui.QSpacerItem(1, 5))
+        lay.addItem(QtWidgets.QSpacerItem(1, 5))
         lay.addWidget(separator())
-        lay.addItem(QtGui.QSpacerItem(1, 5))
+        lay.addItem(QtWidgets.QSpacerItem(1, 5))
         lay.addLayout(layButtons)
-        lay.addItem(QtGui.QSpacerItem(1, 5))
+        lay.addItem(QtWidgets.QSpacerItem(1, 5))
         lay.addWidget(self.camerasList)
         return widget
     
@@ -587,7 +587,7 @@ class exportToKerkytheaGui(QtGui.QWidget):
             return
         
         if len(self.camerasList.findItems(cameraName, QtCore.Qt.MatchExactly)) == 0:
-            item = QtGui.QListWidgetItem(cameraName)
+            item = QtWidgets.QListWidgetItem(cameraName)
             item.setData(QtCore.Qt.UserRole, self.cameraParam())
             self.camerasList.addItem(item)
         else:
@@ -615,12 +615,12 @@ class exportToKerkytheaGui(QtGui.QWidget):
         
     def removeCamera(self):
         if self.camerasList.currentRow() != -1:
-            dial = QtGui.QMessageBox()
+            dial = QtWidgets.QMessageBox()
             dial.setText(u"Delete selected camera?")
             dial.setWindowTitle("Caution!")
-            dial.setIcon(QtGui.QMessageBox.Question)
-            delete_YES = dial.addButton('Yes', QtGui.QMessageBox.YesRole)
-            dial.addButton('No', QtGui.QMessageBox.RejectRole)
+            dial.setIcon(QtWidgets.QMessageBox.Question)
+            delete_YES = dial.addButton('Yes', QtWidgets.QMessageBox.YesRole)
+            dial.addButton('No', QtWidgets.QMessageBox.RejectRole)
             dial.exec_()
             
             if dial.clickedButton() == delete_YES:
@@ -649,7 +649,7 @@ class exportToKerkytheaGui(QtGui.QWidget):
             self.patherror.setText('')
     
     def changePathF(self):
-        path = QtGui.QFileDialog().getSaveFileName(self, u"Save as", os.path.expanduser("~"), "*.xml")
+        path = QtWidgets.QFileDialog().getSaveFileName(self, u"Save as", os.path.expanduser("~"), "*.xml")
 
         fileName = path[0]
         if not fileName == "":
@@ -659,10 +659,10 @@ class exportToKerkytheaGui(QtGui.QWidget):
             self.changePathFInfo()
 
 
-class separator(QtGui.QFrame):
+class separator(QtWidgets.QFrame):
     def __init__(self, parent=None):
-        QtGui.QFrame.__init__(self, parent)
+        QtWidgets.QFrame.__init__(self, parent)
         #
-        self.setFrameShape(QtGui.QFrame.HLine)
-        self.setFrameShadow(QtGui.QFrame.Sunken)
+        self.setFrameShape(QtWidgets.QFrame.HLine)
+        self.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.setLineWidth(1)

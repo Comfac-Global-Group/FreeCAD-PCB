@@ -27,7 +27,7 @@
 
 import FreeCAD, FreeCADGui
 if FreeCAD.GuiUp:
-    from PySide import QtGui, QtCore
+    from PySide6 import QtGui, QtCore, QtWidgets
 import Part
 from pivy.coin import *
 
@@ -45,9 +45,9 @@ __currentPath__ = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 #***********************************************************************
 #*                             GUI
 #***********************************************************************
-class createSectionsGui(QtGui.QWidget):
+class createSectionsGui(QtWidgets.QWidget):
     def __init__(self, parent=None):
-        QtGui.QWidget.__init__(self, parent)
+        QtWidgets.QWidget.__init__(self, parent)
         
         self.form = self
         self.form.setWindowTitle(u"Create sections from selected models")
@@ -71,64 +71,64 @@ class createSectionsGui(QtGui.QWidget):
         #
         self.sectionsLisstTable = sectionsLisstTable(self)
         #
-        self.mirrorSections = QtGui.QComboBox()
+        self.mirrorSections = QtWidgets.QComboBox()
         self.mirrorSections.addItems(["False", "True"])
         #
-        self.guidingPlane = QtGui.QComboBox()
+        self.guidingPlane = QtWidgets.QComboBox()
         self.connect(self.guidingPlane, QtCore.SIGNAL("currentIndexChanged (int)"), self.showSecton)
         self.guidingPlane.addItems(["XY", "XZ", "YZ"])
         self.guidingPlane.setCurrentIndex(0)
         #
-        addSection = QtGui.QPushButton('')
+        addSection = QtWidgets.QPushButton('')
         #addSection.setFlat(True)
         addSection.setIcon(QtGui.QIcon(":/data/img/categoryAdd.png"))
         addSection.setFixedWidth(24)
         addSection.setToolTip('Add section')
         self.connect(addSection, QtCore.SIGNAL("pressed ()"), self.sectionsLisstTable.addSection)
         #
-        self.listaBibliotek = QtGui.QComboBox()
+        self.listaBibliotek = QtWidgets.QComboBox()
         for i in exportData.keys():
             if exportData[i]["exportComponent"]:
                 self.listaBibliotek.addItem(exportData[i]['name'])
                 self.listaBibliotek.setItemData(self.listaBibliotek.count() - 1, i, QtCore.Qt.UserRole)
         self.connect(self.listaBibliotek, QtCore.SIGNAL("currentIndexChanged (int)"), self.changeSoftware)
         #
-        deleteSection = QtGui.QPushButton('')
+        deleteSection = QtWidgets.QPushButton('')
         #deleteSection.setFlat(True)
         deleteSection.setIcon(QtGui.QIcon(":/data/img/categoryDelete.png"))
         deleteSection.setFixedWidth(24)
         deleteSection.setToolTip('Delete section')
         self.connect(deleteSection, QtCore.SIGNAL("pressed ()"), self.sectionsLisstTable.deleteSection)
         #
-        libraryPathSel = QtGui.QPushButton('...')
+        libraryPathSel = QtWidgets.QPushButton('...')
         libraryPathSel.setFixedWidth(24)
         libraryPathSel.setToolTip('Define file')
         self.connect(libraryPathSel, QtCore.SIGNAL("clicked ()"), self.changePathF)
         
-        self.libraryPath = QtGui.QLineEdit('')
+        self.libraryPath = QtWidgets.QLineEdit('')
         #
-        self.componentName = QtGui.QLineEdit('')
+        self.componentName = QtWidgets.QLineEdit('')
         #
-        infoLabel = QtGui.QLabel(u''' 
+        infoLabel = QtWidgets.QLabel(u''' 
 If library does not exist  - a new library will be created
 If there is a library and component with the given name - component will be updated
 If library exists but there is no component with the specified name - component will be added
         ''')
         infoLabel.setWordWrap(True)
         #
-        lay = QtGui.QGridLayout(self)
-        lay.addWidget(QtGui.QLabel(u'Path:'), 0, 0, 1, 1)
+        lay = QtWidgets.QGridLayout(self)
+        lay.addWidget(QtWidgets.QLabel(u'Path:'), 0, 0, 1, 1)
         lay.addWidget(self.libraryPath, 0, 1, 1, 1)
         lay.addWidget(libraryPathSel, 0, 2, 1, 1)
-        lay.addWidget(QtGui.QLabel(u'Software:'), 1, 0, 1, 1)
+        lay.addWidget(QtWidgets.QLabel(u'Software:'), 1, 0, 1, 1)
         lay.addWidget(self.listaBibliotek, 1, 1, 1, 2)
-        lay.addWidget(QtGui.QLabel(u'Component name:'), 2, 0, 1, 1)
+        lay.addWidget(QtWidgets.QLabel(u'Component name:'), 2, 0, 1, 1)
         lay.addWidget(self.componentName, 2, 1, 1, 2)
-        lay.addWidget(QtGui.QLabel(u'Guiding plane:'), 3, 0, 1, 1)
+        lay.addWidget(QtWidgets.QLabel(u'Guiding plane:'), 3, 0, 1, 1)
         lay.addWidget(self.guidingPlane, 3, 1, 1, 2)
-        lay.addWidget(QtGui.QLabel(u'Mirror sections:'), 4, 0, 1, 1)
+        lay.addWidget(QtWidgets.QLabel(u'Mirror sections:'), 4, 0, 1, 1)
         lay.addWidget(self.mirrorSections, 4, 1, 1, 2)
-        lay.addWidget(QtGui.QLabel(u'Sections:'), 5, 0, 1, 1)
+        lay.addWidget(QtWidgets.QLabel(u'Sections:'), 5, 0, 1, 1)
         lay.addWidget(self.sectionsLisstTable, 5, 1, 3, 1)
         lay.addWidget(addSection, 5, 2, 1, 1)
         lay.addWidget(deleteSection, 6, 2, 1, 1)
@@ -145,7 +145,7 @@ If library exists but there is no component with the specified name - component 
             self.libraryPath.setText(path[0] + exportData[self.exportClass.programName]['formatLIB'].replace("*", ""))
         
     def changePathF(self):
-        path = QtGui.QFileDialog().getSaveFileName(self, u"Save as", os.path.expanduser("~"), exportData[self.exportClass.programName]['formatLIB'])
+        path = QtWidgets.QFileDialog().getSaveFileName(self, u"Save as", os.path.expanduser("~"), exportData[self.exportClass.programName]['formatLIB'])
         
         filePath = path[0]
         if not filePath == "":
@@ -315,9 +315,9 @@ If library exists but there is no component with the specified name - component 
         self.sectionsLisstTable.createPlane()
 
 
-class sectionsLisstTable(QtGui.QTreeWidget):
+class sectionsLisstTable(QtWidgets.QTreeWidget):
     def __init__(self, parent=None):
-        QtGui.QTreeWidget.__init__(self, parent)
+        QtWidgets.QTreeWidget.__init__(self, parent)
         self.sectionNum = 0
         self.parent = parent
         self.root = None
@@ -327,7 +327,7 @@ class sectionsLisstTable(QtGui.QTreeWidget):
         self.setItemsExpandable(True)
         self.setSortingEnabled(False)
         self.setHeaderLabels(['Number', 'Position'])
-        self.setFrameShape(QtGui.QFrame.NoFrame)
+        self.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.setSelectionBehavior(QtGui.QAbstractItemView.SelectRows)
         self.setStyleSheet('''
             QTreeWidget QHeaderView
@@ -460,10 +460,10 @@ class sectionsLisstTable(QtGui.QTreeWidget):
     
     def addSection(self):
         try:
-            a = QtGui.QTreeWidgetItem()
+            a = QtWidgets.QTreeWidgetItem()
             a.setText(0, str(self.sectionNum))
             #
-            positionValue = QtGui.QDoubleSpinBox()
+            positionValue = QtWidgets.QDoubleSpinBox()
             self.connect(positionValue, QtCore.SIGNAL("valueChanged (double)"), self.shiftSection)
             positionValue.setSuffix("mm")
             positionValue.setValue(0)

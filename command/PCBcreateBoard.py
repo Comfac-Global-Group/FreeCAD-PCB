@@ -27,7 +27,7 @@
 
 import FreeCAD
 import FreeCADGui
-from PySide import QtGui
+from PySide6 import QtGui, QtWidgets
 import importlib
 import builtins
 #
@@ -46,9 +46,9 @@ class SelObserver:
         self.main.wybrano(FreeCAD.ActiveDocument.getObject(str(obj)))
 
 
-class pickSketch(QtGui.QPushButton):
+class pickSketch(QtWidgets.QPushButton):
     def __init__(self, saveToForm, parent=None):
-        QtGui.QPushButton.__init__(self, parent)
+        QtWidgets.QPushButton.__init__(self, parent)
         self.setText('...')
         self.setFixedWidth(30)
         self.setFlat(True)
@@ -75,31 +75,31 @@ class pickSketch(QtGui.QPushButton):
         return super(pickSketch, self).mousePressEvent(event)
 
 
-class createPCB(QtGui.QWidget, partsManaging):
+class createPCB(QtWidgets.QWidget, partsManaging):
     def __init__(self, parent=None):
         try:
             importlib.reload(PCBconf)
         except:
             builtins.reload(PCBconf)
         
-        QtGui.QWidget.__init__(self, parent)
+        QtWidgets.QWidget.__init__(self, parent)
         freecadSettings = FreeCAD.ParamGet("User parameter:BaseApp/Preferences/Mod/PCB")
         
         self.form = self
         self.form.setWindowTitle(u"Create PCB")
         self.form.setWindowIcon(QtGui.QIcon(":/data/img/board.png"))
         #
-        self.gruboscPlytki = QtGui.QDoubleSpinBox(self)
+        self.gruboscPlytki = QtWidgets.QDoubleSpinBox(self)
         self.gruboscPlytki.setSingleStep(0.1)
         self.gruboscPlytki.setValue(freecadSettings.GetFloat("boardThickness", 1.5))
         self.gruboscPlytki.setSuffix(u" mm")
         #
-        self.pcbBorder = QtGui.QLineEdit('')
+        self.pcbBorder = QtWidgets.QLineEdit('')
         self.pcbBorder.setReadOnly(True)
         
         pickPcbBorder = pickSketch(self.pcbBorder)
         #
-        self.pcbHoles = QtGui.QLineEdit('')
+        self.pcbHoles = QtWidgets.QLineEdit('')
         self.pcbHoles.setReadOnly(True)
         
         pickPcbHoles = pickSketch(self.pcbHoles)
@@ -108,16 +108,16 @@ class createPCB(QtGui.QWidget, partsManaging):
         self.pcbColor.setColor(self.pcbColor.PcbColorToRGB(PCBconf.PCB_COLOR))
         self.pcbColor.setToolTip(u"Click to change color")
         #
-        lay = QtGui.QGridLayout()
-        lay.addWidget(QtGui.QLabel(u'Border:'), 0, 0, 1, 1)
+        lay = QtWidgets.QGridLayout()
+        lay.addWidget(QtWidgets.QLabel(u'Border:'), 0, 0, 1, 1)
         lay.addWidget(self.pcbBorder, 0, 1, 1, 1)
         lay.addWidget(pickPcbBorder, 0, 2, 1, 1)
-        lay.addWidget(QtGui.QLabel(u'Holes:'), 1, 0, 1, 1)
+        lay.addWidget(QtWidgets.QLabel(u'Holes:'), 1, 0, 1, 1)
         lay.addWidget(self.pcbHoles, 1, 1, 1, 1)
         lay.addWidget(pickPcbHoles, 1, 2, 1, 1)
-        lay.addWidget(QtGui.QLabel(u'Thickness:'), 2, 0, 1, 1)
+        lay.addWidget(QtWidgets.QLabel(u'Thickness:'), 2, 0, 1, 1)
         lay.addWidget(self.gruboscPlytki, 2, 1, 1, 2)
-        lay.addWidget(QtGui.QLabel(u'Color:'), 3, 0, 1, 1)
+        lay.addWidget(QtWidgets.QLabel(u'Color:'), 3, 0, 1, 1)
         lay.addWidget(self.pcbColor, 3, 1, 1, 2)
         #
         self.setLayout(lay)

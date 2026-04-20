@@ -29,7 +29,7 @@ import shutil
 import copy
 import configparser
 import FreeCAD
-from PySide import QtGui
+from PySide6 import QtGui, QtWidgets
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String, Boolean, Float
 from sqlalchemy import create_engine
@@ -229,11 +229,11 @@ class dataBase:
         dbFileVersion = float(self.dbVersion())
         
         if dbFileVersion < __dataBaseVersion__:
-            dial = QtGui.QMessageBox()
+            dial = QtWidgets.QMessageBox()
             dial.setText(u"Old database format detected - upgrading database format is required.\nThis may take several seconds.")
             dial.setWindowTitle("Caution!")
-            dial.setIcon(QtGui.QMessageBox.Question)
-            rewT = dial.addButton('Ok', QtGui.QMessageBox.YesRole)
+            dial.setIcon(QtWidgets.QMessageBox.Question)
+            rewT = dial.addButton('Ok', QtWidgets.QMessageBox.YesRole)
             dial.exec_()
             #
             return [False, dbFileVersion]
@@ -276,11 +276,11 @@ class dataBase:
             FreeCAD.Console.PrintWarning("Read database\n")
             #
             if databasePath.endswith(".cfg"):
-                dial = QtGui.QMessageBox()
+                dial = QtWidgets.QMessageBox()
                 dial.setText(u"Old database format detected - upgrading database format is required (to DB v2).\nThis may take several seconds.")
                 dial.setWindowTitle("Caution!")
-                dial.setIcon(QtGui.QMessageBox.Question)
-                rewT = dial.addButton('Ok', QtGui.QMessageBox.YesRole)
+                dial.setIcon(QtWidgets.QMessageBox.Question)
+                rewT = dial.addButton('Ok', QtWidgets.QMessageBox.YesRole)
                 dial.exec_()
                 #
                 self.updateV1toV2(databasePath)

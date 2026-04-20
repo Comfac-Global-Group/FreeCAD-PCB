@@ -27,7 +27,7 @@
 
 import FreeCAD
 if FreeCAD.GuiUp:
-    from PySide import QtCore, QtGui
+    from PySide6 import QtCore, QtGui, QtWidgets
 import builtins
 import importlib
 import unicodedata
@@ -37,109 +37,109 @@ from PCBfunctions import kolorWarstwy, getFromSettings_Color_1
 from formats.baseModel import baseModel
 
 
-class dialogMAIN_FORM(QtGui.QDialog, baseModel):
+class dialogMAIN_FORM(QtWidgets.QDialog, baseModel):
     def __init__(self, filename=None, parent=None):
         try:
             importlib.reload(PCBconf)
         except:
             builtins.reload(PCBconf)
         
-        QtGui.QDialog.__init__(self, parent)
+        QtWidgets.QDialog.__init__(self, parent)
         freecadSettings = FreeCAD.ParamGet("User parameter:BaseApp/Preferences/Mod/PCB")
 
         self.setWindowTitle(u"PCB settings")
         self.setWindowIcon(QtGui.QIcon(":/data/img/assignModels.png"))
         #self.setCursor(QtGui.QCursor(QtCore.Qt.WhatsThisCursor))
         #
-        self.plytkaPCB = QtGui.QCheckBox(u"Board")
+        self.plytkaPCB = QtWidgets.QCheckBox(u"Board")
         self.plytkaPCB.setDisabled(True)
         self.plytkaPCB.setChecked(True)
         
-        plytkaPCBInfo = QtGui.QLabel(u"PCB Thickness")
+        plytkaPCBInfo = QtWidgets.QLabel(u"PCB Thickness")
         plytkaPCBInfo.setStyleSheet('margin-left:0px')
         
         #######
-        self.gruboscPlytki = QtGui.QDoubleSpinBox()
+        self.gruboscPlytki = QtWidgets.QDoubleSpinBox()
         self.gruboscPlytki.setSingleStep(0.1)
         self.gruboscPlytki.setRange(0.2, 10)
         self.gruboscPlytki.setValue(freecadSettings.GetFloat("boardThickness", 1.5))
         self.gruboscPlytki.setSuffix(u" mm")
         #######
-        self.plytkaPCB_otworyH = QtGui.QCheckBox(u"Holes")
+        self.plytkaPCB_otworyH = QtWidgets.QCheckBox(u"Holes")
         self.plytkaPCB_otworyH.setChecked(freecadSettings.GetBool("boardImportHoles", True))
         
-        self.plytkaPCB_otworyV = QtGui.QCheckBox(u"Vias")
+        self.plytkaPCB_otworyV = QtWidgets.QCheckBox(u"Vias")
         self.plytkaPCB_otworyV.setChecked(freecadSettings.GetBool("boardImportHoles", True))
         
-        self.plytkaPCB_otworyP = QtGui.QCheckBox(u"Pads")
+        self.plytkaPCB_otworyP = QtWidgets.QCheckBox(u"Pads")
         self.plytkaPCB_otworyP.setChecked(freecadSettings.GetBool("boardImportHoles", True))
         
-        self.plytkaPCB_otworyIH = QtGui.QCheckBox(u"Omit intersected holes")  # detecting collisions between holes - intersections
+        self.plytkaPCB_otworyIH = QtWidgets.QCheckBox(u"Omit intersected holes")  # detecting collisions between holes - intersections
         self.plytkaPCB_otworyIH.setChecked(freecadSettings.GetBool("omitIntersectedHoles", True))
         
-        self.plytkaPCB_cutHolesThroughAllLayers = QtGui.QCheckBox(u"Cut holes through all layers")
+        self.plytkaPCB_cutHolesThroughAllLayers = QtWidgets.QCheckBox(u"Cut holes through all layers")
         self.plytkaPCB_cutHolesThroughAllLayers.setChecked(freecadSettings.GetBool("cutHolesThroughAllLayers", True))
         
-        self.holesMin = QtGui.QDoubleSpinBox()
+        self.holesMin = QtWidgets.QDoubleSpinBox()
         self.holesMin.setSingleStep(0.1)
         self.holesMin.setValue(0)
         self.holesMin.setSuffix(u" mm")
         
-        self.holesMax = QtGui.QDoubleSpinBox()
+        self.holesMax = QtWidgets.QDoubleSpinBox()
         self.holesMax.setSingleStep(0.1)
         self.holesMax.setValue(0)
         self.holesMax.setSuffix(u" mm")
         #######
-        #self.plytkaPCB_PADS = QtGui.QCheckBox(u"Vias")
+        #self.plytkaPCB_PADS = QtWidgets.QCheckBox(u"Vias")
         #self.plytkaPCB_PADS.setChecked(True)
         #######
-        self.plytkaPCB_plikER = QtGui.QCheckBox(u"Generate report")
+        self.plytkaPCB_plikER = QtWidgets.QCheckBox(u"Generate report")
         self.plytkaPCB_plikER.setChecked(freecadSettings.GetBool("partsReport", False))
         #self.plytkaPCB_plikER.setStyleSheet('margin-left:20px')
         self.plytkaPCB_plikER.setEnabled(freecadSettings.GetBool("partsImport", True))
         #######
-        plytkaPCB_GP_TT = QtGui.QLabel("")
+        plytkaPCB_GP_TT = QtWidgets.QLabel("")
         plytkaPCB_GP_TT.setCursor(QtGui.QCursor(QtCore.Qt.WhatsThisCursor))
         plytkaPCB_GP_TT.setPixmap(QtGui.QPixmap(":/data/img/info_16x16.png"))
         plytkaPCB_GP_TT.setToolTip('<b>Group parts</b><br><img src=":/data/img/groupParts.png">')
         
-        self.plytkaPCB_grupujElementy = QtGui.QCheckBox(u"Group parts")
+        self.plytkaPCB_grupujElementy = QtWidgets.QCheckBox(u"Group parts")
         self.plytkaPCB_grupujElementy.setChecked(freecadSettings.GetBool("groupParts", False))
         self.plytkaPCB_grupujElementy.setEnabled(freecadSettings.GetBool("partsImport", True))
         #######
-        plytkaPCB_EK_TT = QtGui.QLabel("")
+        plytkaPCB_EK_TT = QtWidgets.QLabel("")
         plytkaPCB_EK_TT.setCursor(QtGui.QCursor(QtCore.Qt.WhatsThisCursor))
         plytkaPCB_EK_TT.setPixmap(QtGui.QPixmap(":/data/img/info_16x16.png"))
         plytkaPCB_EK_TT.setToolTip('<b>Colorize elements</b><br><img src=":/data/img/colorizeModels.png">')
         
-        self.plytkaPCB_elementyKolory = QtGui.QCheckBox(u"Colorize elements")
+        self.plytkaPCB_elementyKolory = QtWidgets.QCheckBox(u"Colorize elements")
         self.plytkaPCB_elementyKolory.setChecked(freecadSettings.GetBool("partsColorize", True))
         #self.plytkaPCB_elementyKolory.setStyleSheet('margin-left:20px')
         self.plytkaPCB_elementyKolory.setEnabled(freecadSettings.GetBool("partsImport", True))
         #######
-        plytkaPCB_APNV_TT = QtGui.QLabel("")
+        plytkaPCB_APNV_TT = QtWidgets.QLabel("")
         plytkaPCB_APNV_TT.setCursor(QtGui.QCursor(QtCore.Qt.WhatsThisCursor))
         plytkaPCB_APNV_TT.setPixmap(QtGui.QPixmap(":/data/img/info_16x16.png"))
         plytkaPCB_APNV_TT.setToolTip('<b>Adjust part name/value</b><br><img src=":/data/img/adjustPartNameValue.png">')
         
-        self.adjustParts = QtGui.QCheckBox(u"Adjust part name/value")
+        self.adjustParts = QtWidgets.QCheckBox(u"Adjust part name/value")
         self.adjustParts.setChecked(freecadSettings.GetBool("adjustNameValue", False))
         #self.adjustParts.setStyleSheet('margin-left:20px')
         self.adjustParts.setEnabled(freecadSettings.GetBool("partsImport", True))
         #######
-        self.partMinX = QtGui.QDoubleSpinBox()
+        self.partMinX = QtWidgets.QDoubleSpinBox()
         self.partMinX.setSingleStep(0.1)
         self.partMinX.setValue(0)
         self.partMinX.setSuffix(u" mm")
         self.partMinX.setEnabled(freecadSettings.GetBool("partsImport", True))
         
-        self.partMinY = QtGui.QDoubleSpinBox()
+        self.partMinY = QtWidgets.QDoubleSpinBox()
         self.partMinY.setSingleStep(0.1)
         self.partMinY.setValue(0)
         self.partMinY.setSuffix(u" mm")
         self.partMinY.setEnabled(freecadSettings.GetBool("partsImport", True))
         
-        self.partMinZ = QtGui.QDoubleSpinBox()
+        self.partMinZ = QtWidgets.QDoubleSpinBox()
         self.partMinZ.setSingleStep(0.1)
         self.partMinZ.setValue(0)
         self.partMinZ.setSuffix(u" mm")
@@ -152,16 +152,16 @@ class dialogMAIN_FORM(QtGui.QDialog, baseModel):
         self.connect(buttons, QtCore.SIGNAL("accepted()"), self, QtCore.SLOT("accept()"))
         self.connect(buttons, QtCore.SIGNAL("rejected()"), self, QtCore.SLOT("reject()"))
         #
-        self.selectAll = QtGui.QCheckBox('de/select all layers')
+        self.selectAll = QtWidgets.QCheckBox('de/select all layers')
         self.selectAll.setStyleSheet('''border:1px solid rgb(237, 237, 237);''')
         self.connect(self.selectAll, QtCore.SIGNAL("clicked()"), self.selectAllCategories)
         #
-        self.debugImport = QtGui.QCheckBox('Debug import')
+        self.debugImport = QtWidgets.QCheckBox('Debug import')
         
-        self.copperImportPolygons = QtGui.QCheckBox('Import polygons from copper layers')
+        self.copperImportPolygons = QtWidgets.QCheckBox('Import polygons from copper layers')
         self.copperImportPolygons.setEnabled(False)
         
-        self.skipEmptyLayers = QtGui.QCheckBox('Skip empty layers')
+        self.skipEmptyLayers = QtWidgets.QCheckBox('Skip empty layers')
         self.skipEmptyLayers.setChecked(freecadSettings.GetBool("skipEmptyLayers", True))
         #
         self.spisWarstw = tabela()
@@ -178,18 +178,18 @@ class dialogMAIN_FORM(QtGui.QDialog, baseModel):
         self.spisWarstw.horizontalHeader().resizeSection(4, 95)
         self.spisWarstw.hideColumn(1)
         #######
-        filterholesBox = QtGui.QGroupBox("Filter by diameter")
+        filterholesBox = QtWidgets.QGroupBox("Filter by diameter")
         filterholesBox.setFixedWidth(200)
-        filterholesBoxLay = QtGui.QGridLayout(filterholesBox)
-        filterholesBoxLay.addWidget(QtGui.QLabel(u"min."), 0, 0, 1, 1)
+        filterholesBoxLay = QtWidgets.QGridLayout(filterholesBox)
+        filterholesBoxLay.addWidget(QtWidgets.QLabel(u"min."), 0, 0, 1, 1)
         filterholesBoxLay.addWidget(self.holesMin, 0, 1, 1, 1)
-        filterholesBoxLay.addWidget(QtGui.QLabel(u"max."), 1, 0, 1, 1)
+        filterholesBoxLay.addWidget(QtWidgets.QLabel(u"max."), 1, 0, 1, 1)
         filterholesBoxLay.addWidget(self.holesMax, 1, 1, 1, 1)
-        filterholesBoxLay.addItem(QtGui.QSpacerItem(1, 10), 2, 1, 1, 1)
-        filterholesBoxLay.addWidget(QtGui.QLabel(u"0mm -> skip parameter/limit"), 3, 0, 1, 2, QtCore.Qt.AlignCenter)
+        filterholesBoxLay.addItem(QtWidgets.QSpacerItem(1, 10), 2, 1, 1, 1)
+        filterholesBoxLay.addWidget(QtWidgets.QLabel(u"0mm -> skip parameter/limit"), 3, 0, 1, 2, QtCore.Qt.AlignCenter)
         
-        holesBox = QtGui.QGroupBox("Holes")
-        layHoles = QtGui.QGridLayout(holesBox)
+        holesBox = QtWidgets.QGroupBox("Holes")
+        layHoles = QtWidgets.QGridLayout(holesBox)
         layHoles.addWidget(self.plytkaPCB_otworyH, 0, 0, 1, 1)
         layHoles.addWidget(self.plytkaPCB_otworyV, 1, 0, 1, 1)
         layHoles.addWidget(self.plytkaPCB_otworyP, 2, 0, 1, 1)
@@ -199,19 +199,19 @@ class dialogMAIN_FORM(QtGui.QDialog, baseModel):
         layHoles.setColumnStretch(0, 60)
         layHoles.setColumnStretch(1, 40)
         ####################
-        filterPartsBox = QtGui.QGroupBox("Filter by size (3D models)")
+        filterPartsBox = QtWidgets.QGroupBox("Filter by size (3D models)")
         filterPartsBox.setFixedWidth(200)
-        filterPartsBoxLay = QtGui.QGridLayout(filterPartsBox)
-        filterPartsBoxLay.addWidget(QtGui.QLabel(u"Length"), 0, 0, 1, 1)
+        filterPartsBoxLay = QtWidgets.QGridLayout(filterPartsBox)
+        filterPartsBoxLay.addWidget(QtWidgets.QLabel(u"Length"), 0, 0, 1, 1)
         filterPartsBoxLay.addWidget(self.partMinX, 0, 1, 1, 1)
-        filterPartsBoxLay.addWidget(QtGui.QLabel(u"Width"), 1, 0, 1, 1)
+        filterPartsBoxLay.addWidget(QtWidgets.QLabel(u"Width"), 1, 0, 1, 1)
         filterPartsBoxLay.addWidget(self.partMinY, 1, 1, 1, 1)
-        filterPartsBoxLay.addWidget(QtGui.QLabel(u"Height"), 2, 0, 1, 1)
+        filterPartsBoxLay.addWidget(QtWidgets.QLabel(u"Height"), 2, 0, 1, 1)
         filterPartsBoxLay.addWidget(self.partMinZ, 2, 1, 1, 1)
-        filterPartsBoxLay.addItem(QtGui.QSpacerItem(1, 10), 3, 1, 1, 1)
-        filterPartsBoxLay.addWidget(QtGui.QLabel(u"0mm -> skip parameter/limit"), 4, 0, 1, 2, QtCore.Qt.AlignCenter)
+        filterPartsBoxLay.addItem(QtWidgets.QSpacerItem(1, 10), 3, 1, 1, 1)
+        filterPartsBoxLay.addWidget(QtWidgets.QLabel(u"0mm -> skip parameter/limit"), 4, 0, 1, 2, QtCore.Qt.AlignCenter)
         
-        self.partsBox = QtGui.QGroupBox("Parts")
+        self.partsBox = QtWidgets.QGroupBox("Parts")
         self.partsBox.setCheckable(True)
         self.partsBox.setChecked(freecadSettings.GetBool("partsImport", True))
         self.connect(self.partsBox, QtCore.SIGNAL("toggled (bool)"), self.plytkaPCB_plikER.setEnabled)
@@ -224,7 +224,7 @@ class dialogMAIN_FORM(QtGui.QDialog, baseModel):
         except:
             pass
         
-        self.layParts = QtGui.QGridLayout(self.partsBox)
+        self.layParts = QtWidgets.QGridLayout(self.partsBox)
         self.layParts.addWidget(plytkaPCB_EK_TT, 0, 0, 1, 1)
         self.layParts.addWidget(self.plytkaPCB_elementyKolory, 0, 1, 1, 1)
         self.layParts.addWidget(plytkaPCB_APNV_TT, 1, 0, 1, 1)
@@ -237,46 +237,46 @@ class dialogMAIN_FORM(QtGui.QDialog, baseModel):
         self.layParts.setColumnStretch(1, 60)
         self.layParts.setColumnStretch(2, 40)
         ####################
-        self.razenBiblioteki = QtGui.QLineEdit('')
+        self.razenBiblioteki = QtWidgets.QLineEdit('')
         
-        self.tentedViasLimit = QtGui.QDoubleSpinBox()
+        self.tentedViasLimit = QtWidgets.QDoubleSpinBox()
         self.tentedViasLimit.setSingleStep(0.1)
         self.tentedViasLimit.setValue(0)
         self.tentedViasLimit.setSuffix(u" mm")
         
-        tentedViasBox = QtGui.QGroupBox("Tented Vias")
+        tentedViasBox = QtWidgets.QGroupBox("Tented Vias")
         tentedViasBox.setFixedWidth(200)
-        tentedViasBoxLay = QtGui.QGridLayout(tentedViasBox)
-        tentedViasBoxLay.addWidget(QtGui.QLabel(u"Limit"), 0, 0, 1, 1)
+        tentedViasBoxLay = QtWidgets.QGridLayout(tentedViasBox)
+        tentedViasBoxLay.addWidget(QtWidgets.QLabel(u"Limit"), 0, 0, 1, 1)
         tentedViasBoxLay.addWidget(self.tentedViasLimit, 0, 1, 1, 1)
-        tentedViasBoxLay.addWidget(QtGui.QLabel(u"0mm -> skip parameter/limit"), 3, 0, 1, 2, QtCore.Qt.AlignCenter)
+        tentedViasBoxLay.addWidget(QtWidgets.QLabel(u"0mm -> skip parameter/limit"), 3, 0, 1, 2, QtCore.Qt.AlignCenter)
         
-        otherBox = QtGui.QGroupBox("Other settings")
-        self.layOther = QtGui.QGridLayout(otherBox)
-        #self.layOther.addWidget(QtGui.QLabel(u"Library"), 0, 0, 1, 1) # library
+        otherBox = QtWidgets.QGroupBox("Other settings")
+        self.layOther = QtWidgets.QGridLayout(otherBox)
+        #self.layOther.addWidget(QtWidgets.QLabel(u"Library"), 0, 0, 1, 1) # library
         #self.layOther.addWidget(self.razenBiblioteki, 0, 1, 1, 2) # library
         self.layOther.addWidget(self.debugImport, 1, 0, 1, 3)
         self.layOther.addWidget(self.copperImportPolygons, 2, 0, 1, 3)
         self.layOther.addWidget(tentedViasBox, 0, 2, 6, 1)
         ##############################################
-        mainWidgetLeftSide = QtGui.QWidget()
-        layLeftSide = QtGui.QGridLayout(mainWidgetLeftSide)
+        mainWidgetLeftSide = QtWidgets.QWidget()
+        layLeftSide = QtWidgets.QGridLayout(mainWidgetLeftSide)
         layLeftSide.addWidget(self.spisWarstw, 0, 0, 1, 3)
         layLeftSide.addWidget(self.selectAll, 1, 0, 1, 1)
         layLeftSide.addWidget(self.skipEmptyLayers, 1, 1, 1, 1)
-        layLeftSide.addItem(QtGui.QSpacerItem(1, 1, QtGui.QSizePolicy.Expanding), 1, 2, 1, 1)
+        layLeftSide.addItem(QtWidgets.QSpacerItem(1, 1, QtWidgets.QSizePolicy.Expanding), 1, 2, 1, 1)
         #
-        mainWidgetRightSide = QtGui.QWidget()
-        layRightSide = QtGui.QGridLayout(mainWidgetRightSide)
+        mainWidgetRightSide = QtWidgets.QWidget()
+        layRightSide = QtWidgets.QGridLayout(mainWidgetRightSide)
         layRightSide.addWidget(plytkaPCBInfo, 0, 0, 1, 1, QtCore.Qt.AlignLeft)
         layRightSide.addWidget(self.gruboscPlytki, 0, 1, 1, 1)
-        layRightSide.addItem(QtGui.QSpacerItem(1, 10), 1, 0, 1, 1)
+        layRightSide.addItem(QtWidgets.QSpacerItem(1, 10), 1, 0, 1, 1)
         layRightSide.addWidget(holesBox, 2, 0, 1, 2, QtCore.Qt.AlignTop)
         layRightSide.addWidget(self.partsBox, 3, 0, 1, 2, QtCore.Qt.AlignTop)
         layRightSide.addWidget(otherBox, 4, 0, 1, 2, QtCore.Qt.AlignTop)
-        layRightSide.addItem(QtGui.QSpacerItem(1, 1, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding), 5, 1, 1, 1)
+        layRightSide.addItem(QtWidgets.QSpacerItem(1, 1, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding), 5, 1, 1, 1)
         #
-        self.splitter = QtGui.QSplitter()
+        self.splitter = QtWidgets.QSplitter()
         #self.splitter.setStyleSheet('QSplitter::handle {background: rgba(31.8, 33.3, 33.7, 0.1); cursor: col-resize;} ')
         self.splitter.setChildrenCollapsible(False)
         self.splitter.addWidget(mainWidgetLeftSide)
@@ -287,11 +287,11 @@ class dialogMAIN_FORM(QtGui.QDialog, baseModel):
                         "QSplitter::handle:pressed{background-color: rgb(120, 120, 120); cursor: w-resize;}")
         self.splitter.handle(1).setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         #
-        mainLay = QtGui.QGridLayout()
+        mainLay = QtWidgets.QGridLayout()
         mainLay.addWidget(self.splitter, 0, 0, 1, 3)
-        mainLay.addItem(QtGui.QSpacerItem(1, 1, QtGui.QSizePolicy.Expanding), 1, 0, 1, 1)
+        mainLay.addItem(QtWidgets.QSpacerItem(1, 1, QtWidgets.QSizePolicy.Expanding), 1, 0, 1, 1)
         mainLay.addWidget(buttons, 1, 1, 1, 1, QtCore.Qt.AlignRight)
-        mainLay.addItem(QtGui.QSpacerItem(2, 1, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Minimum), 1, 2, 1, 1)
+        mainLay.addItem(QtWidgets.QSpacerItem(2, 1, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum), 1, 2, 1, 1)
         self.setLayout(mainLay)
         #
         self.readSize()
@@ -373,11 +373,11 @@ class dialogMAIN_FORM(QtGui.QDialog, baseModel):
     def spisWarstwAddRow(self, ID, layerColor, layerTransparent, layerName, layerSide):
         self.spisWarstw.insertRow(self.spisWarstw.rowCount())
         
-        check = QtGui.QCheckBox()
+        check = QtWidgets.QCheckBox()
         check.setStyleSheet("QCheckBox {margin:7px;}")
         self.spisWarstw.setCellWidget(self.spisWarstw.rowCount() - 1, 0, check)
         #
-        num = QtGui.QTableWidgetItem(str(ID))
+        num = QtWidgets.QTableWidgetItem(str(ID))
         num.setTextAlignment(QtCore.Qt.AlignCenter | QtCore.Qt.AlignVCenter)
         self.spisWarstw.setItem(self.spisWarstw.rowCount() - 1, 1, num)
         #
@@ -386,19 +386,19 @@ class dialogMAIN_FORM(QtGui.QDialog, baseModel):
             color.setColor(layerColor)
             color.setToolTip(u"Click to change color")
         else:
-            color = QtGui.QLabel("")
+            color = QtWidgets.QLabel("")
         
         self.spisWarstw.setCellWidget(self.spisWarstw.rowCount() - 1, 2, color)
         #
         if layerSide[0] != -1:
-            side = QtGui.QComboBox()
+            side = QtWidgets.QComboBox()
             side.addItem("Top", 1)
             side.addItem("Bottom", 0)
             side.setCurrentIndex(side.findData(layerSide[0]))
             if layerSide[1]:
                 side.setDisabled(True)
         else:
-            side = QtGui.QLabel("")
+            side = QtWidgets.QLabel("")
         
         self.spisWarstw.setCellWidget(self.spisWarstw.rowCount() - 1, 3, side)
         #
@@ -412,19 +412,19 @@ class dialogMAIN_FORM(QtGui.QDialog, baseModel):
             transparent.setSuffix(layerTransparent[1])
             transparent.setValue(layerTransparent[2])
         else:
-            transparent = QtGui.QLabel("")
+            transparent = QtWidgets.QLabel("")
         
         self.spisWarstw.setCellWidget(self.spisWarstw.rowCount() - 1, 4, transparent)
         #
-        name = QtGui.QTableWidgetItem(layerName)
+        name = QtWidgets.QTableWidgetItem(layerName)
         name.setTextAlignment(QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter)
         name.setToolTip(u"Click to change name")
         self.spisWarstw.setItem(self.spisWarstw.rowCount() - 1, 5, name)
 
 
-class transpSpinBox(QtGui.QSpinBox):
+class transpSpinBox(QtWidgets.QSpinBox):
     def __init__(self, parent=None):
-        QtGui.QSpinBox.__init__(self, parent)
+        QtWidgets.QSpinBox.__init__(self, parent)
 
         self.setStyleSheet('''
             QSpinBox
@@ -434,9 +434,9 @@ class transpSpinBox(QtGui.QSpinBox):
         ''')
         
 
-class transpDoubleSpinBox(QtGui.QDoubleSpinBox):
+class transpDoubleSpinBox(QtWidgets.QDoubleSpinBox):
     def __init__(self, parent=None):
-        QtGui.QDoubleSpinBox.__init__(self, parent)
+        QtWidgets.QDoubleSpinBox.__init__(self, parent)
 
         self.setStyleSheet('''
             QDoubleSpinBox
@@ -446,9 +446,9 @@ class transpDoubleSpinBox(QtGui.QDoubleSpinBox):
         ''')
 
 
-class tabela(QtGui.QTableWidget):
+class tabela(QtWidgets.QTableWidget):
     def __init__(self, parent=None):
-        QtGui.QTableWidget.__init__(self, parent)
+        QtWidgets.QTableWidget.__init__(self, parent)
 
         self.setSortingEnabled(False)
         #self.setGridStyle(Qt.NoPen)
@@ -456,7 +456,7 @@ class tabela(QtGui.QTableWidget):
         self.setSelectionMode(QtGui.QAbstractItemView.NoSelection)
         self.horizontalHeader().setStretchLastSection(True)
         self.verticalHeader().hide()
-        self.setFrameShape(QtGui.QFrame.NoFrame)
+        self.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.setStyleSheet('''
             QTableWidget QHeaderView
             {

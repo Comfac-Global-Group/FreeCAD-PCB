@@ -31,26 +31,26 @@ import os
 from functools import partial
 from pivy.coin import *
 if FreeCAD.GuiUp:
-    from PySide import QtCore, QtGui
+    from PySide6 import QtCore, QtGui, QtWidgets
     
 from PCBboard import getPCBheight
 
 #***********************************************************************
 #*                            
 #***********************************************************************
-class collisionObjectTable(QtGui.QListWidget):
+class collisionObjectTable(QtWidgets.QListWidget):
     def __init__(self, parent=None):
-        QtGui.QListWidget.__init__(self, parent)
+        QtWidgets.QListWidget.__init__(self, parent)
         
-        self.setFrameShape(QtGui.QFrame.NoFrame)
+        self.setFrameShape(QtWidgets.QFrame.NoFrame)
 
 
 #***********************************************************************
 #*                             GUI
 #***********************************************************************
-class checkCollisionsBaseClass(QtGui.QWidget):
+class checkCollisionsBaseClass(QtWidgets.QWidget):
     def __init__(self, parent=None):
-        QtGui.QWidget.__init__(self, parent)
+        QtWidgets.QWidget.__init__(self, parent)
         #
         self.form = self
         self.root = None
@@ -58,9 +58,9 @@ class checkCollisionsBaseClass(QtGui.QWidget):
         self.tmpFile = None
         self.transaprency = {}
         #
-        self.createSolid = QtGui.QCheckBox(u'Create solid on exit')
+        self.createSolid = QtWidgets.QCheckBox(u'Create solid on exit')
         #
-        self.infoLabel = QtGui.QLabel("")
+        self.infoLabel = QtWidgets.QLabel("")
         #
         self.table1 = collisionObjectTable()
         self.table2 = collisionObjectTable()
@@ -68,15 +68,15 @@ class checkCollisionsBaseClass(QtGui.QWidget):
         QtCore.QObject.connect(self.table1, QtCore.SIGNAL("itemChanged (QListWidgetItem*)"), partial(self.blankInSecondTable, self.table2))
         QtCore.QObject.connect(self.table2, QtCore.SIGNAL("itemChanged (QListWidgetItem*)"), partial(self.blankInSecondTable, self.table1))
         #
-        checkButton = QtGui.QPushButton(u"Check")
+        checkButton = QtWidgets.QPushButton(u"Check")
         self.connect(checkButton, QtCore.SIGNAL("released ()"), self.preview)
         #
-        lay = QtGui.QGridLayout(self)
+        lay = QtWidgets.QGridLayout(self)
         lay.addWidget(checkButton, 0, 0, 1, 2)
         lay.addWidget(self.infoLabel, 1, 0, 1, 2)
-        lay.addWidget(QtGui.QLabel(u'First group'), 2, 0, 1, 1)
+        lay.addWidget(QtWidgets.QLabel(u'First group'), 2, 0, 1, 1)
         lay.addWidget(self.table1, 3, 0, 1, 1)
-        lay.addWidget(QtGui.QLabel(u'Second group'), 2, 1, 1, 1)
+        lay.addWidget(QtWidgets.QLabel(u'Second group'), 2, 1, 1, 1)
         lay.addWidget(self.table2, 3, 1, 1, 1)
         lay.addWidget(self.createSolid, 4, 0, 1, 2)
         #
@@ -228,7 +228,7 @@ class checkCollisionsGuiALL(checkCollisionsBaseClass):
                 if hasattr(i, "Proxy") and hasattr(i.Proxy, "Type") and 'layer' in i.Proxy.Type:
                     continue
                 #
-                a = QtGui.QListWidgetItem(i.Label)
+                a = QtWidgets.QListWidgetItem(i.Label)
                 a.setData(QtCore.Qt.UserRole, i.Name)
                 a.setFlags(QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsUserCheckable)
                 try:
@@ -239,7 +239,7 @@ class checkCollisionsGuiALL(checkCollisionsBaseClass):
                 
                 self.table1.addItem(a)
                 ###########
-                a = QtGui.QListWidgetItem(i.Label)
+                a = QtWidgets.QListWidgetItem(i.Label)
                 a.setData(QtCore.Qt.UserRole, i.Name)
                 a.setFlags(QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsUserCheckable)
                 try:
@@ -264,7 +264,7 @@ class checkCollisionsGuiPCB(checkCollisionsBaseClass):
         pcb = getPCBheight()
     
         if FreeCAD.activeDocument() and pcb[0]:
-            # a = QtGui.QListWidgetItem(pcb[2].Parent.Label)
+            # a = QtWidgets.QListWidgetItem(pcb[2].Parent.Label)
             # a.setData(QtCore.Qt.UserRole, pcb[2].Parent.Name)
             # a.setFlags(QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsUserCheckable)
             # a.setIcon(pcb[2].Parent.ViewObject.Icon)
@@ -281,7 +281,7 @@ class checkCollisionsGuiPCB(checkCollisionsBaseClass):
                         continue
                   #
                     if not i == pcb[2].Parent and not pcb[2].Parent in i.InList:
-                        a = QtGui.QListWidgetItem(i.Label)
+                        a = QtWidgets.QListWidgetItem(i.Label)
                         a.setData(QtCore.Qt.UserRole, i.Name)
                         a.setFlags(QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsUserCheckable)
                         try:
@@ -292,7 +292,7 @@ class checkCollisionsGuiPCB(checkCollisionsBaseClass):
                     
                         self.table2.addItem(a)
                     else:
-                        a = QtGui.QListWidgetItem(i.Label)
+                        a = QtWidgets.QListWidgetItem(i.Label)
                         a.setData(QtCore.Qt.UserRole, i.Name)
                         a.setFlags(QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsUserCheckable)
                         a.setIcon(i.ViewObject.Icon)

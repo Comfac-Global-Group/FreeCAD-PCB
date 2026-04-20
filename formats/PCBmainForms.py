@@ -28,7 +28,7 @@
 import FreeCAD
 if FreeCAD.GuiUp:
     import FreeCADGui
-    from PySide import QtCore, QtGui
+    from PySide6 import QtCore, QtGui, QtWidgets
 from math import sqrt
 import DraftGeomUtils
 import Draft
@@ -118,7 +118,7 @@ class mainPCB(partsManaging):
                 FreeCAD.Console.PrintMessage(str(data))
             
             #QtGui.qApp.processEvents()
-            QtGui.QApplication.processEvents()
+            QtWidgets.QApplication.processEvents()
     
     def generate(self, doc, newPartObjectFC):
         self.printInfo('\nInitializing')

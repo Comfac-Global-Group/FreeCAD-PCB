@@ -29,7 +29,7 @@ import FreeCAD
 import builtins
 import re
 from math import radians
-from PySide import QtCore, QtGui
+from PySide6 import QtCore, QtGui, QtWidgets
 #
 from PCBconf import softLayers
 from PCBobjects import *
@@ -72,13 +72,13 @@ class dialogMAIN(dialogMAIN_FORM):
         return dane
 
 
-class modelTypes(QtGui.QDialog):
+class modelTypes(QtWidgets.QDialog):
     def __init__(self, paths, parent=None):
-        QtGui.QDialog.__init__(self, parent)
+        QtWidgets.QDialog.__init__(self, parent)
 
         self.setWindowTitle(u'Choose board')
         #
-        self.modelsList = QtGui.QListWidget()
+        self.modelsList = QtWidgets.QListWidget()
         self.pathsData = {}
         for i in paths:
             data = i.split("/")
@@ -95,8 +95,8 @@ class modelTypes(QtGui.QDialog):
         self.connect(buttons, QtCore.SIGNAL("accepted()"), self, QtCore.SLOT("accept()"))
         self.connect(buttons, QtCore.SIGNAL("rejected()"), self, QtCore.SLOT("reject()"))
         #
-        lay = QtGui.QGridLayout(self)
-        lay.addWidget(QtGui.QLabel(u"Choose which PCB board you want to import"), 0, 0, 1, 1)
+        lay = QtWidgets.QGridLayout(self)
+        lay.addWidget(QtWidgets.QLabel(u"Choose which PCB board you want to import"), 0, 0, 1, 1)
         lay.addWidget(self.modelsList, 2, 0, 1, 1)
         lay.addWidget(buttons, 2, 1, 1, 1)
 

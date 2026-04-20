@@ -34,7 +34,7 @@ try:
     import OpenSCAD2Dgeom
 except:
     pass
-from PySide import QtGui
+from PySide6 import QtGui, QtWidgets
 import unicodedata
 import random
 #

@@ -25,7 +25,7 @@
 #*                                                                          *
 #****************************************************************************
 
-from PySide import QtCore, QtGui
+from PySide6 import QtCore, QtGui, QtWidgets
 import os
 import FreeCAD, FreeCADGui, Part
 import glob
@@ -43,9 +43,9 @@ from command.PCBannotations import createAnnotation
 __currentPath__ = os.path.dirname(os.path.abspath(__file__))
 
 
-class addModelDialog(QtGui.QDialog):
+class addModelDialog(QtWidgets.QDialog):
     def __init__(self, mod, parent=None):
-        QtGui.QDialog.__init__(self, parent)
+        QtWidgets.QDialog.__init__(self, parent)
         self.setWindowIcon(QtGui.QIcon(":/data/img/assignModels.png"))
 
         if mod == 0:
@@ -56,12 +56,12 @@ class addModelDialog(QtGui.QDialog):
         ########################
         # model type
         ########################
-        self.packageName = QtGui.QLineEdit("")
+        self.packageName = QtWidgets.QLineEdit("")
         
         ########################
         # software
         ########################
-        self.supSoftware = QtGui.QComboBox()
+        self.supSoftware = QtWidgets.QComboBox()
         for i in defSoftware:
             self.supSoftware.addItem(i)
         freecadSettings = FreeCAD.ParamGet("User parameter:BaseApp/Preferences/Mod/PCB")
@@ -70,41 +70,41 @@ class addModelDialog(QtGui.QDialog):
         ########################
         # rotation / shift
         ########################
-        self.pozX = QtGui.QDoubleSpinBox()
+        self.pozX = QtWidgets.QDoubleSpinBox()
         self.pozX.setRange(-1000, 1000)
         self.pozX.setSuffix(" mm")
-        self.pozY = QtGui.QDoubleSpinBox()
+        self.pozY = QtWidgets.QDoubleSpinBox()
         self.pozY.setRange(-1000, 1000)
         self.pozY.setSuffix(" mm")
-        self.pozZ = QtGui.QDoubleSpinBox()
+        self.pozZ = QtWidgets.QDoubleSpinBox()
         self.pozZ.setRange(-1000, 1000)
         self.pozZ.setSuffix(" mm")
-        self.pozRX = QtGui.QDoubleSpinBox()
+        self.pozRX = QtWidgets.QDoubleSpinBox()
         self.pozRX.setRange(-1000, 1000)
         self.pozRX.setSuffix(" deg")
-        self.pozRY = QtGui.QDoubleSpinBox()
+        self.pozRY = QtWidgets.QDoubleSpinBox()
         self.pozRY.setRange(-1000, 1000)
         self.pozRY.setSuffix(" deg")
-        self.pozRZ = QtGui.QDoubleSpinBox()
+        self.pozRZ = QtWidgets.QDoubleSpinBox()
         self.pozRZ.setRange(-1000, 1000)
         self.pozRZ.setSuffix(" deg")
-        ukladWspolrzednych = QtGui.QLabel("")
+        ukladWspolrzednych = QtWidgets.QLabel("")
         ukladWspolrzednych.setPixmap(QtGui.QPixmap(":/data/img/uklad.png"))
         
-        layWspolrzedne = QtGui.QGridLayout()
+        layWspolrzedne = QtWidgets.QGridLayout()
         layWspolrzedne.setContentsMargins(0, 10, 0, 20)
         layWspolrzedne.addWidget(ukladWspolrzednych, 0, 0, 6, 1, QtCore.Qt.AlignTop | QtCore.Qt.AlignCenter)
-        layWspolrzedne.addWidget(QtGui.QLabel("X"), 0, 1, 1, 1, QtCore.Qt.AlignRight)
+        layWspolrzedne.addWidget(QtWidgets.QLabel("X"), 0, 1, 1, 1, QtCore.Qt.AlignRight)
         layWspolrzedne.addWidget(self.pozX, 0, 2, 1, 1, QtCore.Qt.AlignTop)
-        layWspolrzedne.addWidget(QtGui.QLabel("Y"), 1, 1, 1, 1, QtCore.Qt.AlignRight)
+        layWspolrzedne.addWidget(QtWidgets.QLabel("Y"), 1, 1, 1, 1, QtCore.Qt.AlignRight)
         layWspolrzedne.addWidget(self.pozY, 1, 2, 1, 1, QtCore.Qt.AlignTop)
-        layWspolrzedne.addWidget(QtGui.QLabel("Z"), 2, 1, 1, 1, QtCore.Qt.AlignRight)
+        layWspolrzedne.addWidget(QtWidgets.QLabel("Z"), 2, 1, 1, 1, QtCore.Qt.AlignRight)
         layWspolrzedne.addWidget(self.pozZ, 2, 2, 1, 1, QtCore.Qt.AlignTop)
-        layWspolrzedne.addWidget(QtGui.QLabel("RX"), 3, 1, 1, 1, QtCore.Qt.AlignRight)
+        layWspolrzedne.addWidget(QtWidgets.QLabel("RX"), 3, 1, 1, 1, QtCore.Qt.AlignRight)
         layWspolrzedne.addWidget(self.pozRX, 3, 2, 1, 1, QtCore.Qt.AlignTop)
-        layWspolrzedne.addWidget(QtGui.QLabel("RY"), 4, 1, 1, 1, QtCore.Qt.AlignRight)
+        layWspolrzedne.addWidget(QtWidgets.QLabel("RY"), 4, 1, 1, 1, QtCore.Qt.AlignRight)
         layWspolrzedne.addWidget(self.pozRY, 4, 2, 1, 1, QtCore.Qt.AlignTop)
-        layWspolrzedne.addWidget(QtGui.QLabel("RZ"), 5, 1, 1, 1, QtCore.Qt.AlignRight)
+        layWspolrzedne.addWidget(QtWidgets.QLabel("RZ"), 5, 1, 1, 1, QtCore.Qt.AlignRight)
         layWspolrzedne.addWidget(self.pozRZ, 5, 2, 1, 1, QtCore.Qt.AlignTop)
         layWspolrzedne.setRowStretch(6, 10)
         layWspolrzedne.setColumnStretch(2, 10)
@@ -124,10 +124,10 @@ class addModelDialog(QtGui.QDialog):
         ########################
         # layouts
         ########################
-        mainLay = QtGui.QGridLayout()
-        mainLay.addWidget(QtGui.QLabel(u"Package name"), 0, 0, 1, 1)
+        mainLay = QtWidgets.QGridLayout()
+        mainLay.addWidget(QtWidgets.QLabel(u"Package name"), 0, 0, 1, 1)
         mainLay.addWidget(self.packageName, 0, 1, 1, 1)
-        mainLay.addWidget(QtGui.QLabel(u"Software"), 2, 0, 1, 1)
+        mainLay.addWidget(QtWidgets.QLabel(u"Software"), 2, 0, 1, 1)
         mainLay.addWidget(self.supSoftware, 2, 1, 1, 1)
         mainLay.addLayout(layWspolrzedne, 3, 0, 1, 2)
         mainLay.addWidget(buttons, 4, 0, 1, 2)
@@ -171,18 +171,18 @@ class pathChooser(QtGui.QTreeView):
         return super(pathChooser, self).selectionChanged(item1, item2)
 
 
-class packagesCopyConvertD(QtGui.QDialog):
+class packagesCopyConvertD(QtWidgets.QDialog):
     def __init__(self, parent=None):
-        QtGui.QDialog.__init__(self, parent)
+        QtWidgets.QDialog.__init__(self, parent)
         self.setWindowIcon(QtGui.QIcon(":/data/img/assignModels.png"))
         self.setWindowTitle(u"Copy and convert packages")
         #
-        self.fromC = QtGui.QComboBox()
+        self.fromC = QtWidgets.QComboBox()
         self.fromC.addItems(defSoftware)
         self.fromC.setCurrentIndex(-1)
         self.connect(self.fromC, QtCore.SIGNAL("currentIndexChanged (const QString&)"), self.updateTolist)
         #
-        self.toC = QtGui.QComboBox()
+        self.toC = QtWidgets.QComboBox()
         #
         buttons = QtGui.QDialogButtonBox()
         buttons.setOrientation(QtCore.Qt.Horizontal)
@@ -191,12 +191,12 @@ class packagesCopyConvertD(QtGui.QDialog):
         self.connect(buttons, QtCore.SIGNAL("accepted()"), self, QtCore.SLOT("accept()"))
         self.connect(buttons, QtCore.SIGNAL("rejected()"), self, QtCore.SLOT("reject()"))
         #
-        mainLay = QtGui.QGridLayout(self)
-        mainLay.addWidget(QtGui.QLabel('From:    '), 0, 0, 1, 1)
+        mainLay = QtWidgets.QGridLayout(self)
+        mainLay.addWidget(QtWidgets.QLabel('From:    '), 0, 0, 1, 1)
         mainLay.addWidget(self.fromC, 0, 1, 1, 1)
-        mainLay.addWidget(QtGui.QLabel('To:    '), 0, 2, 1, 1)
+        mainLay.addWidget(QtWidgets.QLabel('To:    '), 0, 2, 1, 1)
         mainLay.addWidget(self.toC, 0, 3, 1, 1)
-        mainLay.addItem(QtGui.QSpacerItem(1, 15), 1, 0, 1, 4)
+        mainLay.addItem(QtWidgets.QSpacerItem(1, 15), 1, 0, 1, 4)
         mainLay.addWidget(buttons, 2, 0, 1, 4)
         mainLay.setRowStretch(3, 10)
         mainLay.setColumnStretch(1, 10)
@@ -215,23 +215,23 @@ class packagesCopyConvertD(QtGui.QDialog):
         self.toC.setCurrentIndex(-1)
 
 
-class pathManagementWindow(QtGui.QDialog):
+class pathManagementWindow(QtWidgets.QDialog):
     def __init__(self, parent=None):
-        QtGui.QDialog.__init__(self, parent)
+        QtWidgets.QDialog.__init__(self, parent)
         self.setWindowIcon(QtGui.QIcon(":/data/img/assignModels.png"))
         self.setWindowTitle(u"Paths")
         #
         self.pathChooser = pathChooser(self)
         #
-        self.path = QtGui.QLineEdit('')
+        self.path = QtWidgets.QLineEdit('')
         #
-        #self.pathsList = QtGui.QListWidget()
+        #self.pathsList = QtWidgets.QListWidget()
         #self.pathsList.setEditTriggers(QtGui.QAbstractItemView.DoubleClicked | QtGui.QAbstractItemView.EditKeyPressed)
         #self.pathsList.setStyleSheet('''QListWidget:item:selected:active {background: rgb(215, 243, 255);} ''')
         self.pathsList = pathsSettingsTable()
         #
-        librariesList = QtGui.QComboBox()
-        librariesList.setSizeAdjustPolicy(QtGui.QComboBox.AdjustToMinimumContentsLength)
+        librariesList = QtWidgets.QComboBox()
+        librariesList.setSizeAdjustPolicy(QtWidgets.QComboBox.AdjustToMinimumContentsLength)
         
         if FreeCAD.ParamGet("User parameter:BaseApp/Preferences/Mod/PCB").GetString("partsPaths", "").strip() != '':
             librariesList.addItems(FreeCAD.ParamGet("User parameter:BaseApp/Preferences/Mod/PCB").GetString("partsPaths", "").split(','))
@@ -240,24 +240,24 @@ class pathManagementWindow(QtGui.QDialog):
             
         librariesList.addItem(u'Whole computer')
         #
-        addPathButton = QtGui.QPushButton(u'Add')
+        addPathButton = QtWidgets.QPushButton(u'Add')
         self.connect(addPathButton, QtCore.SIGNAL("clicked()"), self.addNewPath)
         
-        removePathButton = QtGui.QPushButton(u'Remove paths')
+        removePathButton = QtWidgets.QPushButton(u'Remove paths')
         self.connect(removePathButton, QtCore.SIGNAL("clicked ()"), self.removePath)
         
-        editPathButton = QtGui.QPushButton(u'Edit path')
+        editPathButton = QtWidgets.QPushButton(u'Edit path')
         editPathButton.setEnabled(False)
         self.connect(editPathButton, QtCore.SIGNAL("clicked ()"), self.editPath)
         
-        checkPathsButton = QtGui.QPushButton(u'Check paths')
+        checkPathsButton = QtWidgets.QPushButton(u'Check paths')
         self.connect(checkPathsButton, QtCore.SIGNAL("clicked ()"), self.checkPaths)
         
-        deleteColFileButton = QtGui.QPushButton(u'Delete *.col file')
+        deleteColFileButton = QtWidgets.QPushButton(u'Delete *.col file')
         deleteColFileButton.setToolTip("For selected model")
         self.connect(deleteColFileButton, QtCore.SIGNAL("clicked ()"), self.deleteColFile)
         
-        deleteAllColFilesButton = QtGui.QPushButton(u'Delete all *.col files')
+        deleteAllColFilesButton = QtWidgets.QPushButton(u'Delete all *.col files')
         self.connect(deleteAllColFilesButton, QtCore.SIGNAL("clicked ()"), self.deleteAllColFiles)
         # buttons
         buttons = QtGui.QDialogButtonBox()
@@ -266,20 +266,20 @@ class pathManagementWindow(QtGui.QDialog):
         self.connect(buttons, QtCore.SIGNAL("accepted()"), self, QtCore.SLOT("accept()"))
         self.connect(buttons, QtCore.SIGNAL("rejected()"), self, QtCore.SLOT("reject()"))
         #####
-        layPathWidget = QtGui.QFrame()
+        layPathWidget = QtWidgets.QFrame()
         layPathWidget.setObjectName('lay_path_widget')
         layPathWidget.setStyleSheet('''#lay_path_widget {background-color:#fff; border:1px solid rgb(199, 199, 199); padding: 5px;}''')
-        layPath = QtGui.QHBoxLayout(layPathWidget)
+        layPath = QtWidgets.QHBoxLayout(layPathWidget)
         layPath.addWidget(self.path)
         layPath.addWidget(addPathButton)
         layPath.setContentsMargins(0, 0, 0, 0)
         #
-        layPathsListWidget = QtGui.QFrame()
+        layPathsListWidget = QtWidgets.QFrame()
         layPathsListWidget.setObjectName('lay_path_widget')
         layPathsListWidget.setStyleSheet('''#lay_path_widget {background-color:#fff; border:1px solid rgb(199, 199, 199); padding: 5px;} QListWidget {border:1px solid rgb(223, 223, 223);}''')
-        layPathsLis = QtGui.QGridLayout(layPathsListWidget)
+        layPathsLis = QtWidgets.QGridLayout(layPathsListWidget)
         layPathsLis.addWidget(self.pathsList, 0, 0, 8, 1)
-        layPathsLis.addWidget(QtGui.QLabel("Double click to edit text"), 9, 0, 1, 1)
+        layPathsLis.addWidget(QtWidgets.QLabel("Double click to edit text"), 9, 0, 1, 1)
         layPathsLis.addWidget(editPathButton, 0, 1, 1, 1)
         layPathsLis.addWidget(removePathButton, 1, 1, 1, 1)
         layPathsLis.addWidget(separator(), 2, 1, 1, 1)
@@ -290,9 +290,9 @@ class pathManagementWindow(QtGui.QDialog):
         layPathsLis.setContentsMargins(0, 0, 0, 0)
         layPathsLis.setRowStretch(7, 10)
         #
-        lay = QtGui.QGridLayout(self)
+        lay = QtWidgets.QGridLayout(self)
         lay.addWidget(self.pathChooser, 0, 0, 3, 2)
-        lay.addWidget(QtGui.QLabel('Saved paths'), 3, 0, 1, 1)
+        lay.addWidget(QtWidgets.QLabel('Saved paths'), 3, 0, 1, 1)
         lay.addWidget(librariesList, 3, 1, 1, 1)
         lay.addWidget(layPathWidget, 0, 2, 1, 1)
         lay.addWidget(layPathsListWidget, 1, 2, 3, 1)
@@ -358,12 +358,12 @@ class pathManagementWindow(QtGui.QDialog):
         if self.pathsList.currentRow() == -1:
             return
         
-        dial = QtGui.QMessageBox()
+        dial = QtWidgets.QMessageBox()
         dial.setText(u"Delete *.col file for selected model?")
         dial.setWindowTitle("Caution!")
-        dial.setIcon(QtGui.QMessageBox.Question)
-        delete_YES = dial.addButton('Yes', QtGui.QMessageBox.YesRole)
-        dial.addButton('No', QtGui.QMessageBox.RejectRole)
+        dial.setIcon(QtWidgets.QMessageBox.Question)
+        delete_YES = dial.addButton('Yes', QtWidgets.QMessageBox.YesRole)
+        dial.addButton('No', QtWidgets.QMessageBox.RejectRole)
         dial.exec_()
         
         if dial.clickedButton() == delete_YES:
@@ -376,12 +376,12 @@ class pathManagementWindow(QtGui.QDialog):
                 pass
     
     def deleteAllColFiles(self):
-        dial = QtGui.QMessageBox()
+        dial = QtWidgets.QMessageBox()
         dial.setText(u"Delete all *.col files?")
         dial.setWindowTitle("Caution!")
-        dial.setIcon(QtGui.QMessageBox.Question)
-        delete_YES = dial.addButton('Yes', QtGui.QMessageBox.YesRole)
-        dial.addButton('No', QtGui.QMessageBox.RejectRole)
+        dial.setIcon(QtWidgets.QMessageBox.Question)
+        delete_YES = dial.addButton('Yes', QtWidgets.QMessageBox.YesRole)
+        dial.addButton('No', QtWidgets.QMessageBox.RejectRole)
         dial.exec_()
         
         if dial.clickedButton() == delete_YES:
@@ -401,9 +401,9 @@ class pathManagementWindow(QtGui.QDialog):
         self.pathsList.deleteRow()
 
 
-class modelAdjustTable(QtGui.QTableWidget):
+class modelAdjustTable(QtWidgets.QTableWidget):
     def __init__(self, parent=None):
-        QtGui.QTableWidget.__init__(self, parent)
+        QtWidgets.QTableWidget.__init__(self, parent)
         
         self.setColumnCount(12)
         self.setHorizontalHeaderLabels([u"", u"Parameter", "Visible", "X", "Y", "Z", "RZ", "Size", "Color", "Align", "Spin", "ID"])
@@ -476,43 +476,43 @@ class modelAdjustTable(QtGui.QTableWidget):
         row = self.rowCount() - 1
         self.dataParam[rowType] = row
         
-        b = QtGui.QCheckBox("")
+        b = QtWidgets.QCheckBox("")
         b.setToolTip(u"Active")
         self.setCellWidget(row, 0, b)
         
-        a = QtGui.QTableWidgetItem(rowType)
+        a = QtWidgets.QTableWidgetItem(rowType)
         a.setFlags(QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled)
         self.setItem(row, 1, a)
         
-        c = QtGui.QComboBox()
+        c = QtWidgets.QComboBox()
         c.addItems(["True", "False"])
         self.setCellWidget(row, 2, c)
         
-        d = QtGui.QDoubleSpinBox()
+        d = QtWidgets.QDoubleSpinBox()
         d.setSingleStep(0.1)
         d.setRange(-1000, 1000)
         d.setSuffix("mm")
         self.setCellWidget(row, 3, d)
         
-        e = QtGui.QDoubleSpinBox()
+        e = QtWidgets.QDoubleSpinBox()
         e.setSingleStep(0.1)
         e.setRange(-1000, 1000)
         e.setSuffix("mm")
         self.setCellWidget(row, 4, e)
         
-        f = QtGui.QDoubleSpinBox()
+        f = QtWidgets.QDoubleSpinBox()
         f.setSingleStep(0.1)
         f.setRange(-1000, 1000)
         f.setSuffix("mm")
         self.setCellWidget(row, 5, f)
         
-        d2 = QtGui.QDoubleSpinBox()
+        d2 = QtWidgets.QDoubleSpinBox()
         d2.setSingleStep(0.1)
         d2.setRange(-1000, 1000)
         d2.setSuffix("deg")
         self.setCellWidget(row, 6, d2)
         
-        g = QtGui.QDoubleSpinBox()
+        g = QtWidgets.QDoubleSpinBox()
         g.setSingleStep(0.1)
         g.setValue(1.27)
         g.setSuffix("mm")
@@ -522,24 +522,24 @@ class modelAdjustTable(QtGui.QTableWidget):
         color.setToolTip(u"Click to change color")
         self.setCellWidget(row, 8, color)
         
-        i = QtGui.QComboBox()
+        i = QtWidgets.QComboBox()
         i.addItems(["bottom-left", "bottom-center", "bottom-right", "center-left", "center", "center-right", "top-left", "top-center", "top-right"])
         i.setCurrentIndex(4)
         self.setCellWidget(row, 9, i)
         
-        c2 = QtGui.QComboBox()
+        c2 = QtWidgets.QComboBox()
         c2.addItems(["True", "False"])
         self.setCellWidget(row, 10, c2)
         
-        aa = QtGui.QTableWidgetItem('-1')
+        aa = QtWidgets.QTableWidgetItem('-1')
         self.setItem(row, 11, aa)
         #
         self.setColumnWidth(0, 25)
 
 
-class settingsTable(QtGui.QTableWidget):
+class settingsTable(QtWidgets.QTableWidget):
     def __init__(self, parent=None):
-        QtGui.QTableWidget.__init__(self, parent)
+        QtWidgets.QTableWidget.__init__(self, parent)
         #
         self.setSortingEnabled(False)
         self.horizontalHeader().setStretchLastSection(True)
@@ -553,7 +553,7 @@ class settingsTable(QtGui.QTableWidget):
             ''')
     
     def addTableWidgetItem(self, text, num, editable=False):
-        a = QtGui.QTableWidgetItem(str(text))
+        a = QtWidgets.QTableWidgetItem(str(text))
         if editable:
             a.setFlags(QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsEditable)
         else:
@@ -563,12 +563,12 @@ class settingsTable(QtGui.QTableWidget):
     
     def deleteRow(self):
         if self.currentRow() != -1:
-            dial = QtGui.QMessageBox()
+            dial = QtWidgets.QMessageBox()
             dial.setText(u"Delete selected row?")
             dial.setWindowTitle("Caution!")
-            dial.setIcon(QtGui.QMessageBox.Question)
-            dial.addButton('No', QtGui.QMessageBox.RejectRole)
-            usunT = dial.addButton('Yes', QtGui.QMessageBox.YesRole)
+            dial.setIcon(QtWidgets.QMessageBox.Question)
+            dial.addButton('No', QtWidgets.QMessageBox.RejectRole)
+            usunT = dial.addButton('Yes', QtWidgets.QMessageBox.YesRole)
             dial.exec_()
                     
             if dial.clickedButton() == usunT:
@@ -784,9 +784,9 @@ class modelSettingsTable(settingsTable):
         return  result
 
 
-class modelsList(QtGui.QTreeWidget):
+class modelsList(QtWidgets.QTreeWidget):
     def __init__(self, parent=None):
-        QtGui.QTreeWidget.__init__(self, parent)
+        QtWidgets.QTreeWidget.__init__(self, parent)
         #
         self.sql = None
         #
@@ -800,7 +800,7 @@ class modelsList(QtGui.QTreeWidget):
         description = description.replace("\n", " ")
         description = description[:50]
         
-        mainItem = QtGui.QTreeWidgetItem([model.name, description])
+        mainItem = QtWidgets.QTreeWidgetItem([model.name, description])
         mainItem.setData(0, QtCore.Qt.UserRole, model.id)
         mainItem.setData(0, QtCore.Qt.UserRole + 1, "P")
         if self.checkItems:
@@ -809,7 +809,7 @@ class modelsList(QtGui.QTreeWidget):
         return mainItem
 
     def addNewItem(self, category):
-        mainItem = QtGui.QTreeWidgetItem([category[0], category[1]['description']])
+        mainItem = QtWidgets.QTreeWidgetItem([category[0], category[1]['description']])
         mainItem.setData(0, QtCore.Qt.UserRole, category[1]['id'])
         mainItem.setData(0, QtCore.Qt.UserRole + 1, "C")
         mainItem.setIcon(0, QtGui.QIcon(QtGui.QPixmap(":/data/img/folder_open_22x22.png")))
@@ -843,18 +843,18 @@ class modelsList(QtGui.QTreeWidget):
         #self.resizeColumnToContents(0)
 
 
-class separator(QtGui.QFrame):
+class separator(QtWidgets.QFrame):
     def __init__(self, parent=None):
-        QtGui.QFrame.__init__(self, parent)
+        QtWidgets.QFrame.__init__(self, parent)
         #
-        self.setFrameShape(QtGui.QFrame.HLine)
-        self.setFrameShadow(QtGui.QFrame.Sunken)
+        self.setFrameShape(QtWidgets.QFrame.HLine)
+        self.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.setLineWidth(1)
         
 
-class flatButton(QtGui.QPushButton):
+class flatButton(QtWidgets.QPushButton):
     def __init__(self, icon, tooltip, parent=None):
-        QtGui.QPushButton.__init__(self, QtGui.QIcon(icon), "", parent)
+        QtWidgets.QPushButton.__init__(self, QtGui.QIcon(icon), "", parent)
         #
         self.setToolTip(tooltip)
         self.setFlat(True)
@@ -868,10 +868,10 @@ class flatButtonLarge(flatButton):
         self.setIconSize(QtCore.QSize(32, 32))
 
 
-class dodajElement(QtGui.QDialog, partsManaging):
+class dodajElement(QtWidgets.QDialog, partsManaging):
     def __init__(self, parent=None):
         partsManaging.__init__(self)
-        QtGui.QDialog.__init__(self, parent)
+        QtWidgets.QDialog.__init__(self, parent)
         self.setWindowTitle(u"Assign models")
         self.setWindowIcon(QtGui.QIcon(":/data/img/assignModels.png"))
         self.modelPreview = None
@@ -891,20 +891,20 @@ class dodajElement(QtGui.QDialog, partsManaging):
         self.connect(self.modelsList, QtCore.SIGNAL("itemPressed (QTreeWidgetItem *,int)"), self.loadData)
         
         ##
-        mainWidgetLeftSide = QtGui.QWidget()
-        mainLayLeftSide = QtGui.QGridLayout(mainWidgetLeftSide)
+        mainWidgetLeftSide = QtWidgets.QWidget()
+        mainLayLeftSide = QtWidgets.QGridLayout(mainWidgetLeftSide)
         mainLayLeftSide.addLayout(self.searcherLayout(), 0, 1, 1, 1)
         mainLayLeftSide.addLayout(self.leftMenuLayout(), 1, 0, 1, 1)
         mainLayLeftSide.addWidget(self.modelsList, 1, 1, 1, 1)
         
         # main layout
-        self.splitter = QtGui.QSplitter()
+        self.splitter = QtWidgets.QSplitter()
         self.splitter.setStyleSheet('QSplitter::handle {background: rgba(31.8, 33.3, 33.7, 0.1); cursor: col-resize;} ')
         self.splitter.setChildrenCollapsible(False)
         self.splitter.addWidget(mainWidgetLeftSide)
         self.splitter.addWidget(self.mainWidgetRightSide())
         
-        mainLay = QtGui.QHBoxLayout()
+        mainLay = QtWidgets.QHBoxLayout()
         mainLay.addWidget(self.splitter)
         mainLay.setContentsMargins(0, 0, 0, 0)
         self.setLayout(mainLay)
@@ -1000,16 +1000,16 @@ class dodajElement(QtGui.QDialog, partsManaging):
     def addModelAsNew(self):
         ''' add package as new - based on other package '''
         if str(self.packageName.text()).strip() == "" or str(self.pathToModel.text()).strip() == "":
-            QtGui.QMessageBox().critical(self, u"Caution!", u"At least one required field is empty.")
+            QtWidgets.QMessageBox().critical(self, u"Caution!", u"At least one required field is empty.")
             return
 
         zawiera = self.sql.getModelByName(str(self.packageName.text()).strip())
         if zawiera[0]:
-            dial = QtGui.QMessageBox(self)
+            dial = QtWidgets.QMessageBox(self)
             dial.setText(u"Rejected. Package already exist.")
             dial.setWindowTitle("Caution!")
-            dial.setIcon(QtGui.QMessageBox.Warning)
-            dial.addButton('Ok', QtGui.QMessageBox.RejectRole)
+            dial.setIcon(QtWidgets.QMessageBox.Warning)
+            dial.addButton('Ok', QtWidgets.QMessageBox.RejectRole)
             dial.exec_()
         else:
             self.saveNewModel()
@@ -1081,14 +1081,14 @@ class dodajElement(QtGui.QDialog, partsManaging):
                 objectID = str(item.data(0, QtCore.Qt.UserRole))
                 ##########
                 if not delAll:
-                    dial = QtGui.QMessageBox()
+                    dial = QtWidgets.QMessageBox()
                     dial.setText(u"Delete *.col file for package {0}?".format(item.text(0)))
                     dial.setWindowTitle("Caution!")
-                    dial.setIcon(QtGui.QMessageBox.Question)
-                    delete_YES = dial.addButton('Yes', QtGui.QMessageBox.YesRole)
-                    delete_YES_ALL = dial.addButton('Yes for all', QtGui.QMessageBox.YesRole)
-                    delete_NO = dial.addButton('No', QtGui.QMessageBox.RejectRole)
-                    delete_NO_ALL = dial.addButton('No for all', QtGui.QMessageBox.RejectRole)
+                    dial.setIcon(QtWidgets.QMessageBox.Question)
+                    delete_YES = dial.addButton('Yes', QtWidgets.QMessageBox.YesRole)
+                    delete_YES_ALL = dial.addButton('Yes for all', QtWidgets.QMessageBox.YesRole)
+                    delete_NO = dial.addButton('No', QtWidgets.QMessageBox.RejectRole)
+                    delete_NO_ALL = dial.addButton('No for all', QtWidgets.QMessageBox.RejectRole)
                     dial.exec_()
                     
                     if dial.clickedButton() == delete_NO_ALL:
@@ -1127,14 +1127,14 @@ class dodajElement(QtGui.QDialog, partsManaging):
                 objectID = str(item.data(0, QtCore.Qt.UserRole))
                 ##########
                 if not delAll:
-                    dial = QtGui.QMessageBox()
+                    dial = QtWidgets.QMessageBox()
                     dial.setText(u"Delete selected package {0}?".format(item.text(0)))
                     dial.setWindowTitle("Caution!")
-                    dial.setIcon(QtGui.QMessageBox.Question)
-                    delete_YES = dial.addButton('Yes', QtGui.QMessageBox.YesRole)
-                    delete_YES_ALL = dial.addButton('Yes for all', QtGui.QMessageBox.YesRole)
-                    delete_NO = dial.addButton('No', QtGui.QMessageBox.RejectRole)
-                    delete_NO_ALL = dial.addButton('No for all', QtGui.QMessageBox.RejectRole)
+                    dial.setIcon(QtWidgets.QMessageBox.Question)
+                    delete_YES = dial.addButton('Yes', QtWidgets.QMessageBox.YesRole)
+                    delete_YES_ALL = dial.addButton('Yes for all', QtWidgets.QMessageBox.YesRole)
+                    delete_NO = dial.addButton('No', QtWidgets.QMessageBox.RejectRole)
+                    delete_NO_ALL = dial.addButton('No for all', QtWidgets.QMessageBox.RejectRole)
                     dial.exec_()
                     
                     if dial.clickedButton() == delete_NO_ALL:
@@ -1154,17 +1154,17 @@ class dodajElement(QtGui.QDialog, partsManaging):
     def addNewModel(self):
         ''' add package to lib '''
         #if str(self.packageName.text()).strip() == "" or str(self.pathToModel.text()).strip() == "":
-            #QtGui.QMessageBox().critical(self, u"Caution!", u"At least one required field is empty.")
+            #QtWidgets.QMessageBox().critical(self, u"Caution!", u"At least one required field is empty.")
             #return
         
         zawiera = self.sql.getModelByName(str(self.packageName.text()).strip())
         if not self.elementID and zawiera[0]:  # aktualizacja niezaznaczonego obiektu
-            dial = QtGui.QMessageBox(self)
+            dial = QtWidgets.QMessageBox(self)
             dial.setText(u"Package already exist. Rewrite?")
             dial.setWindowTitle("Caution!")
-            dial.setIcon(QtGui.QMessageBox.Question)
-            rewN = dial.addButton('No', QtGui.QMessageBox.RejectRole)
-            rewT = dial.addButton('Yes', QtGui.QMessageBox.YesRole)
+            dial.setIcon(QtWidgets.QMessageBox.Question)
+            rewN = dial.addButton('No', QtWidgets.QMessageBox.RejectRole)
+            rewT = dial.addButton('Yes', QtWidgets.QMessageBox.YesRole)
             dial.exec_()
                 
             if dial.clickedButton() == rewN:
@@ -1173,12 +1173,12 @@ class dodajElement(QtGui.QDialog, partsManaging):
                 self.updateModel(zawiera[1].id)
                 return
         elif self.elementID:  # aktualizacja zaznaczonego obiektu
-            dial = QtGui.QMessageBox(self)
+            dial = QtWidgets.QMessageBox(self)
             dial.setText(u"Save changes?")
             dial.setWindowTitle("Caution!")
-            dial.setIcon(QtGui.QMessageBox.Question)
-            rewN = dial.addButton('No', QtGui.QMessageBox.RejectRole)
-            dial.addButton('Yes', QtGui.QMessageBox.YesRole)
+            dial.setIcon(QtWidgets.QMessageBox.Question)
+            rewN = dial.addButton('No', QtWidgets.QMessageBox.RejectRole)
+            dial.addButton('Yes', QtWidgets.QMessageBox.YesRole)
             dial.exec_()
                 
             if dial.clickedButton() == rewN:
@@ -1186,11 +1186,11 @@ class dodajElement(QtGui.QDialog, partsManaging):
             else:
                 #zawiera = self.sql.has_value("name", self.nazwaEagle.text())
                 if zawiera[0] and zawiera[1].id != self.elementID:
-                    dial = QtGui.QMessageBox(self)
+                    dial = QtWidgets.QMessageBox(self)
                     dial.setText(u"Rejected. Package already exist.")
                     dial.setWindowTitle("Caution!")
-                    dial.setIcon(QtGui.QMessageBox.Warning)
-                    dial.addButton('Ok', QtGui.QMessageBox.RejectRole)
+                    dial.setIcon(QtWidgets.QMessageBox.Warning)
+                    dial.addButton('Ok', QtWidgets.QMessageBox.RejectRole)
                     dial.exec_()
                 else:
                     if not self.sql.getModelByID(self.elementID)[0]:
@@ -1524,12 +1524,12 @@ class dodajElement(QtGui.QDialog, partsManaging):
         ########################
         # package name
         ########################
-        self.packageName = QtGui.QLineEdit("")
+        self.packageName = QtWidgets.QLineEdit("")
         
         #########################
         ## path to package
         #########################
-        self.pathToModel = QtGui.QLineEdit("")
+        self.pathToModel = QtWidgets.QLineEdit("")
         self.pathToModel.setReadOnly(True)
         
         pathToModelInfo = flatButton(":/data/img/edit_16x16.png", u"Edit")
@@ -1539,43 +1539,43 @@ class dodajElement(QtGui.QDialog, partsManaging):
         #########################
         ## datasheet
         #########################
-        self.datasheetPath = QtGui.QLineEdit("")
+        self.datasheetPath = QtWidgets.QLineEdit("")
         
         datasheetPathPrz = flatButton(":/data/img/browser_16x16.png", u"Open datasheet")
         self.connect(datasheetPathPrz, QtCore.SIGNAL("clicked ()"), self.loadDatasheet)
         #########################
         ## FCStd file
         #########################
-        # self.fcstdFilePath = QtGui.QLineEdit("")
+        # self.fcstdFilePath = QtWidgets.QLineEdit("")
         
         # fcstdFilePathPrz = flatButton(":/data/img/browser_16x16.png", u"Open file")
         # self.connect(fcstdFilePathPrz, QtCore.SIGNAL("clicked ()"), self.loadDatasheet)
         #########################
         ## socket for model
         #########################
-        self.socketModelName = QtGui.QComboBox()
+        self.socketModelName = QtWidgets.QComboBox()
         
-        self.boxAddSocket = QtGui.QGroupBox()
+        self.boxAddSocket = QtWidgets.QGroupBox()
         self.boxAddSocket.setTitle(u"Add socket")
         self.boxAddSocket.setCheckable(True)
         self.boxAddSocket.setChecked(False)
-        boxAddSocketLay = QtGui.QHBoxLayout(self.boxAddSocket)
-        boxAddSocketLay.addWidget(QtGui.QLabel(u"Socket"))
+        boxAddSocketLay = QtWidgets.QHBoxLayout(self.boxAddSocket)
+        boxAddSocketLay.addWidget(QtWidgets.QLabel(u"Socket"))
         boxAddSocketLay.addWidget(self.socketModelName)
         
         self.connect(self.boxAddSocket, QtCore.SIGNAL("toggled (bool)"), self.resetSetAsSocket)
         #########################
         ## set model as socket
         #########################
-        self.socketHeight = QtGui.QDoubleSpinBox()
+        self.socketHeight = QtWidgets.QDoubleSpinBox()
         self.socketHeight.setSuffix(" mm")
         
-        self.boxSetAsSocketa = QtGui.QGroupBox()
+        self.boxSetAsSocketa = QtWidgets.QGroupBox()
         self.boxSetAsSocketa.setTitle(u"Set as socket")
         self.boxSetAsSocketa.setCheckable(True)
         self.boxSetAsSocketa.setChecked(False)
-        layBoxPodstawka = QtGui.QHBoxLayout(self.boxSetAsSocketa)
-        layBoxPodstawka.addWidget(QtGui.QLabel(u"Height"))
+        layBoxPodstawka = QtWidgets.QHBoxLayout(self.boxSetAsSocketa)
+        layBoxPodstawka.addWidget(QtWidgets.QLabel(u"Height"))
         layBoxPodstawka.addWidget(self.socketHeight)
         
         self.connect(self.boxSetAsSocketa, QtCore.SIGNAL("toggled (bool)"), self.resetSetSocket)
@@ -1587,7 +1587,7 @@ class dodajElement(QtGui.QDialog, partsManaging):
         #########################
         ## description
         #########################
-        self.modelDescription = QtGui.QTextEdit()
+        self.modelDescription = QtWidgets.QTextEdit()
         self.modelDescription.setStyleSheet('''
                 border: 1px solid #808080;
             ''')
@@ -1595,19 +1595,19 @@ class dodajElement(QtGui.QDialog, partsManaging):
         #########################
         ## save / save as / clean button
         #########################
-        saveModelSettings = QtGui.QPushButton("Save")
+        saveModelSettings = QtWidgets.QPushButton("Save")
         saveModelSettings.setIcon(QtGui.QIcon(":/data/img/save_22x22.png"))
         self.connect(saveModelSettings, QtCore.SIGNAL("clicked ()"), self.addNewModel)
         
-        cleanForm = QtGui.QPushButton("Clean/New")
+        cleanForm = QtWidgets.QPushButton("Clean/New")
         cleanForm.setIcon(QtGui.QIcon(":/data/img/clear_16x16.png"))
         self.connect(cleanForm, QtCore.SIGNAL("clicked ()"), self.clearData)
         
-        saveAsModelSettings = QtGui.QPushButton("Save As New")
+        saveAsModelSettings = QtWidgets.QPushButton("Save As New")
         saveAsModelSettings.setIcon(QtGui.QIcon(":/data/img/save_22x22.png"))
         self.connect(saveAsModelSettings, QtCore.SIGNAL("clicked ()"), self.addModelAsNew)
         
-        closeDialog = QtGui.QPushButton("Close")
+        closeDialog = QtWidgets.QPushButton("Close")
         self.connect(closeDialog, QtCore.SIGNAL("clicked ()"), self, QtCore.SLOT('close()'))
         
         ########################
@@ -1638,7 +1638,7 @@ class dodajElement(QtGui.QDialog, partsManaging):
         # layouts
         ########################
         # right side
-        packageFooter = QtGui.QHBoxLayout()
+        packageFooter = QtWidgets.QHBoxLayout()
         packageFooter.addWidget(saveModelSettings)
         packageFooter.addWidget(saveAsModelSettings)
         packageFooter.addWidget(cleanForm)
@@ -1646,20 +1646,20 @@ class dodajElement(QtGui.QDialog, partsManaging):
             packageFooter.addWidget(closeDialog)
         
         # rightSide_Main
-        rightSide_Main = QtGui.QWidget()
-        layRightSide_Main = QtGui.QGridLayout(rightSide_Main)
-        layRightSide_Main.addWidget(QtGui.QLabel(u"Model name*"), 0, 0, 1, 1)
+        rightSide_Main = QtWidgets.QWidget()
+        layRightSide_Main = QtWidgets.QGridLayout(rightSide_Main)
+        layRightSide_Main.addWidget(QtWidgets.QLabel(u"Model name*"), 0, 0, 1, 1)
         layRightSide_Main.addWidget(self.packageName, 0, 1, 1, 2)
-        layRightSide_Main.addWidget(QtGui.QLabel(u"Path to element*"), 2, 0, 1, 1)
+        layRightSide_Main.addWidget(QtWidgets.QLabel(u"Path to element*"), 2, 0, 1, 1)
         layRightSide_Main.addWidget(self.pathToModel, 2, 1, 1, 1)
         layRightSide_Main.addWidget(pathToModelInfo, 2, 2, 1, 1)
-        layRightSide_Main.addWidget(QtGui.QLabel(u"Datasheet"), 3, 0, 1, 1)
+        layRightSide_Main.addWidget(QtWidgets.QLabel(u"Datasheet"), 3, 0, 1, 1)
         layRightSide_Main.addWidget(self.datasheetPath, 3, 1, 1, 1)
         layRightSide_Main.addWidget(datasheetPathPrz, 3, 2, 1, 1)
-        # layRightSide_Main.addWidget(QtGui.QLabel(u"FCStd file"), 4, 0, 1, 1)
+        # layRightSide_Main.addWidget(QtWidgets.QLabel(u"FCStd file"), 4, 0, 1, 1)
         # layRightSide_Main.addWidget(self.fcstdFilePath, 4, 1, 1, 1)
         # layRightSide_Main.addWidget(fcstdFilePathPrz, 4, 2, 1, 1)
-        layRightSide_Main.addWidget(QtGui.QLabel(u"Category"), 5, 0, 1, 1)
+        layRightSide_Main.addWidget(QtWidgets.QLabel(u"Category"), 5, 0, 1, 1)
         layRightSide_Main.addWidget(self.modelCategory, 5, 1, 1, 2)
         layRightSide_Main.addWidget(self.modelSettings, 6, 0, 6, 2)
         layRightSide_Main.addWidget(modelSettingsAdd, 7, 2, 1, 1)
@@ -1672,7 +1672,7 @@ class dodajElement(QtGui.QDialog, partsManaging):
         if FreeCAD.ActiveDocument:
             active = FreeCAD.ActiveDocument.Name
         #
-        rightSide_Preview = QtGui.QWidget()
+        rightSide_Preview = QtWidgets.QWidget()
         try:
             doc = FreeCAD.newDocument('modelPreview')
             FreeCAD.setActiveDocument('modelPreview')
@@ -1686,13 +1686,13 @@ class dodajElement(QtGui.QDialog, partsManaging):
             #FreeCADGui.SendMsgToActiveView("ViewFit")
             FreeCADGui.ActiveDocument.ActiveView.setAxisCross(True)
             #
-            self.pathsList = QtGui.QComboBox()
+            self.pathsList = QtWidgets.QComboBox()
             
-            rightSide_Trash = QtGui.QWidget()
-            layRightSide_Trash = QtGui.QGridLayout(rightSide_Trash)
+            rightSide_Trash = QtWidgets.QWidget()
+            layRightSide_Trash = QtWidgets.QGridLayout(rightSide_Trash)
             
             
-            layRightSide_Preview = QtGui.QGridLayout(rightSide_Preview)
+            layRightSide_Preview = QtWidgets.QGridLayout(rightSide_Preview)
             layRightSide_Preview.addWidget(self.pathsList, 0, 0, 1, 1)
             
             wL = FreeCADGui.getMainWindow().findChild(QtGui.QMdiArea).subWindowList()
@@ -1722,17 +1722,17 @@ class dodajElement(QtGui.QDialog, partsManaging):
         ##################
         
         #  rightSide_Other
-        rightSide_Other = QtGui.QWidget()
-        layRightSide_Other = QtGui.QGridLayout(rightSide_Other)
+        rightSide_Other = QtWidgets.QWidget()
+        layRightSide_Other = QtWidgets.QGridLayout(rightSide_Other)
         layRightSide_Other.addWidget(self.modelAdjust, 0, 0, 1, 2)
         layRightSide_Other.addWidget(self.boxAddSocket, 1, 0, 1, 2)
         layRightSide_Other.addWidget(self.boxSetAsSocketa, 2, 0, 1, 2)
-        layRightSide_Other.addWidget(QtGui.QLabel("Description"), 3, 0, 1, 1, QtCore.Qt.AlignTop)
+        layRightSide_Other.addWidget(QtWidgets.QLabel("Description"), 3, 0, 1, 1, QtCore.Qt.AlignTop)
         layRightSide_Other.addWidget(self.modelDescription, 3, 1, 1, 1)
         
         layRightSide_Other.setColumnStretch(1, 10)
         #####
-        self.RightSide_tab = QtGui.QTabWidget()
+        self.RightSide_tab = QtWidgets.QTabWidget()
         self.RightSide_tab.addTab(rightSide_Main, u"Main")
         self.RightSide_tab.addTab(rightSide_Other, u"Other")
         self.RightSide_tab.addTab(rightSide_Preview, u"Preview")
@@ -1743,10 +1743,10 @@ class dodajElement(QtGui.QDialog, partsManaging):
         if self.modelPreview is None:
             self.RightSide_tab.setTabEnabled(2, False)
         
-        mainWidgetRightSide = QtGui.QWidget()
-        mainLayRightSide = QtGui.QGridLayout(mainWidgetRightSide)
+        mainWidgetRightSide = QtWidgets.QWidget()
+        mainLayRightSide = QtWidgets.QGridLayout(mainWidgetRightSide)
         mainLayRightSide.addWidget(self.RightSide_tab, 0, 0, 1, 1)
-        mainLayRightSide.addItem(QtGui.QSpacerItem(1, 15), 1, 0, 1, 3)
+        mainLayRightSide.addItem(QtWidgets.QSpacerItem(1, 15), 1, 0, 1, 3)
         mainLayRightSide.addLayout(packageFooter, 2, 0, 1, 3)
         mainLayRightSide.setRowStretch(0, 20)
         mainLayRightSide.setContentsMargins(10, 10, 10, 10)
@@ -1824,7 +1824,7 @@ class dodajElement(QtGui.QDialog, partsManaging):
         self.connect(self.removeCategory, QtCore.SIGNAL("clicked ()"), self.deleteCategory)
         ########################
         ########################
-        mainLayLeftSide = QtGui.QVBoxLayout()
+        mainLayLeftSide = QtWidgets.QVBoxLayout()
         mainLayLeftSide.addWidget(modelsListExpand)
         mainLayLeftSide.addWidget(modelsListCollapse)
         mainLayLeftSide.addWidget(modelsListSelectAll)
@@ -1851,7 +1851,7 @@ class dodajElement(QtGui.QDialog, partsManaging):
     # searcher
     ##########################
     def searcherLayout(self):
-        self.searcher = QtGui.QLineEdit()
+        self.searcher = QtWidgets.QLineEdit()
         self.searcher.setStyleSheet("border: 1px solid #808080")
         self.connect(self.searcher, QtCore.SIGNAL("textChanged (const QString&)"), self.wyszukajObiekty)
        
@@ -1861,7 +1861,7 @@ class dodajElement(QtGui.QDialog, partsManaging):
         searcherPrev = flatButton(":/data/img/previous_16x16.png", u"Previous package")
         self.connect(searcherPrev, QtCore.SIGNAL("clicked ()"), self.wyszukajObiektyPrev)
         
-        mainLayLeftSide = QtGui.QHBoxLayout()
+        mainLayLeftSide = QtWidgets.QHBoxLayout()
         mainLayLeftSide.addWidget(searcherPrev)
         mainLayLeftSide.addWidget(self.searcher)
         mainLayLeftSide.addWidget(searcherNext)

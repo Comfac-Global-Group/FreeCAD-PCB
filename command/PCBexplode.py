@@ -28,28 +28,28 @@
 import FreeCAD
 if FreeCAD.GuiUp:
     import FreeCADGui
-    from PySide import QtCore, QtGui
+    from PySide6 import QtCore, QtGui, QtWidgets
 from functools import partial
 from PCBboard import getPCBheight
 
 
 class ser:
     def __init__(self):
-        self.dostepneWarstwy = QtGui.QComboBox()
+        self.dostepneWarstwy = QtWidgets.QComboBox()
         self.dostepneWarstwy.addItems(['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'])
         self.dostepneWarstwy.setCurrentIndex(1)
         self.dostepneWarstwy.setMaximumWidth(60)
 
 
-class explodeObjectTable(QtGui.QTreeWidget):
+class explodeObjectTable(QtWidgets.QTreeWidget):
     def __init__(self, parent=None):
-        QtGui.QTreeWidget.__init__(self, parent)
+        QtWidgets.QTreeWidget.__init__(self, parent)
         
         self.setColumnCount(2)
         self.setItemsExpandable(True)
         self.setSortingEnabled(False)
         self.setHeaderLabels(['Object', 'Layer'])
-        self.setFrameShape(QtGui.QFrame.NoFrame)
+        self.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.setSelectionBehavior(QtGui.QAbstractItemView.SelectRows)
         self.setStyleSheet('''
             QTreeWidget QHeaderView
@@ -97,16 +97,16 @@ class explodeObjectTable(QtGui.QTreeWidget):
         return
 
 
-class explodeWizardWidget(QtGui.QWidget):
+class explodeWizardWidget(QtWidgets.QWidget):
     def __init__(self, parent=None):
-        QtGui.QWidget.__init__(self, parent)
+        QtWidgets.QWidget.__init__(self, parent)
         #
-        self.TopStepSize = QtGui.QSpinBox()
+        self.TopStepSize = QtWidgets.QSpinBox()
         self.TopStepSize.setRange(5, 100)
         self.TopStepSize.setValue(10)
         self.TopStepSize.setSingleStep(5)
         
-        self.BottomStepSize = QtGui.QSpinBox()
+        self.BottomStepSize = QtWidgets.QSpinBox()
         self.BottomStepSize.setRange(5, 100)
         self.BottomStepSize.setValue(10)
         self.BottomStepSize.setSingleStep(5)
@@ -118,13 +118,13 @@ class explodeWizardWidget(QtGui.QWidget):
         #self.connect(self.tableTop, QtCore.SIGNAL('itemClicked(QTreeWidgetItem*, int)'), self.klikGora)
         #self.connect(self.tableBottom, QtCore.SIGNAL('itemClicked(QTreeWidgetItem*, int)'), self.klikDol)
         #
-        self.setActive = QtGui.QCheckBox('Active')
+        self.setActive = QtWidgets.QCheckBox('Active')
         self.setActive.setChecked(False)
         
-        self.inversObj = QtGui.QCheckBox('Inverse')
+        self.inversObj = QtWidgets.QCheckBox('Inverse')
         self.inversObj.setChecked(False)
         #
-        przSelectAllT = QtGui.QPushButton('')
+        przSelectAllT = QtWidgets.QPushButton('')
         przSelectAllT.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         przSelectAllT.setFlat(True)
         przSelectAllT.setIcon(QtGui.QIcon(":/data/img/checkbox_checked_16x16.png"))
@@ -132,7 +132,7 @@ class explodeWizardWidget(QtGui.QWidget):
         par = partial(self.selectAllObj, self.tableTop, self.tableBottom)
         self.connect(przSelectAllT, QtCore.SIGNAL('pressed ()'), par)
         
-        przSelectAllTF = QtGui.QPushButton('')
+        przSelectAllTF = QtWidgets.QPushButton('')
         przSelectAllTF.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         przSelectAllTF.setFlat(True)
         przSelectAllTF.setIcon(QtGui.QIcon(":/data/img/checkbox_unchecked_16x16.PNG"))
@@ -140,7 +140,7 @@ class explodeWizardWidget(QtGui.QWidget):
         par = partial(self.deselectAllObj, self.tableTop, self.tableBottom)
         self.connect(przSelectAllTF, QtCore.SIGNAL('pressed ()'), par)
         
-        przSelectAllT1 = QtGui.QPushButton('')
+        przSelectAllT1 = QtWidgets.QPushButton('')
         przSelectAllT1.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         przSelectAllT1.setFlat(True)
         przSelectAllT1.setIcon(QtGui.QIcon(":/data/img/checkbox_checked_16x16.png"))
@@ -148,7 +148,7 @@ class explodeWizardWidget(QtGui.QWidget):
         par = partial(self.selectAllObj, self.tableBottom, self.tableTop)
         self.connect(przSelectAllT1, QtCore.SIGNAL('pressed ()'), par)
         
-        przSelectAllTF1 = QtGui.QPushButton('')
+        przSelectAllTF1 = QtWidgets.QPushButton('')
         przSelectAllTF1.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         przSelectAllTF1.setFlat(True)
         przSelectAllTF1.setIcon(QtGui.QIcon(":/data/img/checkbox_unchecked_16x16.PNG"))
@@ -156,15 +156,15 @@ class explodeWizardWidget(QtGui.QWidget):
         par = partial(self.deselectAllObj, self.tableBottom, self.tableTop)
         self.connect(przSelectAllTF1, QtCore.SIGNAL('pressed ()'), par)
         #
-        lay = QtGui.QGridLayout()
-        lay.addWidget(QtGui.QLabel('Top Step Size'), 0, 0, 1, 2)
+        lay = QtWidgets.QGridLayout()
+        lay.addWidget(QtWidgets.QLabel('Top Step Size'), 0, 0, 1, 2)
         lay.addWidget(self.TopStepSize, 0, 2, 1, 1)
         
         lay.addWidget(przSelectAllT, 1, 0, 1, 1)
         lay.addWidget(przSelectAllTF, 2, 0, 1, 1)
         lay.addWidget(self.tableTop, 1, 1, 3, 2)
         
-        lay.addWidget(QtGui.QLabel('Bottom Step Size'), 4, 0, 1, 2)
+        lay.addWidget(QtWidgets.QLabel('Bottom Step Size'), 4, 0, 1, 2)
         lay.addWidget(self.BottomStepSize, 4, 2, 1, 1)
         
         lay.addWidget(przSelectAllT1, 5, 0, 1, 1)
@@ -274,7 +274,7 @@ class explodeEditWizard:
                 if hasattr(i, "Proxy") and hasattr(i.Proxy, "Type") and i.Proxy.Type in ["PCBpart"]:
                     if i.Side == "TOP":
                         #top
-                        a = QtGui.QTreeWidgetItem()
+                        a = QtWidgets.QTreeWidgetItem()
                         a.setText(0, i.Label)
                         a.setData(0, QtCore.Qt.UserRole, i.Name)
                         try:
@@ -283,7 +283,7 @@ class explodeEditWizard:
                             pass
                         a.setFlags(QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsUserCheckable | QtCore.Qt.ItemIsSelectable)
                         
-                        dostepneWarstwy = QtGui.QComboBox()
+                        dostepneWarstwy = QtWidgets.QComboBox()
                         dostepneWarstwy.addItems(['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'])
                         dostepneWarstwy.setMaximumWidth(60)
                         
@@ -301,7 +301,7 @@ class explodeEditWizard:
                         if i.Name in self.mainObject.Proxy.spisObiektowDol.keys(): a.setHidden(True)
                     else:
                         # bottom
-                        a = QtGui.QTreeWidgetItem()
+                        a = QtWidgets.QTreeWidgetItem()
                         a.setText(0, i.Label)
                         a.setData(0, QtCore.Qt.UserRole, i.Name)
                         try:
@@ -310,7 +310,7 @@ class explodeEditWizard:
                             pass
                         a.setFlags(QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsUserCheckable)
                             
-                        dostepneWarstwy = QtGui.QComboBox()
+                        dostepneWarstwy = QtWidgets.QComboBox()
                         dostepneWarstwy.addItems(['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'])
                         dostepneWarstwy.setMaximumWidth(60)
 
@@ -405,7 +405,7 @@ class explodeWizard:
                 if hasattr(i, "Proxy") and hasattr(i.Proxy, "Type") and i.Proxy.Type in ["PCBpart"]:
                     if i.Side == "TOP":
                         #top
-                        a = QtGui.QTreeWidgetItem()
+                        a = QtWidgets.QTreeWidgetItem()
                         a.setText(0, i.Label)
                         a.setCheckState(0, QtCore.Qt.Unchecked)
                         a.setData(0, QtCore.Qt.UserRole, i.Name)
@@ -415,7 +415,7 @@ class explodeWizard:
                             pass
                         a.setFlags(QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsUserCheckable)
                         
-                        dostepneWarstwy = QtGui.QComboBox()
+                        dostepneWarstwy = QtWidgets.QComboBox()
                         dostepneWarstwy.addItems(['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'])
                         dostepneWarstwy.setCurrentIndex(1)
                         dostepneWarstwy.setMaximumWidth(60)
@@ -425,7 +425,7 @@ class explodeWizard:
                         self.form.tableTop.setItemWidget(a, 1, globals()["zm_g_%s" % nr])
                     else:
                         # bottom
-                        a = QtGui.QTreeWidgetItem()
+                        a = QtWidgets.QTreeWidgetItem()
                         a.setText(0, i.Label)
                         a.setCheckState(0, QtCore.Qt.Unchecked)
                         a.setData(0, QtCore.Qt.UserRole, i.Name)
@@ -435,7 +435,7 @@ class explodeWizard:
                             pass
                         a.setFlags(QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsUserCheckable)
                         
-                        dostepneWarstwy = QtGui.QComboBox()
+                        dostepneWarstwy = QtWidgets.QComboBox()
                         dostepneWarstwy.addItems(['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'])
                         dostepneWarstwy.setCurrentIndex(1)
                         dostepneWarstwy.setMaximumWidth(60)

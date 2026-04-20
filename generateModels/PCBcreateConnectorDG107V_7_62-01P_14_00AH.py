@@ -24,7 +24,7 @@
 #*   USA                                                                    *
 #*                                                                          *
 #****************************************************************************
-from PySide import QtCore, QtGui
+from PySide6 import QtCore, QtGui, QtWidgets
 from PCBmainModule import modelPreviewMain, modelGenerateGUIMain, modelPictureDim, autVariable
 
 __fcstdFile__ = "connectorDG107V_7_62_01P_14_00AH.fcstd"
@@ -40,15 +40,15 @@ class modelGenerateGUI(modelGenerateGUIMain):
     def __init__(self, parent=None):
         modelGenerateGUIMain.__init__(self, __desc__, parent)
         #
-        self.numberOfPins = QtGui.QSpinBox()
+        self.numberOfPins = QtWidgets.QSpinBox()
         self.numberOfPins.setValue(2)
         self.numberOfPins.setMinimum(2)
         self.numberOfPins.setSingleStep(1)
         #
         self.addMainImageDim("connectorDG107V_7_62-01P_14_00AHDim.png")
-        self.mainFormLay.addRow(QtGui.QLabel("Number of rows"), self.numberOfPins)
-        self.mainFormLay.addRow(QtGui.QLabel("Raster1 (r1)"), autVariable(7.62))
-        self.mainFormLay.addRow(QtGui.QLabel("Raster2 (r2)"), autVariable(9.5))
+        self.mainFormLay.addRow(QtWidgets.QLabel("Number of rows"), self.numberOfPins)
+        self.mainFormLay.addRow(QtWidgets.QLabel("Raster1 (r1)"), autVariable(7.62))
+        self.mainFormLay.addRow(QtWidgets.QLabel("Raster2 (r2)"), autVariable(9.5))
 
 
 def modelGenerate(doc, widget):

@@ -24,7 +24,7 @@
 #*   USA                                                                    *
 #*                                                                          *
 #****************************************************************************
-from PySide import QtCore, QtGui
+from PySide6 import QtCore, QtGui, QtWidgets
 from PCBmainModule import modelPreviewMain, modelGenerateGUIMain, modelPictureDim, autVariable
 
 __fcstdFile__ = "diodeSmdSodMelf.FCStd"
@@ -40,7 +40,7 @@ class modelGenerateGUI(modelGenerateGUIMain):
     def __init__(self, parent=None):
         modelGenerateGUIMain.__init__(self, __desc__, parent)
         #
-        self.diameter = QtGui.QDoubleSpinBox()
+        self.diameter = QtWidgets.QDoubleSpinBox()
         self.diameter.setValue(1.1)
         self.diameter.setMinimum(0.5)
         self.diameter.setSingleStep(0.5)
@@ -48,14 +48,14 @@ class modelGenerateGUI(modelGenerateGUIMain):
         #
         self.totalLen = autVariable()
         #
-        self.len_1 = QtGui.QDoubleSpinBox()
+        self.len_1 = QtWidgets.QDoubleSpinBox()
         self.len_1.setValue(0.4)
         self.len_1.setSuffix("mm")
         self.len_1.setMinimum(0.2)
         self.len_1.setSingleStep(0.2)
         self.connect(self.len_1, QtCore.SIGNAL("valueChanged (double)"), self.updateTotalLen)
         #
-        self.len_2 = QtGui.QDoubleSpinBox()
+        self.len_2 = QtWidgets.QDoubleSpinBox()
         self.len_2.setMinimum(0.5)
         self.len_2.setSuffix("mm")
         self.len_2.setSingleStep(0.5)
@@ -63,10 +63,10 @@ class modelGenerateGUI(modelGenerateGUIMain):
         self.len_2.setValue(1.2)
         #
         self.addMainImageDim("diodeSmdSodMelfDim.png")
-        self.mainFormLay.addRow(QtGui.QLabel("d"), self.diameter)
-        self.mainFormLay.addRow(QtGui.QLabel("k"), self.len_1)
-        self.mainFormLay.addRow(QtGui.QLabel("l"), self.len_2)
-        self.mainFormLay.addRow(QtGui.QLabel("l1 = l + k * 2      "), self.totalLen)
+        self.mainFormLay.addRow(QtWidgets.QLabel("d"), self.diameter)
+        self.mainFormLay.addRow(QtWidgets.QLabel("k"), self.len_1)
+        self.mainFormLay.addRow(QtWidgets.QLabel("l"), self.len_2)
+        self.mainFormLay.addRow(QtWidgets.QLabel("l1 = l + k * 2      "), self.totalLen)
     
     def updateTotalLen(self, dummy):
         try:

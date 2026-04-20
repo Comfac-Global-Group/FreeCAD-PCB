@@ -32,7 +32,7 @@ __url__ = ["https://freecad.org"]
 import FreeCAD, FreeCADGui
 import builtins
 import Mesh
-from PySide import QtCore, QtGui
+from PySide6 import QtCore, QtGui, QtWidgets
 import os
 from PCBpartManaging import partsManaging
 
@@ -202,60 +202,60 @@ union {
 ##############################################
 #
 ##############################################
-class exportObjectToPovRayGui(QtGui.QWidget):
+class exportObjectToPovRayGui(QtWidgets.QWidget):
     def __init__(self, parent=None):
-        QtGui.QWidget.__init__(self, parent)
+        QtWidgets.QWidget.__init__(self, parent)
         #
         self.form = self
         self.form.setWindowTitle(u"Export object to Pov-Ray")
         #
-        tab = QtGui.QTabWidget()
+        tab = QtWidgets.QTabWidget()
         tab.addTab(self.tabGeneral(), u'General')
         #
-        lay = QtGui.QVBoxLayout(self)
+        lay = QtWidgets.QVBoxLayout(self)
         lay.addWidget(tab)
         #
     
     def tabGeneral(self):
-        self.patherror = QtGui.QLabel('')
-        self.objecterror = QtGui.QLabel('')
+        self.patherror = QtWidgets.QLabel('')
+        self.objecterror = QtWidgets.QLabel('')
         
-        self.filePath = QtGui.QLineEdit('')
+        self.filePath = QtWidgets.QLineEdit('')
         self.connect(self.filePath, QtCore.SIGNAL("textChanged (const QString&)"), self.changePathFInfo)
         self.filePath.setText(os.path.join(os.path.expanduser("~"), 'Unnamed.inc'))
         self.filePath.setReadOnly(True)
         
-        self.objectName = QtGui.QLineEdit('')
+        self.objectName = QtWidgets.QLineEdit('')
 
-        changePath = QtGui.QPushButton('...')
+        changePath = QtWidgets.QPushButton('...')
         changePath.setFixedWidth(30)
         self.connect(changePath, QtCore.SIGNAL("clicked ()"), self.changePathF)
 
-        generalBox = QtGui.QGroupBox(u'General')
-        generalBoxLay = QtGui.QGridLayout(generalBox)
-        generalBoxLay.addWidget(QtGui.QLabel(u'Path           '), 0, 0, 1, 1)
+        generalBox = QtWidgets.QGroupBox(u'General')
+        generalBoxLay = QtWidgets.QGridLayout(generalBox)
+        generalBoxLay.addWidget(QtWidgets.QLabel(u'Path           '), 0, 0, 1, 1)
         generalBoxLay.addWidget(self.filePath, 0, 1, 1, 2)
         generalBoxLay.addWidget(changePath, 0, 3, 1, 1)
         generalBoxLay.addWidget(self.patherror, 1, 0, 1, 4)
-        generalBoxLay.addWidget(QtGui.QLabel(u'Object name      '), 2, 0, 1, 1)
+        generalBoxLay.addWidget(QtWidgets.QLabel(u'Object name      '), 2, 0, 1, 1)
         generalBoxLay.addWidget(self.objectName, 2, 1, 1, 3)
         generalBoxLay.addWidget(self.objecterror, 3, 0, 1, 4)
         generalBoxLay.setColumnStretch(1, 10)
         #
-        self.exportObjects_All = QtGui.QRadioButton(u'All visible objects')
+        self.exportObjects_All = QtWidgets.QRadioButton(u'All visible objects')
         self.exportObjects_All.setChecked(True)
-        self.exportObjects_Selected = QtGui.QRadioButton(u'All selected objects')
-        self.exportObjects_SelectedFaces = QtGui.QRadioButton(u'All selected faces')
+        self.exportObjects_Selected = QtWidgets.QRadioButton(u'All selected objects')
+        self.exportObjects_SelectedFaces = QtWidgets.QRadioButton(u'All selected faces')
         self.exportObjects_SelectedFaces.setDisabled(True)
         
-        exportObjectsBox = QtGui.QGroupBox(u'Export objects')
-        exportObjectsBoxLay = QtGui.QVBoxLayout(exportObjectsBox)
+        exportObjectsBox = QtWidgets.QGroupBox(u'Export objects')
+        exportObjectsBoxLay = QtWidgets.QVBoxLayout(exportObjectsBox)
         exportObjectsBoxLay.addWidget(self.exportObjects_All)
         exportObjectsBoxLay.addWidget(self.exportObjects_Selected)
         exportObjectsBoxLay.addWidget(self.exportObjects_SelectedFaces)
         #####
-        widget = QtGui.QWidget()
-        lay = QtGui.QGridLayout(widget)
+        widget = QtWidgets.QWidget()
+        lay = QtWidgets.QGridLayout(widget)
         lay.addWidget(generalBox, 0, 0, 1, 4)
         lay.addWidget(separator(), 1, 0, 1, 4)
         lay.addWidget(exportObjectsBox, 2, 0, 1, 4)
@@ -269,7 +269,7 @@ class exportObjectToPovRayGui(QtGui.QWidget):
             self.patherror.setText('')
         
     def changePathF(self):
-        path = QtGui.QFileDialog().getSaveFileName(self, u"Save as", os.path.expanduser("~"), "*.inc")
+        path = QtWidgets.QFileDialog().getSaveFileName(self, u"Save as", os.path.expanduser("~"), "*.inc")
 
         fileName = path[0]
         if not fileName == "":
@@ -303,10 +303,10 @@ class exportObjectToPovRayGui(QtGui.QWidget):
 ##############################################
 #
 ##############################################
-class separator(QtGui.QFrame):
+class separator(QtWidgets.QFrame):
     def __init__(self, parent=None):
-        QtGui.QFrame.__init__(self, parent)
+        QtWidgets.QFrame.__init__(self, parent)
         #
-        self.setFrameShape(QtGui.QFrame.HLine)
-        self.setFrameShadow(QtGui.QFrame.Sunken)
+        self.setFrameShape(QtWidgets.QFrame.HLine)
+        self.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.setLineWidth(1)

@@ -30,7 +30,7 @@ import os
 import builtins
 import re
 from xml.dom import minidom
-from PySide import QtCore, QtGui
+from PySide6 import QtCore, QtGui, QtWidgets
 import FreeCADGui
 import time
 #
@@ -55,7 +55,7 @@ def open(filename):
     #
     kursor = QtGui.QCursor()
     kursor.setShape(QtCore.Qt.ArrowCursor)
-    QtGui.QApplication.setOverrideCursor(kursor)
+    QtWidgets.QApplication.setOverrideCursor(kursor)
     #
     wersjaFormatu = wersjaFormatuF(filename)
     if wersjaFormatu[0]:
@@ -64,7 +64,7 @@ def open(filename):
     else:
         FreeCAD.Console.PrintError("Incompatible file format.\n")
     #
-    QtGui.QApplication.restoreOverrideCursor()
+    QtWidgets.QApplication.restoreOverrideCursor()
 
 
 def wersjaFormatuF(filename):
@@ -214,11 +214,11 @@ def importBRD(filename, wersjaFormatu):
     ''' '''
     # try:
         # mw = QtGui.qApp.activeWindow()
-        # mw.findChild(QtGui.QDockWidget, "Report view").layout().itemAt(0).widget().clear()
+        # mw.findChild(QtWidgets.QDockWidget, "Report view").layout().itemAt(0).widget().clear()
     # except AttributeError:  # Linux
         # pass
     mw = FreeCADGui.getMainWindow()
-    mw.findChild(QtGui.QDockWidget, "Report view").layout().itemAt(0).widget().clear()
+    mw.findChild(QtWidgets.QDockWidget, "Report view").layout().itemAt(0).widget().clear()
     #
     plytkaPCB = mainPCB(wersjaFormatu, filename)
     plytkaPCB.setProject(filename)

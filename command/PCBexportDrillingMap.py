@@ -25,7 +25,7 @@
 #*                                                                          *
 #****************************************************************************
 
-from PySide import QtCore, QtGui
+from PySide6 import QtCore, QtGui, QtWidgets
 import codecs
 import random
 import FreeCAD
@@ -57,56 +57,56 @@ def getBoardOutline():
 #***********************************************************************
 #*                               GUI
 #***********************************************************************
-class exportDrillingMap_Gui(QtGui.QDialog):
+class exportDrillingMap_Gui(QtWidgets.QDialog):
     def __init__(self, parent=None):
-        QtGui.QDialog.__init__(self, parent)
+        QtWidgets.QDialog.__init__(self, parent)
         
         self.setWindowTitle(u"Create drilling map")
         self.setWindowIcon(QtGui.QIcon(":/data/img/drilling.svg"))
         #
         # Output file format
-        self.formatList = QtGui.QComboBox()
+        self.formatList = QtWidgets.QComboBox()
         for i, j in exportList.items():
             self.formatList.addItem(j['name'], i)
 
         # Output directory
-        self.pathToFile = QtGui.QLineEdit('')
+        self.pathToFile = QtWidgets.QLineEdit('')
         self.pathToFile.setReadOnly(True)
         
-        zmianaSciezki = QtGui.QPushButton('...')
+        zmianaSciezki = QtWidgets.QPushButton('...')
         zmianaSciezki.setToolTip(u'Change path')
         QtCore.QObject.connect(zmianaSciezki, QtCore.SIGNAL("pressed ()"), self.zmianaSciezkiF)
         # buttons
-        saveButton = QtGui.QPushButton(u"Export")
+        saveButton = QtWidgets.QPushButton(u"Export")
         self.connect(saveButton, QtCore.SIGNAL("clicked ()"), self, QtCore.SLOT("accept()"))
 
-        closeButton = QtGui.QPushButton(u"Close")
+        closeButton = QtWidgets.QPushButton(u"Close")
         self.connect(closeButton, QtCore.SIGNAL("clicked ()"), self, QtCore.SLOT('close()'))
         
-        packageFooter = QtGui.QHBoxLayout()
+        packageFooter = QtWidgets.QHBoxLayout()
         packageFooter.addStretch(10)
         packageFooter.addWidget(saveButton)
         packageFooter.addWidget(closeButton)
         packageFooter.setContentsMargins(10, 0, 10, 10)
         # header
-        icon = QtGui.QLabel('')
+        icon = QtWidgets.QLabel('')
         icon.setPixmap(QtGui.QPixmap(":/data/img/drilling1.svg"))
         
-        headerWidget = QtGui.QWidget()
+        headerWidget = QtWidgets.QWidget()
         headerWidget.setStyleSheet("padding: 10px; border-bottom: 1px solid #dcdcdc; background-color:#FFF;")
-        headerLay = QtGui.QGridLayout(headerWidget)
+        headerLay = QtWidgets.QGridLayout(headerWidget)
         headerLay.addWidget(icon, 0, 0, 1, 1)
         headerLay.setContentsMargins(0, 0, 0, 0)
         ########
-        centerLay = QtGui.QGridLayout()
-        centerLay.addWidget(QtGui.QLabel(u'Output file format:'), 0, 0, 1, 1)
+        centerLay = QtWidgets.QGridLayout()
+        centerLay.addWidget(QtWidgets.QLabel(u'Output file format:'), 0, 0, 1, 1)
         centerLay.addWidget(self.formatList, 0, 1, 1, 2)
-        centerLay.addWidget(QtGui.QLabel(u'Output directory:'), 1, 0, 1, 1)
+        centerLay.addWidget(QtWidgets.QLabel(u'Output directory:'), 1, 0, 1, 1)
         centerLay.addWidget(self.pathToFile, 1, 1, 1, 1)
         centerLay.addWidget(zmianaSciezki, 1, 2, 1, 1)
         centerLay.setContentsMargins(10, 20, 10, 20)
 
-        mainLay = QtGui.QVBoxLayout(self)
+        mainLay = QtWidgets.QVBoxLayout(self)
         mainLay.addWidget(headerWidget)
         mainLay.addLayout(centerLay)
         mainLay.addStretch(10)
@@ -126,7 +126,7 @@ class exportDrillingMap_Gui(QtGui.QDialog):
         
     def zmianaSciezkiF(self):
         ''' change output file path '''
-        fileName = QtGui.QFileDialog().getExistingDirectory(None, 'Output directory', QtCore.QDir.homePath(), QtGui.QFileDialog.ShowDirsOnly)
+        fileName = QtWidgets.QFileDialog().getExistingDirectory(None, 'Output directory', QtCore.QDir.homePath(), QtWidgets.QFileDialog.ShowDirsOnly)
         
         if fileName:
             self.pathToFile.setText(fileName)

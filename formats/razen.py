@@ -30,7 +30,7 @@ import builtins
 import json
 import os
 from math import sqrt, atan2
-from PySide import QtGui
+from PySide6 import QtGui, QtWidgets
 
 import PCBconf
 from PCBobjects import *
@@ -46,12 +46,12 @@ class dialogMAIN(dialogMAIN_FORM):
         self.generateLayers()
         self.spisWarstw.sortItems(1)
         #
-        self.razenBiblioteki = QtGui.QLineEdit('')
+        self.razenBiblioteki = QtWidgets.QLineEdit('')
         if PCBconf.supSoftware[self.databaseType]['libPath'] != "":
             self.razenBiblioteki.setText(PCBconf.supSoftware[self.databaseType]['libPath'])
         
-        lay = QtGui.QHBoxLayout()
-        lay.addWidget(QtGui.QLabel('Library'))
+        lay = QtWidgets.QHBoxLayout()
+        lay.addWidget(QtWidgets.QLabel('Library'))
         lay.addWidget(self.razenBiblioteki)
         self.lay.addLayout(lay, 12, 0, 1, 6)
 

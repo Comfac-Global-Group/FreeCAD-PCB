@@ -32,7 +32,7 @@ import codecs
 import Part
 from math import sin, cos, degrees, atan2, radians, sqrt
 from xml.dom import minidom
-from PySide import QtCore, QtGui
+from PySide6 import QtCore, QtGui, QtWidgets
 import json
 # try:
     # import builtins
@@ -206,22 +206,22 @@ class exportPCB_Gui(QtGui.QWizard):
         page = QtGui.QWizardPage()
         page.setSubTitle(u"<span style='font-weight:bold;font-size:13px;'>File format</span>")
         #
-        self.nazwaProgramu = QtGui.QLabel()
-        self.formatPliku = QtGui.QLabel()
+        self.nazwaProgramu = QtWidgets.QLabel()
+        self.formatPliku = QtWidgets.QLabel()
 
-        self.ikonaProgramu = QtGui.QLabel()
+        self.ikonaProgramu = QtWidgets.QLabel()
         self.ikonaProgramu.setFixedSize(120, 120)
         self.ikonaProgramu.setAlignment(QtCore.Qt.AlignCenter)
         #
-        self.listaFormatow = QtGui.QListWidget()
+        self.listaFormatow = QtWidgets.QListWidget()
         for i, j in exportData.items():
             if j['export']:
-                a = QtGui.QListWidgetItem(j['name'])
+                a = QtWidgets.QListWidgetItem(j['name'])
                 a.setData(QtCore.Qt.UserRole, i)
                 self.listaFormatow.addItem(a)
         QtCore.QObject.connect(self.listaFormatow, QtCore.SIGNAL("currentRowChanged (int)"), self.zmianaProgramu)
         #
-        lay = QtGui.QGridLayout(page)
+        lay = QtWidgets.QGridLayout(page)
         lay.addWidget(self.listaFormatow, 0, 0, 4, 1)
         lay.addWidget(self.ikonaProgramu, 0, 1, 1, 1, QtCore.Qt.AlignCenter)
         lay.addWidget(self.nazwaProgramu, 1, 1, 1, 1)
@@ -234,23 +234,23 @@ class exportPCB_Gui(QtGui.QWizard):
         page = QtGui.QWizardPage()
         page.setSubTitle(u"<span style='font-weight:bold;font-size:13px;'>Settings</span>")
         #
-        self.pathToFile = QtGui.QLineEdit('')
+        self.pathToFile = QtWidgets.QLineEdit('')
         #self.pathToFile.setReadOnly(True)
         #
-        zmianaSciezki = QtGui.QPushButton('...')
+        zmianaSciezki = QtWidgets.QPushButton('...')
         zmianaSciezki.setToolTip(u'Change path')
         QtCore.QObject.connect(zmianaSciezki, QtCore.SIGNAL("pressed ()"), self.zmianaSciezkiF)
         #
-        self.addHoles = QtGui.QCheckBox(u'Add holes')
-        self.addDimensions = QtGui.QCheckBox(u'Add dimensions')
-        #self.addAnnotations = QtGui.QCheckBox(u'Add annotations')
-        self.addGluePaths = QtGui.QCheckBox(u'Export glue paths')
+        self.addHoles = QtWidgets.QCheckBox(u'Add holes')
+        self.addDimensions = QtWidgets.QCheckBox(u'Add dimensions')
+        #self.addAnnotations = QtWidgets.QCheckBox(u'Add annotations')
+        self.addGluePaths = QtWidgets.QCheckBox(u'Export glue paths')
         #
-        lay = QtGui.QGridLayout(page)
-        lay.addWidget(QtGui.QLabel(u'Path: '), 0, 0, 1, 1)
+        lay = QtWidgets.QGridLayout(page)
+        lay.addWidget(QtWidgets.QLabel(u'Path: '), 0, 0, 1, 1)
         lay.addWidget(self.pathToFile, 0, 1, 1, 1)
         lay.addWidget(zmianaSciezki, 0, 2, 1, 1)
-        lay.addItem(QtGui.QSpacerItem(1, 10), 1, 0, 1, 3)
+        lay.addItem(QtWidgets.QSpacerItem(1, 10), 1, 0, 1, 3)
         lay.addWidget(self.addHoles, 2, 0, 1, 3)
         lay.addWidget(self.addDimensions, 3, 0, 1, 3)
         #lay.addWidget(self.addAnnotations, 4, 0, 1, 3)
@@ -259,7 +259,7 @@ class exportPCB_Gui(QtGui.QWizard):
         return page
         
     def zmianaSciezkiF(self):
-        fileName = QtGui.QFileDialog().getSaveFileName(None, 'Save as', QtCore.QDir.homePath(), exportData[self.exportType.programName]['format'])
+        fileName = QtWidgets.QFileDialog().getSaveFileName(None, 'Save as', QtCore.QDir.homePath(), exportData[self.exportType.programName]['format'])
         if fileName[0]:
             fileName = fileName[0]
             program = str(self.listaFormatow.currentItem().data(QtCore.Qt.UserRole))

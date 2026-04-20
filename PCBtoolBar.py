@@ -28,7 +28,7 @@ import FreeCAD
 import Part
 if FreeCAD.GuiUp:
     import FreeCADGui
-    from PySide import QtCore, QtGui
+    from PySide6 import QtCore, QtGui, QtWidgets
 #
 import re
 from functools import partial
@@ -67,9 +67,9 @@ from command.PCBcreateSimplifiedModel import createSimplifiedModel
 __currentPath__ = os.path.abspath(os.path.join(os.path.dirname(__file__), ''))
 
 
-class pcbToolBarMain(QtGui.QToolBar):
+class pcbToolBarMain(QtWidgets.QToolBar):
     def __init__(self, text, parent=None):
-        QtGui.QToolBar.__init__(self, text, parent)
+        QtWidgets.QToolBar.__init__(self, text, parent)
         self.setVisible(False)
         self.toggleViewAction().setVisible(False)
         
@@ -142,7 +142,7 @@ class pcbToolBarView(pcbToolBarMain):
         scriptCmd_cutToBoardOutlineOFF = self.createAction(u"Cut to board outline - OFF", u"Cut to board outline ON", ":/data/img/cutToBoard.svg")
         QtCore.QObject.connect(scriptCmd_cutToBoardOutlineOFF, QtCore.SIGNAL("triggered()"), partial(self.cutToBoardOutline, False))
         
-        groupsMenuCTB = QtGui.QMenu(self)
+        groupsMenuCTB = QtWidgets.QMenu(self)
         groupsMenuCTB.addAction(scriptCmd_cutToBoardOutlineON2)
         groupsMenuCTB.addAction(scriptCmd_cutToBoardOutlineOFF)
         scriptCmd_cutToBoardOutlineON.setMenu(groupsMenuCTB)
@@ -156,7 +156,7 @@ class pcbToolBarView(pcbToolBarMain):
         scriptCmd_showSignalsOFF = self.createAction(u"Show signals - OFF", u"Show signals OFF", ":/data/img/showSignalsOFF.png")
         QtCore.QObject.connect(scriptCmd_showSignalsOFF, QtCore.SIGNAL("triggered()"), partial(self.showSignals, False))
         
-        groupsMenuCTB = QtGui.QMenu(self)
+        groupsMenuCTB = QtWidgets.QMenu(self)
         groupsMenuCTB.addAction(scriptCmd_showSignals2)
         groupsMenuCTB.addAction(scriptCmd_showSignalsOFF)
         scriptCmd_showSignals.setMenu(groupsMenuCTB)
@@ -170,7 +170,7 @@ class pcbToolBarView(pcbToolBarMain):
         scriptCmd_cutHolesThroughAllLayersOFF = self.createAction(u"Cut holes through all layers - OFF", u"Cut holes through all layers - OFF", ":/data/img/layers_TI.svg")
         QtCore.QObject.connect(scriptCmd_cutHolesThroughAllLayersOFF, QtCore.SIGNAL("triggered()"), partial(self.cutHolesThroughAllLayers, False))
         
-        groupsMenuCH = QtGui.QMenu(self)
+        groupsMenuCH = QtWidgets.QMenu(self)
         groupsMenuCH.addAction(scriptCmd_cutHolesThroughAllLayersON2)
         groupsMenuCH.addAction(scriptCmd_cutHolesThroughAllLayersOFF)
         scriptCmd_cutHolesThroughAllLayersON.setMenu(groupsMenuCH)
@@ -194,7 +194,7 @@ class pcbToolBarView(pcbToolBarMain):
         scriptCmd_CheckForCollisionsPCB = self.createAction(u"Detect collisions with PCB", u"Detect collisions with PCB", ":/data/img/collisions.svg")
         QtCore.QObject.connect(scriptCmd_CheckForCollisionsPCB, QtCore.SIGNAL("triggered()"), self.checkForCollisionsFPCB)
         
-        groupsMenu = QtGui.QMenu(self)
+        groupsMenu = QtWidgets.QMenu(self)
         groupsMenu.addAction(scriptCmd_CheckForCollisionsALL)
         scriptCmd_CheckForCollisionsPCB.setMenu(groupsMenu)
         # parts groups
@@ -216,7 +216,7 @@ class pcbToolBarView(pcbToolBarMain):
         scriptCmd_openInstruction_3 = self.createAction(u"Open instruction (FC0.16)", u"Open instruction (FC0.16)", ":/data/img/info_16x16.png")
         QtCore.QObject.connect(scriptCmd_openInstruction_3, QtCore.SIGNAL("triggered()"), partial(self.openInstruction, "OLD/instruction_FC016.pdf"))
         
-        groupsMenuI = QtGui.QMenu(self)
+        groupsMenuI = QtWidgets.QMenu(self)
         groupsMenuI.addAction(scriptCmd_openInstruction_1)
         groupsMenuI.addAction(scriptCmd_openInstruction_2)
         groupsMenuI.addAction(scriptCmd_openInstruction_3)
@@ -414,7 +414,7 @@ class pcbToolBar(pcbToolBarMain):
         scriptCmd_FastExplode = self.createAction(u"Fast explode", u"Fast explode", ":/data/img/explode.png")
         QtCore.QObject.connect(scriptCmd_FastExplode, QtCore.SIGNAL("triggered()"), self.fastExplodeModels)
         
-        groupsMenu = QtGui.QMenu(self)
+        groupsMenu = QtWidgets.QMenu(self)
         groupsMenu.addAction(scriptCmd_Explode1)
         groupsMenu.addAction(scriptCmd_FastExplode)
         scriptCmd_Explode.setMenu(groupsMenu)
@@ -426,7 +426,7 @@ class pcbToolBar(pcbToolBarMain):
         scriptCmd_BoundingBoxSel = self.createAction(u"Bounding box from selection", u"Bounding box from selection", ":/data/img/boundingBoxSelected.svg")
         QtCore.QObject.connect(scriptCmd_BoundingBoxSel, QtCore.SIGNAL("triggered()"), self.showPCBBoundingBoxSel)
         
-        boundingBoxMenu = QtGui.QMenu(self)
+        boundingBoxMenu = QtWidgets.QMenu(self)
         boundingBoxMenu.addAction(scriptCmd_BoundingBox)
         boundingBoxMenu.addAction(scriptCmd_BoundingBoxSel)
         scriptCmd_BoundingBox_M.setMenu(boundingBoxMenu)
@@ -438,7 +438,7 @@ class pcbToolBar(pcbToolBarMain):
         # scriptCmd_crossSectionsPCB = self.createAction(u"Cross sections from whole PCB", u"Create sections from PCB board (with components) and export them as library", ":/data/img/Part_CrossSections.svg")
         # QtCore.QObject.connect(scriptCmd_crossSectionsPCB, QtCore.SIGNAL("triggered()"), self.showPCBBoundingBoxSel)
         
-        # crossSectionsMenu = QtGui.QMenu(self)
+        # crossSectionsMenu = QtWidgets.QMenu(self)
         # crossSectionsMenu.addAction(scriptCmd_crossSections)
         # crossSectionsMenu.addAction(scriptCmd_crossSectionsPCB)
         # scriptCmd_crossSections_M.setMenu(crossSectionsMenu)
@@ -464,7 +464,7 @@ class pcbToolBar(pcbToolBarMain):
         scriptCmd_addGlueGroup = self.createAction(u"Add glue group", u"Add annotations group", ":/data/img/folder_open_22x22.png")
         QtCore.QObject.connect(scriptCmd_addGlueGroup, QtCore.SIGNAL("triggered()"), self.addGlueGroup)
         
-        groupsMenu = QtGui.QMenu(self)
+        groupsMenu = QtWidgets.QMenu(self)
         groupsMenu.addAction(scriptCmd_addPCBGroup)
         groupsMenu.addAction(scriptCmd_addPartsGroup)
         groupsMenu.addAction(scriptCmd_addLayerGroup)
@@ -476,7 +476,7 @@ class pcbToolBar(pcbToolBarMain):
         self.scriptCmd_constraintsAreas = self.createAction(u"Create constraint area", u"Create constraint area", ":/data/img/constraintsArea.png")
         QtCore.QObject.connect(self.scriptCmd_constraintsAreas, QtCore.SIGNAL("triggered()"), self.defConstraintAreaF)
         
-        constraintsAreasMenu = QtGui.QMenu(self)
+        constraintsAreasMenu = QtWidgets.QMenu(self)
         self.scriptCmd_constraintsAreas.setMenu(constraintsAreasMenu)
         self.scriptCmd_constraintsAreas.setDisabled(True)
         # Route Outline
@@ -490,7 +490,7 @@ class pcbToolBar(pcbToolBarMain):
         par = partial(self.constraintAreaF, "vRouteOutline")
         QtCore.QObject.connect(constraintsAreaRouteOutlineBoth, QtCore.SIGNAL("triggered()"), par)
         
-        constraintsAreaRouteOutlineMenu = QtGui.QMenu("Route Outline", constraintsAreasMenu)
+        constraintsAreaRouteOutlineMenu = QtWidgets.QMenu("Route Outline", constraintsAreasMenu)
         constraintsAreaRouteOutlineMenu.addAction(constraintsAreaRouteOutlineTop)
         constraintsAreaRouteOutlineMenu.addAction(constraintsAreaRouteOutlineBottom)
         constraintsAreaRouteOutlineMenu.addAction(constraintsAreaRouteOutlineBoth)
@@ -506,7 +506,7 @@ class pcbToolBar(pcbToolBarMain):
         par = partial(self.constraintAreaF, "vPlaceOutline")
         QtCore.QObject.connect(constraintsAreaPlaceOutlineBoth, QtCore.SIGNAL("triggered()"), par)
 
-        constraintsAreaPlaceOutlineMenu = QtGui.QMenu("Place Outline", constraintsAreasMenu)
+        constraintsAreaPlaceOutlineMenu = QtWidgets.QMenu("Place Outline", constraintsAreasMenu)
         constraintsAreaPlaceOutlineMenu.addAction(constraintsAreaPlaceOutlineTop)
         constraintsAreaPlaceOutlineMenu.addAction(constraintsAreaPlaceOutlineBottom)
         constraintsAreaPlaceOutlineMenu.addAction(constraintsAreaPlaceOutlineBoth)
@@ -519,7 +519,7 @@ class pcbToolBar(pcbToolBarMain):
         par = partial(self.constraintAreaF, "bPlaceKeepout")
         QtCore.QObject.connect(constraintsAreaPlaceKeepoutBottom, QtCore.SIGNAL("triggered()"), par)
 
-        constraintsAreaPlaceKeepoutMenu = QtGui.QMenu("Place Keepout", constraintsAreasMenu)
+        constraintsAreaPlaceKeepoutMenu = QtWidgets.QMenu("Place Keepout", constraintsAreasMenu)
         constraintsAreaPlaceKeepoutMenu.addAction(constraintsAreaPlaceKeepoutTop)
         constraintsAreaPlaceKeepoutMenu.addAction(constraintsAreaPlaceKeepoutBottom)
         constraintsAreasMenu.addMenu(constraintsAreaPlaceKeepoutMenu)
@@ -534,7 +534,7 @@ class pcbToolBar(pcbToolBarMain):
         par = partial(self.constraintAreaF, "vRouteKeepout")
         QtCore.QObject.connect(constraintsAreaRouteKeepoutBoth, QtCore.SIGNAL("triggered()"), par)
 
-        constraintsAreaRouteKeepoutMenu = QtGui.QMenu("Route Keepout", constraintsAreasMenu)
+        constraintsAreaRouteKeepoutMenu = QtWidgets.QMenu("Route Keepout", constraintsAreasMenu)
         constraintsAreaRouteKeepoutMenu.addAction(constraintsAreaRouteKeepoutTop)
         constraintsAreaRouteKeepoutMenu.addAction(constraintsAreaRouteKeepoutBottom)
         constraintsAreaRouteKeepoutMenu.addAction(constraintsAreaRouteKeepoutBoth)
@@ -552,7 +552,7 @@ class pcbToolBar(pcbToolBarMain):
         scriptCmd_exportAssemblyPCB = self.createAction(u"Make a compound from PCB", u"Make a compound from PCB", ":/data/img/compoundPCB.svg")
         QtCore.QObject.connect(scriptCmd_exportAssemblyPCB, QtCore.SIGNAL("triggered()"), self.exportAssemblyPCB)
         
-        groupsMenuExportAsOneObject = QtGui.QMenu(self)
+        groupsMenuExportAsOneObject = QtWidgets.QMenu(self)
         groupsMenuExportAsOneObject.addAction(scriptCmd_exportAssemblyAll)
         groupsMenuExportAsOneObject.addAction(scriptCmd_exportAssemblySel)
         groupsMenuExportAsOneObject.addAction(scriptCmd_CreateSimplifiedModel)
@@ -567,7 +567,7 @@ class pcbToolBar(pcbToolBarMain):
         scriptCmd_centroid = self.createAction(u"Centroid", u"Centroid", ":/data/img/centroid.svg")
         QtCore.QObject.connect(scriptCmd_centroid, QtCore.SIGNAL("triggered()"), self.exportCentroid)
         
-        groupsMenu = QtGui.QMenu(self)
+        groupsMenu = QtWidgets.QMenu(self)
         groupsMenu.addAction(scriptCmd_ExportBOM_2)
         groupsMenu.addAction(scriptCmd_centroid)
         scriptCmd_ExportBOM.setMenu(groupsMenu)
@@ -588,7 +588,7 @@ class pcbToolBar(pcbToolBarMain):
         scriptCmd_CreateCenteDrill = self.createAction(u"Create drill center", u"Create drill center", ":/data/img/drilling.svg")
         QtCore.QObject.connect(scriptCmd_CreateCenteDrill, QtCore.SIGNAL("triggered()"), self.createCenteDrill)
         
-        groupsMenu = QtGui.QMenu(self)
+        groupsMenu = QtWidgets.QMenu(self)
         groupsMenu.addAction(scriptCmd_ExportHoleLocations_2)
         groupsMenu.addAction(scriptCmd_ExportHoleLocationsReport)
         groupsMenu.addAction(scriptCmd_ExportDrillingMap)
@@ -596,7 +596,7 @@ class pcbToolBar(pcbToolBarMain):
         #groupsMenu.addAction(scriptCmd_CreateCenteDrill)
         scriptCmd_ExportHoleLocations.setMenu(groupsMenu)
         ##########
-        self.wyszukajElementy = QtGui.QLineEdit('')
+        self.wyszukajElementy = QtWidgets.QLineEdit('')
         self.wyszukajElementy.setFixedWidth(120)
         QtCore.QObject.connect(self.wyszukajElementy, QtCore.SIGNAL("textChanged (const QString&)"), self.wyszukajObiekty)
 
@@ -793,12 +793,12 @@ class pcbToolBar(pcbToolBarMain):
 
     def defConstraintAreaF(self):
         ''' create constraint are dialog '''
-        dial = QtGui.QDialog()
+        dial = QtWidgets.QDialog()
         dial.setWindowTitle("Create constraint area")
         # areas list
-        lista = QtGui.QListWidget()
+        lista = QtWidgets.QListWidget()
         for i, j in PCBconstraintAreas.items():
-            a = QtGui.QListWidgetItem(j[0])
+            a = QtWidgets.QListWidgetItem(j[0])
             a.setData(QtCore.Qt.UserRole, i)
             
             lista.addItem(a)
@@ -812,7 +812,7 @@ class pcbToolBar(pcbToolBarMain):
         dial.connect(buttons, QtCore.SIGNAL("accepted()"), dial, QtCore.SLOT("accept()"))
         dial.connect(buttons, QtCore.SIGNAL("rejected()"), dial, QtCore.SLOT("reject()"))
         ####
-        lay = QtGui.QGridLayout()
+        lay = QtWidgets.QGridLayout()
         lay.addWidget(lista, 0, 0, 1, 1)
         lay.addWidget(buttons, 0, 1, 1, 1)
         dial.setLayout(lay)

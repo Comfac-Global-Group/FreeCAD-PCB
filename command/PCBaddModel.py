@@ -28,7 +28,7 @@
 import FreeCAD, FreeCADGui
 import Part
 if FreeCAD.GuiUp:
-    from PySide import QtCore, QtGui
+    from PySide6 import QtCore, QtGui, QtWidgets
 from pivy.coin import *
 from math import pi
 import unicodedata
@@ -42,10 +42,10 @@ from command.PCBgroups import createGroup_Parts
 from command.PCBannotations import createAnnotation
 
 
-class addModel(QtGui.QWidget, partsManaging):
+class addModel(QtWidgets.QWidget, partsManaging):
     def __init__(self, searchPhrase=None, parent=None):
         partsManaging.__init__(self)
-        QtGui.QWidget.__init__(self, parent)
+        QtWidgets.QWidget.__init__(self, parent)
         
         self.setDatabase()
         freecadSettings = FreeCAD.ParamGet("User parameter:BaseApp/Preferences/Mod/PCB")
@@ -59,89 +59,89 @@ class addModel(QtGui.QWidget, partsManaging):
         self.form.setWindowTitle("Add model")
         self.form.setWindowIcon(QtGui.QIcon(":/data/img/assignModels.png"))
         #
-        self.listaBibliotek = QtGui.QComboBox()
+        self.listaBibliotek = QtWidgets.QComboBox()
         
-        #self.package = QtGui.QComboBox()
-        #self.package.setInsertPolicy(QtGui.QComboBox.InsertAlphabetically)
+        #self.package = QtWidgets.QComboBox()
+        #self.package.setInsertPolicy(QtWidgets.QComboBox.InsertAlphabetically)
         self.package = modelsList()
         self.package.checkItems = False
         self.package.sql = self.__SQL__
         self.package.reloadList()
      
-        self.side = QtGui.QComboBox()
+        self.side = QtWidgets.QComboBox()
         self.side.addItems(['TOP', 'BOTTOM'])
         
-        self.value = QtGui.QLineEdit('')
+        self.value = QtWidgets.QLineEdit('')
         
-        self.label = QtGui.QLineEdit('')
+        self.label = QtWidgets.QLineEdit('')
         
-        self.rotation = QtGui.QDoubleSpinBox()
+        self.rotation = QtWidgets.QDoubleSpinBox()
         self.rotation.setSingleStep(1)
         self.rotation.setSuffix(' deg')
         self.rotation.setRange(-360, 360)
         
-        self.val_x = QtGui.QDoubleSpinBox()
+        self.val_x = QtWidgets.QDoubleSpinBox()
         self.val_x.setSingleStep(0.5)
         self.val_x.setRange(-1000, 1000)
         self.val_x.setSuffix(' mm')
         
-        self.val_y = QtGui.QDoubleSpinBox()
+        self.val_y = QtWidgets.QDoubleSpinBox()
         self.val_y.setSingleStep(0.5)
         self.val_y.setRange(-1000, 1000)
         self.val_y.setSuffix(' mm')
         
-        self.error = QtGui.QLabel(u'')
+        self.error = QtWidgets.QLabel(u'')
         
-        self.updateViewQC = QtGui.QCheckBox(u'Update active view')
+        self.updateViewQC = QtWidgets.QCheckBox(u'Update active view')
         
-        self.loadModelColors = QtGui.QCheckBox(u'Colorize elements')
+        self.loadModelColors = QtWidgets.QCheckBox(u'Colorize elements')
         self.loadModelColors.setChecked(freecadSettings.GetBool("partsColorize", True))
         
-        self.adjustParts = QtGui.QCheckBox(u'Adjust part name/value')
+        self.adjustParts = QtWidgets.QCheckBox(u'Adjust part name/value')
         self.adjustParts.setChecked(freecadSettings.GetBool("adjustNameValue", False))
         
-        self.continueCheckBox = QtGui.QCheckBox(u'Continue')
+        self.continueCheckBox = QtWidgets.QCheckBox(u'Continue')
         
-        self.groupParts = QtGui.QCheckBox(u'Group parts')
+        self.groupParts = QtWidgets.QCheckBox(u'Group parts')
         self.groupParts.setChecked(freecadSettings.GetBool("groupParts", False))
         #
-        lay = QtGui.QGridLayout()
+        lay = QtWidgets.QGridLayout()
         lay.addWidget(self.package, 0, 0, 14, 1)
-        lay.addWidget(QtGui.QLabel(u'Library:'), 0, 1, 1, 1)
+        lay.addWidget(QtWidgets.QLabel(u'Library:'), 0, 1, 1, 1)
         lay.addWidget(self.listaBibliotek, 1, 1, 1, 1)
-        lay.addWidget(QtGui.QLabel(u'Label:*'), 2, 1, 1, 1)
+        lay.addWidget(QtWidgets.QLabel(u'Label:*'), 2, 1, 1, 1)
         lay.addWidget(self.label, 3, 1, 1, 1)
-        lay.addWidget(QtGui.QLabel(u'Value:'), 4, 1, 1, 1)
+        lay.addWidget(QtWidgets.QLabel(u'Value:'), 4, 1, 1, 1)
         lay.addWidget(self.value, 5, 1, 1, 1)
-        lay.addWidget(QtGui.QLabel(u'Side:'), 6, 1, 1, 1)
+        lay.addWidget(QtWidgets.QLabel(u'Side:'), 6, 1, 1, 1)
         lay.addWidget(self.side, 7, 1, 1, 1)
-        lay.addWidget(QtGui.QLabel(u'Rotation:'), 8, 1, 1, 1)
+        lay.addWidget(QtWidgets.QLabel(u'Rotation:'), 8, 1, 1, 1)
         lay.addWidget(self.rotation, 9, 1, 1, 1)
-        lay.addWidget(QtGui.QLabel(u'X:'), 10, 1, 1, 1)
+        lay.addWidget(QtWidgets.QLabel(u'X:'), 10, 1, 1, 1)
         lay.addWidget(self.val_x, 11, 1, 1, 1)
-        lay.addWidget(QtGui.QLabel(u'Y:'), 12, 1, 1, 1)
+        lay.addWidget(QtWidgets.QLabel(u'Y:'), 12, 1, 1, 1)
         lay.addWidget(self.val_y, 13, 1, 1, 1)
         
-        lay_1 = QtGui.QHBoxLayout()
+        lay_1 = QtWidgets.QHBoxLayout()
         lay_1.addWidget(self.loadModelColors)
         lay_1.addWidget(self.adjustParts)
         lay_1.setContentsMargins(0, 0, 0, 0)
         lay.addLayout(lay_1, 15, 0, 1, 2)
         
-        #lay.addItem(QtGui.QSpacerItem(1, 5), 16, 0, 1, 2)
+        #lay.addItem(QtWidgets.QSpacerItem(1, 5), 16, 0, 1, 2)
         
-        lay_2 = QtGui.QHBoxLayout()
+        lay_2 = QtWidgets.QHBoxLayout()
         lay_2.addWidget(self.groupParts)
         lay_2.addWidget(self.updateViewQC)
         lay_2.setContentsMargins(0, 0, 0, 0)
         lay.addLayout(lay_2, 17, 0, 1, 2)
         
-        lay_3 = QtGui.QHBoxLayout()
+        lay_3 = QtWidgets.QHBoxLayout()
         lay_3.addWidget(self.continueCheckBox)
         lay_3.setContentsMargins(0, 0, 0, 0)
         lay.addLayout(lay_3, 18, 0, 1, 2)
         
-        #lay.addItem(QtGui.QSpacerItem(1, 10), 18, 0, 1, 2)
+        #lay.addItem(QtWidgets.QSpacerItem(1, 10), 18, 0, 1, 2)
         #lay.addWidget(self.error, 19, 0, 1, 2)
         lay.setRowStretch(14, 10)
         self.setLayout(lay)

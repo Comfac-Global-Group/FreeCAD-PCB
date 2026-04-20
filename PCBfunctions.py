@@ -28,7 +28,7 @@
 import FreeCAD
 import random
 import builtins
-from PySide import QtCore, QtGui
+from PySide6 import QtCore, QtGui, QtWidgets
 import os
 import time
 from shutil import copy2, make_archive, rmtree
@@ -329,9 +329,9 @@ def wygenerujID(ll, lc):
     return numerID
 
 
-class kolorWarstwy(QtGui.QPushButton):
+class kolorWarstwy(QtWidgets.QPushButton):
     def __init__(self, parent=None):
-        QtGui.QPushButton.__init__(self, parent)
+        QtWidgets.QPushButton.__init__(self, parent)
         self.setStyleSheet('''
             QPushButton
             {
@@ -368,7 +368,7 @@ class kolorWarstwy(QtGui.QPushButton):
                nowyKolorRGB[2]))
 
     def pickColor(self):
-        pick = QtGui.QColorDialog(QtGui.QColor(self.kolor[0], self.kolor[1], self.kolor[2]))
+        pick = QtWidgets.QColorDialog(QtGui.QColor(self.kolor[0], self.kolor[1], self.kolor[2]))
         if pick.exec_():
             [R, G, B, A] = pick.selectedColor().getRgb()
             #
@@ -416,9 +416,9 @@ def getFromSettings_databasePath():
     return database
 
 
-class importScriptCopy(QtGui.QDialog):
+class importScriptCopy(QtWidgets.QDialog):
     def __init__(self, parent=None):
-        QtGui.QDialog.__init__(self, parent)
+        QtWidgets.QDialog.__init__(self, parent)
         self.setWindowTitle(u'Import database')
         self.setWindowIcon(QtGui.QIcon(":/data/img/assignModels.png"))
         #
@@ -427,24 +427,24 @@ class importScriptCopy(QtGui.QDialog):
         self.importSettings = {'parts': False, 'settings': False, 'database': False}
         self.sql = None
         # file
-        self.filePath = QtGui.QLineEdit('')
+        self.filePath = QtWidgets.QLineEdit('')
         self.filePath.setReadOnly(True)
         #
-        filePathButton = QtGui.QPushButton('...')
+        filePathButton = QtWidgets.QPushButton('...')
         self.connect(filePathButton, QtCore.SIGNAL("clicked()"), self.chooseFile)
         #
-        filePathFrame = QtGui.QFrame()
+        filePathFrame = QtWidgets.QFrame()
         filePathFrame.setObjectName('lay_path_widget')
         filePathFrame.setStyleSheet('''#lay_path_widget {background-color:#fff; border:1px solid rgb(199, 199, 199); padding: 5px;}''')
-        filePathLayout = QtGui.QHBoxLayout(filePathFrame)
-        filePathLayout.addWidget(QtGui.QLabel(u'File:\t'))
+        filePathLayout = QtWidgets.QHBoxLayout(filePathFrame)
+        filePathLayout.addWidget(QtWidgets.QLabel(u'File:\t'))
         filePathLayout.addWidget(self.filePath)
         # filePathLayout.addWidget(self.loadingWidget)
         filePathLayout.addWidget(filePathButton)
         filePathLayout.setContentsMargins(0, 0, 0, 0)
         # tabs
-        self.tabs = QtGui.QTabWidget()
-        self.tabs.setTabPosition(QtGui.QTabWidget.West)
+        self.tabs = QtWidgets.QTabWidget()
+        self.tabs.setTabPosition(QtWidgets.QTabWidget.West)
         self.tabs.setObjectName('tabs_widget')
         self.tabs.addTab(self.tabCategories(), u'Models')
         # self.tabs.addTab(self.tabSettings(), u'FreeCAD settings')
@@ -457,20 +457,20 @@ class importScriptCopy(QtGui.QDialog):
         self.connect(buttons, QtCore.SIGNAL("accepted()"), self, QtCore.SLOT("accept()"))
         self.connect(buttons, QtCore.SIGNAL("rejected()"), self, QtCore.SLOT("reject()"))
         #
-        buttonsFrame = QtGui.QFrame()
+        buttonsFrame = QtWidgets.QFrame()
         buttonsFrame.setObjectName('lay_path_widget')
         buttonsFrame.setStyleSheet('''#lay_path_widget {background-color:#fff; border:1px solid rgb(199, 199, 199); padding: 5px;}''')
-        buttonsLayout = QtGui.QHBoxLayout(buttonsFrame)
+        buttonsLayout = QtWidgets.QHBoxLayout(buttonsFrame)
         buttonsLayout.addWidget(buttons)
         buttonsLayout.setContentsMargins(0, 0, 0, 0)
         # settings
-        self.importFcSettings = QtGui.QCheckBox("Import FreeCAD settings")
+        self.importFcSettings = QtWidgets.QCheckBox("Import FreeCAD settings")
         self.importFcSettings.setDisabled(True)
         #
-        settingsLay = QtGui.QVBoxLayout()
+        settingsLay = QtWidgets.QVBoxLayout()
         settingsLay.addWidget(self.importFcSettings)
         # main layout
-        lay = QtGui.QGridLayout(self)
+        lay = QtWidgets.QGridLayout(self)
         lay.addWidget(filePathFrame, 0, 0, 1, 1)
         lay.addLayout(settingsLay, 1, 0, 1, 1)
         lay.addWidget(self.tabs, 2, 0, 1, 1)
@@ -479,7 +479,7 @@ class importScriptCopy(QtGui.QDialog):
         lay.setContentsMargins(5, 5, 5, 5)
         #
         # loadingGif = QtGui.QMovie('C:/Users/marmn/Desktop/FreeCAD_0.18.14495_Conda_Py3QT5-WinVS2016_x64/Mod/PCB/data/loading.gif')
-        self.loadingWidget = QtGui.QLabel('', self)
+        self.loadingWidget = QtWidgets.QLabel('', self)
         self.loadingWidget.setPixmap(QtGui.QPixmap('C:/Users/marmn/Desktop/FreeCAD_0.18.14495_Conda_Py3QT5-WinVS2016_x64/Mod/PCB/data/loading.png'))
         self.loadingWidget.setMinimumSize(400, 400)
         # self.loadingWidget.setMovie(loadingGif)
@@ -488,7 +488,7 @@ class importScriptCopy(QtGui.QDialog):
 
     def showLoading(self):
         time.sleep(0.05)
-        QtGui.QApplication.processEvents()
+        QtWidgets.QApplication.processEvents()
         #
         x = self.width() / 2. - 50
         y = self.height() / 2. - 200
@@ -496,16 +496,16 @@ class importScriptCopy(QtGui.QDialog):
         self.loadingWidget.show()
         #
         time.sleep(0.05)
-        QtGui.QApplication.processEvents()
+        QtWidgets.QApplication.processEvents()
 
     def hideLoading(self):
         time.sleep(0.05)
-        QtGui.QApplication.processEvents()
+        QtWidgets.QApplication.processEvents()
         #
         self.loadingWidget.hide()
         #
         time.sleep(0.05)
-        QtGui.QApplication.processEvents()
+        QtWidgets.QApplication.processEvents()
 
     def importChilds(self, parentItem, parentID, socketsID, topItem=False):
         if topItem:
@@ -642,9 +642,9 @@ class importScriptCopy(QtGui.QDialog):
                 i.value().setCheckState(0, QtCore.Qt.Unchecked)
 
     def tabCategories(self):
-        tab = QtGui.QWidget()
+        tab = QtWidgets.QWidget()
         # table
-        self.categoriesTable = QtGui.QTreeWidget()
+        self.categoriesTable = QtWidgets.QTreeWidget()
         # self.categoriesTable.setSelectionMode(QtGui.QAbstractItemView.NoSelection)
         self.categoriesTable.setSelectionBehavior(QtGui.QAbstractItemView.SelectRows)
         self.categoriesTable.setHeaderLabels([u'Name', u'Description', u'Paths', u'Softwares'])
@@ -654,45 +654,45 @@ class importScriptCopy(QtGui.QDialog):
         self.connect(self.categoriesTable, QtCore.SIGNAL("itemPressed (QTreeWidgetItem*,int)"), self.showInfoF)
         self.connect(self.categoriesTable, QtCore.SIGNAL("itemClicked (QTreeWidgetItem*,int)"), self.changeChildsState)
         # buttons
-        selectAll = QtGui.QPushButton()
+        selectAll = QtWidgets.QPushButton()
         selectAll.setFlat(True)
         selectAll.setToolTip('Select all')
         selectAll.setIcon(QtGui.QIcon(":/data/img/checkbox_checked_16x16.png"))
         selectAll.setStyleSheet('''border:1px solid rgb(237, 237, 237);''')
         self.connect(selectAll, QtCore.SIGNAL("clicked()"), self.selectAllCategories)
         #
-        unselectAll = QtGui.QPushButton()
+        unselectAll = QtWidgets.QPushButton()
         unselectAll.setFlat(True)
         unselectAll.setToolTip('Deselect all')
         unselectAll.setIcon(QtGui.QIcon(":/data/img/checkbox_unchecked_16x16.PNG"))
         unselectAll.setStyleSheet('''border:1px solid rgb(237, 237, 237);''')
         self.connect(unselectAll, QtCore.SIGNAL("clicked()"), self.unselectAllCategories)
         #
-        collapseAll = QtGui.QPushButton()
+        collapseAll = QtWidgets.QPushButton()
         collapseAll.setFlat(True)
         collapseAll.setToolTip('Collapse all')
         collapseAll.setIcon(QtGui.QIcon(":/data/img/collapse.png"))
         collapseAll.setStyleSheet('''border:1px solid rgb(237, 237, 237);''')
         self.connect(collapseAll, QtCore.SIGNAL("clicked()"), self.categoriesTable.collapseAll)
         #
-        expandAll = QtGui.QPushButton()
+        expandAll = QtWidgets.QPushButton()
         expandAll.setFlat(True)
         expandAll.setToolTip('Expand all')
         expandAll.setIcon(QtGui.QIcon(":/data/img/expand.png"))
         expandAll.setStyleSheet('''border:1px solid rgb(237, 237, 237);''')
         self.connect(expandAll, QtCore.SIGNAL("clicked()"), self.categoriesTable.expandAll)
         # info
-        self.showInfo = QtGui.QLabel('')
+        self.showInfo = QtWidgets.QLabel('')
         self.showInfo.setStyleSheet('border:1px solid rgb(237, 237, 237); padding:5px 2px;')
         # main lay
-        layTableButtons = QtGui.QHBoxLayout()
+        layTableButtons = QtWidgets.QHBoxLayout()
         layTableButtons.addWidget(selectAll)
         layTableButtons.addWidget(unselectAll)
         layTableButtons.addWidget(collapseAll)
         layTableButtons.addWidget(expandAll)
         layTableButtons.addStretch(10)
         #
-        lay = QtGui.QGridLayout(tab)
+        lay = QtWidgets.QGridLayout(tab)
         lay.addLayout(layTableButtons, 0, 0, 1, 1)
         lay.addWidget(self.categoriesTable, 1, 0, 1, 1)
         lay.addWidget(self.showInfo, 2, 0, 1, 1)
@@ -731,7 +731,7 @@ class importScriptCopy(QtGui.QDialog):
         for i in self.importDatabase.getPackagesByModelID(modelID):
             position = "X:{0} ;Y:{1} ;Z:{2} ;RX:{3} ;RY:{4} ;RZ:{5}".format(i.x, i.y, i.z, i.rx, i.ry, i.rz)
             #
-            item = QtGui.QTreeWidgetItem([i.name, i.software, position])
+            item = QtWidgets.QTreeWidgetItem([i.name, i.software, position])
             item.setData(0, QtCore.Qt.UserRole + 1, i.id)
             #
             if self.originalDatabase.findPackage(i.name, i.software):
@@ -758,7 +758,7 @@ class importScriptCopy(QtGui.QDialog):
         for i in self.importDatabase.getAllModelsByCategory(categoryID):
             modelPaths = i.path3DModels.split(';')
             #
-            item = QtGui.QTreeWidgetItem([i.name, i.description, '\n'.join(modelPaths)])
+            item = QtWidgets.QTreeWidgetItem([i.name, i.description, '\n'.join(modelPaths)])
             item.setData(0, QtCore.Qt.UserRole + 1, i.id)
             #
             data = self.originalDatabase.getModelByName(i.name)
@@ -781,7 +781,7 @@ class importScriptCopy(QtGui.QDialog):
 
     def loadCategoryData(self, categories, parentObject, topItem=False):
         for i in categories.keys():
-            mainItem = QtGui.QTreeWidgetItem(['{0}'.format(i), categories[i]['description']])
+            mainItem = QtWidgets.QTreeWidgetItem(['{0}'.format(i), categories[i]['description']])
             mainItem.setData(0, QtCore.Qt.UserRole + 1, categories[i]['id'])
             mainItem.setCheckState(0, QtCore.Qt.Unchecked)
             #
@@ -799,7 +799,7 @@ class importScriptCopy(QtGui.QDialog):
             self.loadCategoryData(categories[i]['sub'], mainItem)
             ##########
             if topItem:
-                # widgetAction = QtGui.QComboBox()
+                # widgetAction = QtWidgets.QComboBox()
                 # widgetAction.addItem('New category', [-1, ''])  # new category
                 parentObject.addTopLevelItem(mainItem)
                 # parentObject.setItemWidget(mainItem, 1, widgetAction)
@@ -813,7 +813,7 @@ class importScriptCopy(QtGui.QDialog):
         # self.tabs.setTabEnabled(1, False)
         self.importFcSettings.setDisabled(True)
         #
-        newDatabase = QtGui.QFileDialog.getOpenFileName(None, u'Choose file to import', os.path.expanduser("~"), '*.zip')
+        newDatabase = QtWidgets.QFileDialog.getOpenFileName(None, u'Choose file to import', os.path.expanduser("~"), '*.zip')
         if newDatabase[0].strip() != '' and self.checkFile(newDatabase[0].strip()):
             self.filePath.setText(newDatabase[0])
             #
@@ -840,24 +840,24 @@ class importScriptCopy(QtGui.QDialog):
             return False
 
 
-class prepareScriptCopy(QtGui.QDialog):
+class prepareScriptCopy(QtWidgets.QDialog):
     def __init__(self, parent=None):
-        QtGui.QDialog.__init__(self, parent)
+        QtWidgets.QDialog.__init__(self, parent)
         self.setWindowTitle(u"Save database copy")
         self.setWindowIcon(QtGui.QIcon(":/data/img/assignModels.png"))
         #
-        self.optionSaveDatabase = QtGui.QCheckBox("Database")
-        self.optionSaveModels = QtGui.QCheckBox("Models")
+        self.optionSaveDatabase = QtWidgets.QCheckBox("Database")
+        self.optionSaveModels = QtWidgets.QCheckBox("Models")
         self.optionSaveModels.setDisabled(True)
-        self.optionSaveFreecadSettings = QtGui.QCheckBox("FreeCAD settings")
+        self.optionSaveFreecadSettings = QtWidgets.QCheckBox("FreeCAD settings")
         #
-        self.path = QtGui.QLineEdit(os.path.expanduser("~"))
+        self.path = QtWidgets.QLineEdit(os.path.expanduser("~"))
         self.path.setReadOnly(True)
         #
-        pathChange = QtGui.QPushButton("...")
+        pathChange = QtWidgets.QPushButton("...")
         self.connect(pathChange, QtCore.SIGNAL("clicked ()"), self.changePath)
         #
-        self.logs = QtGui.QTextEdit('')
+        self.logs = QtWidgets.QTextEdit('')
         self.logs.setReadOnly(True)
         #
         buttons = QtGui.QDialogButtonBox()
@@ -867,20 +867,20 @@ class prepareScriptCopy(QtGui.QDialog):
         self.connect(buttons, QtCore.SIGNAL("accepted()"), self, QtCore.SLOT("accept()"))
         self.connect(buttons, QtCore.SIGNAL("rejected()"), self, QtCore.SLOT("reject()"))
         #
-        layPath = QtGui.QHBoxLayout()
-        layPath.addWidget(QtGui.QLabel(u"Path"))
+        layPath = QtWidgets.QHBoxLayout()
+        layPath.addWidget(QtWidgets.QLabel(u"Path"))
         layPath.addWidget(self.path)
         layPath.addWidget(pathChange)
         #
-        lay = QtGui.QGridLayout(self)
+        lay = QtWidgets.QGridLayout(self)
         lay.addWidget(self.optionSaveDatabase, 1, 0, 1, 1)
         lay.addWidget(self.optionSaveModels, 2, 0, 1, 1)
         lay.addWidget(self.optionSaveFreecadSettings, 3, 0, 1, 1)
         # lay.addWidget(scriptLogo, 0, 1, 5, 1)
         lay.addWidget(self.logs, 0, 2, 6, 1)
-        lay.addItem(QtGui.QSpacerItem(10, 10), 6, 0, 1, 3)
+        lay.addItem(QtWidgets.QSpacerItem(10, 10), 6, 0, 1, 3)
         lay.addLayout(layPath, 7, 0, 1, 3)
-        lay.addItem(QtGui.QSpacerItem(10, 20), 8, 0, 1, 3)
+        lay.addItem(QtWidgets.QSpacerItem(10, 20), 8, 0, 1, 3)
         lay.addWidget(buttons, 9, 0, 1, 3)
         lay.setRowStretch(5, 10)
 
@@ -899,14 +899,14 @@ class prepareScriptCopy(QtGui.QDialog):
                     copy2(os.path.join(oldPath, currentPart), os.path.join(newPath, currentPart))
 
     def changePath(self):
-        newFolder = QtGui.QFileDialog.getExistingDirectory(None, 'Change path', self.path.text())
+        newFolder = QtWidgets.QFileDialog.getExistingDirectory(None, 'Change path', self.path.text())
         if newFolder:
             self.path.setText(newFolder)
 
     def printInfo(self, data):
         time.sleep(0.05)
         self.logs.insertHtml(data)
-        QtGui.QApplication.processEvents()
+        QtWidgets.QApplication.processEvents()
 
     def accept(self):
         path = self.path.text().strip()

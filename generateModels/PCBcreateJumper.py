@@ -24,7 +24,7 @@
 #*   USA                                                                    *
 #*                                                                          *
 #****************************************************************************
-from PySide import QtCore, QtGui
+from PySide6 import QtCore, QtGui, QtWidgets
 from PCBmainModule import modelPreviewMain, modelGenerateGUIMain, modelPictureDim
 
 __fcstdFile__ = "jumper.FCStd"
@@ -40,21 +40,21 @@ class modelGenerateGUI(modelGenerateGUIMain):
     def __init__(self, parent=None):
         modelGenerateGUIMain.__init__(self, __desc__, parent)
         #
-        self.diameter = QtGui.QDoubleSpinBox()
+        self.diameter = QtWidgets.QDoubleSpinBox()
         self.diameter.setValue(1)
         self.diameter.setMinimum(0.5)
         self.diameter.setSingleStep(0.5)
         self.diameter.setSuffix("mm")
         #
-        self.modelRaster = QtGui.QDoubleSpinBox()
+        self.modelRaster = QtWidgets.QDoubleSpinBox()
         self.modelRaster.setValue(10)
         self.modelRaster.setMinimum(0.5)
         self.modelRaster.setSingleStep(0.5)
         self.modelRaster.setSuffix("mm")
         #
         self.addMainImageDim("jumperDim.png")
-        self.mainFormLay.addRow(QtGui.QLabel("Diameter (a)"), self.diameter)
-        self.mainFormLay.addRow(QtGui.QLabel("Raster (r)"), self.modelRaster)
+        self.mainFormLay.addRow(QtWidgets.QLabel("Diameter (a)"), self.diameter)
+        self.mainFormLay.addRow(QtWidgets.QLabel("Raster (r)"), self.modelRaster)
 
 
 def modelGenerate(doc, widget):

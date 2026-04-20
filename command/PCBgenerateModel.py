@@ -26,7 +26,7 @@
 #****************************************************************************
 import FreeCAD, FreeCADGui
 if FreeCAD.GuiUp:
-    from PySide import QtGui, QtCore
+    from PySide6 import QtGui, QtCore, QtWidgets
 import glob
 import os
 import sys
@@ -74,8 +74,8 @@ class generateModelGui(QtGui.QStackedWidget):
         self.setCurrentIndex(0)
         
     def firstPage(self):
-        mainWidget = QtGui.QWidget()
-        mainLay = QtGui.QGridLayout(mainWidget)
+        mainWidget = QtWidgets.QWidget()
+        mainLay = QtWidgets.QGridLayout(mainWidget)
         row = 0
         col = 0
         num = 0

@@ -28,7 +28,7 @@
 import FreeCAD
 import os
 import codecs
-from PySide import QtCore, QtGui
+from PySide6 import QtCore, QtGui, QtWidgets
 import datetime
 from PCBboard import getPCBheight, getHoles
 
@@ -46,59 +46,59 @@ __zeroPointDrilling__ = ['Absolute', 'Own']
 #***********************************************************************
 #*                               GUI
 #***********************************************************************
-class exportHoles_Gui(QtGui.QDialog):
+class exportHoles_Gui(QtWidgets.QDialog):
     def __init__(self, parent=None):
-        QtGui.QDialog.__init__(self, parent)
+        QtWidgets.QDialog.__init__(self, parent)
         
         self.setWindowTitle(u"Export hole locations")
         self.setWindowIcon(QtGui.QIcon(":/data/img/centroid.svg"))
         #
         # Output file format
-        self.formatList = QtGui.QComboBox()
+        self.formatList = QtWidgets.QComboBox()
         for i, j in exportList.items():
             self.formatList.addItem(j['name'], i)
 
         # Output directory
-        self.pathToFile = QtGui.QLineEdit('')
+        self.pathToFile = QtWidgets.QLineEdit('')
         self.pathToFile.setReadOnly(True)
         
-        zmianaSciezki = QtGui.QPushButton('...')
+        zmianaSciezki = QtWidgets.QPushButton('...')
         zmianaSciezki.setToolTip(u'Change path')
         QtCore.QObject.connect(zmianaSciezki, QtCore.SIGNAL("pressed ()"), self.zmianaSciezkiF)
         
         # Units
-        unitsMM = QtGui.QRadioButton(u'Millimeters')
+        unitsMM = QtWidgets.QRadioButton(u'Millimeters')
         unitsMM.setChecked(True)
         
-        unitsINCH = QtGui.QRadioButton(u'Inches')
+        unitsINCH = QtWidgets.QRadioButton(u'Inches')
         unitsINCH.setDisabled(True)
         
-        self.buttonGroupUnits = QtGui.QButtonGroup()
+        self.buttonGroupUnits = QtWidgets.QButtonGroup()
         self.buttonGroupUnits.addButton(unitsMM)
         self.buttonGroupUnits.addButton(unitsINCH)
         
-        unitsGroupBox = QtGui.QGroupBox(u'Units')
-        unitsGroupBoxLay = QtGui.QVBoxLayout(unitsGroupBox)
+        unitsGroupBox = QtWidgets.QGroupBox(u'Units')
+        unitsGroupBoxLay = QtWidgets.QVBoxLayout(unitsGroupBox)
         unitsGroupBoxLay.addWidget(unitsMM)
         unitsGroupBoxLay.addWidget(unitsINCH)
         unitsGroupBoxLay.addStretch(10)
     
         # Format
-        formatDecimal = QtGui.QRadioButton(__saveFormats__[0])
+        formatDecimal = QtWidgets.QRadioButton(__saveFormats__[0])
         formatDecimal.setChecked(True)
         
-        formatSuppressLeadingZeros = QtGui.QRadioButton(__saveFormats__[1])
-        formatSuppressTrailingZeros = QtGui.QRadioButton(__saveFormats__[2])
-        formatKeepZeros = QtGui.QRadioButton(__saveFormats__[3])
+        formatSuppressLeadingZeros = QtWidgets.QRadioButton(__saveFormats__[1])
+        formatSuppressTrailingZeros = QtWidgets.QRadioButton(__saveFormats__[2])
+        formatKeepZeros = QtWidgets.QRadioButton(__saveFormats__[3])
         
-        self.buttonGroupFormat = QtGui.QButtonGroup()
+        self.buttonGroupFormat = QtWidgets.QButtonGroup()
         self.buttonGroupFormat.addButton(formatDecimal)
         self.buttonGroupFormat.addButton(formatSuppressLeadingZeros)
         self.buttonGroupFormat.addButton(formatSuppressTrailingZeros)
         self.buttonGroupFormat.addButton(formatKeepZeros)
         
-        formatGroupBox = QtGui.QGroupBox(u'Format')
-        formatGroupBoxLay = QtGui.QVBoxLayout(formatGroupBox)
+        formatGroupBox = QtWidgets.QGroupBox(u'Format')
+        formatGroupBoxLay = QtWidgets.QVBoxLayout(formatGroupBox)
         formatGroupBoxLay.addWidget(formatDecimal)
         formatGroupBoxLay.addWidget(formatSuppressLeadingZeros)
         formatGroupBoxLay.addWidget(formatSuppressTrailingZeros)
@@ -106,42 +106,42 @@ class exportHoles_Gui(QtGui.QDialog):
         formatGroupBoxLay.addStretch(10)
         
         # Zero point drilling
-        zeroPointDrillingAbsolute = QtGui.QRadioButton(__zeroPointDrilling__[0])
+        zeroPointDrillingAbsolute = QtWidgets.QRadioButton(__zeroPointDrilling__[0])
         zeroPointDrillingAbsolute.setChecked(True)
         
-        zeroPointDrillingOwn = QtGui.QRadioButton(__zeroPointDrilling__[1])
+        zeroPointDrillingOwn = QtWidgets.QRadioButton(__zeroPointDrilling__[1])
         
-        self.zeroPointDrillingOwn_X = QtGui.QDoubleSpinBox()
+        self.zeroPointDrillingOwn_X = QtWidgets.QDoubleSpinBox()
         self.zeroPointDrillingOwn_X.setPrefix('X: ')
         self.zeroPointDrillingOwn_X.setSuffix('mm')
         self.zeroPointDrillingOwn_X.setRange(-1000, 1000)
         
-        self.zeroPointDrillingOwn_Y = QtGui.QDoubleSpinBox()
+        self.zeroPointDrillingOwn_Y = QtWidgets.QDoubleSpinBox()
         self.zeroPointDrillingOwn_Y.setPrefix('Y: ')
         self.zeroPointDrillingOwn_Y.setSuffix('mm')
         self.zeroPointDrillingOwn_Y.setRange(-1000, 1000)
         
-        self.buttonGroupZeroPointDrilling = QtGui.QButtonGroup()
+        self.buttonGroupZeroPointDrilling = QtWidgets.QButtonGroup()
         self.buttonGroupZeroPointDrilling.addButton(zeroPointDrillingAbsolute)
         self.buttonGroupZeroPointDrilling.addButton(zeroPointDrillingOwn)
         
-        zeroPointDrillingGroupBox = QtGui.QGroupBox(u'Zero point drilling')
-        zeroPointDrillingGroupBoxLay = QtGui.QGridLayout(zeroPointDrillingGroupBox)
+        zeroPointDrillingGroupBox = QtWidgets.QGroupBox(u'Zero point drilling')
+        zeroPointDrillingGroupBoxLay = QtWidgets.QGridLayout(zeroPointDrillingGroupBox)
         zeroPointDrillingGroupBoxLay.addWidget(zeroPointDrillingAbsolute, 0, 0, 1, 3)
         zeroPointDrillingGroupBoxLay.addWidget(zeroPointDrillingOwn, 1, 0, 1, 3)
-        zeroPointDrillingGroupBoxLay.addItem(QtGui.QSpacerItem(20, 1), 2, 0, 1, 1)
+        zeroPointDrillingGroupBoxLay.addItem(QtWidgets.QSpacerItem(20, 1), 2, 0, 1, 1)
         zeroPointDrillingGroupBoxLay.addWidget(self.zeroPointDrillingOwn_X, 2, 1, 1, 1)
         zeroPointDrillingGroupBoxLay.addWidget(self.zeroPointDrillingOwn_Y, 2, 2, 1, 1)
         zeroPointDrillingGroupBoxLay.setRowStretch(3, 10)
         
         # Options
-        self.optionsMirror_X = QtGui.QCheckBox('Mirror X')
-        self.optionsMirror_Y = QtGui.QCheckBox('Mirror Y')
-        self.optionsMinimalHeader = QtGui.QCheckBox('Minimal header')
-        self.optionsGroupHoles = QtGui.QCheckBox('Group holes by diameter')
+        self.optionsMirror_X = QtWidgets.QCheckBox('Mirror X')
+        self.optionsMirror_Y = QtWidgets.QCheckBox('Mirror Y')
+        self.optionsMinimalHeader = QtWidgets.QCheckBox('Minimal header')
+        self.optionsGroupHoles = QtWidgets.QCheckBox('Group holes by diameter')
         
-        optionsGroupBox = QtGui.QGroupBox(u'Options')
-        optionsGroupBoxLay = QtGui.QVBoxLayout(optionsGroupBox)
+        optionsGroupBox = QtWidgets.QGroupBox(u'Options')
+        optionsGroupBoxLay = QtWidgets.QVBoxLayout(optionsGroupBox)
         optionsGroupBoxLay.addWidget(self.optionsMirror_X)
         optionsGroupBoxLay.addWidget(self.optionsMirror_Y)
         optionsGroupBoxLay.addWidget(self.optionsMinimalHeader)
@@ -149,36 +149,36 @@ class exportHoles_Gui(QtGui.QDialog):
         optionsGroupBoxLay.addStretch(10)
         
         # buttons
-        saveButton = QtGui.QPushButton(u"Export")
+        saveButton = QtWidgets.QPushButton(u"Export")
         self.connect(saveButton, QtCore.SIGNAL("clicked ()"), self, QtCore.SLOT("accept()"))
 
-        closeButton = QtGui.QPushButton(u"Close")
+        closeButton = QtWidgets.QPushButton(u"Close")
         self.connect(closeButton, QtCore.SIGNAL("clicked ()"), self, QtCore.SLOT('close()'))
         
-        packageFooter = QtGui.QHBoxLayout()
+        packageFooter = QtWidgets.QHBoxLayout()
         packageFooter.addStretch(10)
         packageFooter.addWidget(saveButton)
         packageFooter.addWidget(closeButton)
         packageFooter.setContentsMargins(10, 0, 10, 10)
         # header
-        icon = QtGui.QLabel('')
+        icon = QtWidgets.QLabel('')
         icon.setPixmap(QtGui.QPixmap(":/data/img/drill-icon.png"))
         
-        headerWidget = QtGui.QWidget()
+        headerWidget = QtWidgets.QWidget()
         headerWidget.setStyleSheet("padding: 10px; border-bottom: 1px solid #dcdcdc; background-color:#FFF;")
-        headerLay = QtGui.QGridLayout(headerWidget)
+        headerLay = QtWidgets.QGridLayout(headerWidget)
         headerLay.addWidget(icon, 0, 0, 1, 1)
         headerLay.setContentsMargins(0, 0, 0, 0)
         ########
-        centerLay = QtGui.QGridLayout()
-        centerLay.addWidget(QtGui.QLabel(u'Output file format:'), 0, 0, 1, 1)
+        centerLay = QtWidgets.QGridLayout()
+        centerLay.addWidget(QtWidgets.QLabel(u'Output file format:'), 0, 0, 1, 1)
         centerLay.addWidget(self.formatList, 0, 1, 1, 2)
-        centerLay.addWidget(QtGui.QLabel(u'Output directory:'), 1, 0, 1, 1)
+        centerLay.addWidget(QtWidgets.QLabel(u'Output directory:'), 1, 0, 1, 1)
         centerLay.addWidget(self.pathToFile, 1, 1, 1, 1)
         centerLay.addWidget(zmianaSciezki, 1, 2, 1, 1)
         centerLay.setContentsMargins(10, 20, 10, 0)
         
-        centerLay_2 = QtGui.QGridLayout()
+        centerLay_2 = QtWidgets.QGridLayout()
         centerLay_2.addWidget(unitsGroupBox, 0, 0, 1, 1)
         centerLay_2.addWidget(optionsGroupBox, 0, 1, 1, 1)
         centerLay_2.addWidget(formatGroupBox, 1, 0, 1, 1)
@@ -187,7 +187,7 @@ class exportHoles_Gui(QtGui.QDialog):
         centerLay_2.setColumnStretch(10, 10)
         centerLay_2.setContentsMargins(10, 0, 10, 20)
         
-        mainLay = QtGui.QVBoxLayout(self)
+        mainLay = QtWidgets.QVBoxLayout(self)
         mainLay.addWidget(headerWidget)
         mainLay.addLayout(centerLay)
         mainLay.addLayout(centerLay_2)
@@ -231,58 +231,58 @@ class exportHoles_Gui(QtGui.QDialog):
         
     def zmianaSciezkiF(self):
         ''' change output file path '''
-        fileName = QtGui.QFileDialog().getExistingDirectory(None, 'Output directory', QtCore.QDir.homePath(), QtGui.QFileDialog.ShowDirsOnly)
+        fileName = QtWidgets.QFileDialog().getExistingDirectory(None, 'Output directory', QtCore.QDir.homePath(), QtWidgets.QFileDialog.ShowDirsOnly)
         
         if fileName:
             self.pathToFile.setText(fileName)
 
 
-class exportHolesReport_Gui(QtGui.QDialog):
+class exportHolesReport_Gui(QtWidgets.QDialog):
     def __init__(self, parent=None):
-        QtGui.QDialog.__init__(self, parent)
+        QtWidgets.QDialog.__init__(self, parent)
         
         self.setWindowTitle(u"Export hole locations report")
         self.setWindowIcon(QtGui.QIcon(":/data/img/drilling.svg"))
         # Output directory
-        self.pathToFile = QtGui.QLineEdit('')
+        self.pathToFile = QtWidgets.QLineEdit('')
         self.pathToFile.setReadOnly(True)
         
-        zmianaSciezki = QtGui.QPushButton('...')
+        zmianaSciezki = QtWidgets.QPushButton('...')
         zmianaSciezki.setToolTip(u'Change path')
         QtCore.QObject.connect(zmianaSciezki, QtCore.SIGNAL("pressed ()"), self.zmianaSciezkiF)
         # header
-        icon = QtGui.QLabel('')
+        icon = QtWidgets.QLabel('')
         icon.setPixmap(QtGui.QPixmap(":/data/img/drill-icon.png"))
         
-        headerWidget = QtGui.QWidget()
+        headerWidget = QtWidgets.QWidget()
         headerWidget.setStyleSheet("padding: 10px; border-bottom: 1px solid #dcdcdc; background-color:#FFF;")
-        headerLay = QtGui.QGridLayout(headerWidget)
+        headerLay = QtWidgets.QGridLayout(headerWidget)
         headerLay.addWidget(icon, 0, 0, 1, 1)
         headerLay.setContentsMargins(0, 0, 0, 0)
         # buttons
-        saveButton = QtGui.QPushButton(u"Export")
+        saveButton = QtWidgets.QPushButton(u"Export")
         self.connect(saveButton, QtCore.SIGNAL("clicked ()"), self, QtCore.SLOT("accept()"))
 
-        closeButton = QtGui.QPushButton(u"Close")
+        closeButton = QtWidgets.QPushButton(u"Close")
         self.connect(closeButton, QtCore.SIGNAL("clicked ()"), self, QtCore.SLOT('close()'))
         
-        packageFooter = QtGui.QHBoxLayout()
+        packageFooter = QtWidgets.QHBoxLayout()
         packageFooter.addStretch(10)
         packageFooter.addWidget(saveButton)
         packageFooter.addWidget(closeButton)
         packageFooter.setContentsMargins(10, 0, 10, 10)
         # report
-        self.reportPrev = QtGui.QTextEdit()
+        self.reportPrev = QtWidgets.QTextEdit()
         self.reportPrev.setReadOnly(True)
         ########
-        centerLay = QtGui.QGridLayout()
-        centerLay.addWidget(QtGui.QLabel(u'Output directory:'), 0, 0, 1, 1)
+        centerLay = QtWidgets.QGridLayout()
+        centerLay.addWidget(QtWidgets.QLabel(u'Output directory:'), 0, 0, 1, 1)
         centerLay.addWidget(self.pathToFile, 0, 1, 1, 1)
         centerLay.addWidget(zmianaSciezki, 0, 2, 1, 1)
         centerLay.addWidget(self.reportPrev, 1, 0, 1, 3)
         centerLay.setContentsMargins(10, 20, 10, 20)
 
-        mainLay = QtGui.QVBoxLayout(self)
+        mainLay = QtWidgets.QVBoxLayout(self)
         mainLay.addWidget(headerWidget)
         mainLay.addLayout(centerLay)
         mainLay.addLayout(packageFooter)
@@ -304,7 +304,7 @@ class exportHolesReport_Gui(QtGui.QDialog):
         
     def zmianaSciezkiF(self):
         ''' change output file path '''
-        fileName = QtGui.QFileDialog().getExistingDirectory(None, 'Output directory', QtCore.QDir.homePath(), QtGui.QFileDialog.ShowDirsOnly)
+        fileName = QtWidgets.QFileDialog().getExistingDirectory(None, 'Output directory', QtCore.QDir.homePath(), QtWidgets.QFileDialog.ShowDirsOnly)
         
         if fileName:
             self.pathToFile.setText(fileName)

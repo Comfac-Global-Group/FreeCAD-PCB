@@ -27,7 +27,7 @@
 import FreeCAD, FreeCADGui
 import Part
 if FreeCAD.GuiUp:
-    from PySide import QtGui, QtCore
+    from PySide6 import QtGui, QtCore, QtWidgets
 import Part
 import os
 
@@ -36,9 +36,9 @@ from PCBboard import getPCBheight
 #***********************************************************************
 #*                             GUI
 #***********************************************************************
-class createAssemblyGui(QtGui.QWidget):
+class createAssemblyGui(QtWidgets.QWidget):
     def __init__(self, parent=None):
-        QtGui.QWidget.__init__(self, parent)
+        QtWidgets.QWidget.__init__(self, parent)
         
         self.form = self
         self.form.setWindowTitle(u"Assembly")
@@ -46,34 +46,34 @@ class createAssemblyGui(QtGui.QWidget):
         ########################
         # file
         ########################
-        self.fileName = QtGui.QLineEdit()
+        self.fileName = QtWidgets.QLineEdit()
         self.fileName.setReadOnly(True)
         
-        pickFile = QtGui.QPushButton('...')
+        pickFile = QtWidgets.QPushButton('...')
         self.connect(pickFile, QtCore.SIGNAL("released ()"), self.chooseFile)
         ########################
         # rotation / shift
         ########################
-        self.pozX = QtGui.QDoubleSpinBox()
+        self.pozX = QtWidgets.QDoubleSpinBox()
         self.pozX.setRange(-1000, 1000)
         self.pozX.setSuffix(" mm")
-        self.pozY = QtGui.QDoubleSpinBox()
+        self.pozY = QtWidgets.QDoubleSpinBox()
         self.pozY.setRange(-1000, 1000)
         self.pozY.setSuffix(" mm")
-        self.pozZ = QtGui.QDoubleSpinBox()
+        self.pozZ = QtWidgets.QDoubleSpinBox()
         self.pozZ.setRange(-1000, 1000)
         self.pozZ.setSuffix(" mm")
-        ukladWspolrzednych = QtGui.QLabel("")
+        ukladWspolrzednych = QtWidgets.QLabel("")
         ukladWspolrzednych.setPixmap(QtGui.QPixmap(":/data/img/uklad.png"))
         
-        layWspolrzedne = QtGui.QGridLayout()
+        layWspolrzedne = QtWidgets.QGridLayout()
         layWspolrzedne.setContentsMargins(0, 10, 0, 20)
         layWspolrzedne.addWidget(ukladWspolrzednych, 0, 0, 6, 1, QtCore.Qt.AlignTop | QtCore.Qt.AlignCenter)
-        layWspolrzedne.addWidget(QtGui.QLabel("X"), 0, 1, 1, 1, QtCore.Qt.AlignRight)
+        layWspolrzedne.addWidget(QtWidgets.QLabel("X"), 0, 1, 1, 1, QtCore.Qt.AlignRight)
         layWspolrzedne.addWidget(self.pozX, 0, 2, 1, 1, QtCore.Qt.AlignTop)
-        layWspolrzedne.addWidget(QtGui.QLabel("Y"), 1, 1, 1, 1, QtCore.Qt.AlignRight)
+        layWspolrzedne.addWidget(QtWidgets.QLabel("Y"), 1, 1, 1, 1, QtCore.Qt.AlignRight)
         layWspolrzedne.addWidget(self.pozY, 1, 2, 1, 1, QtCore.Qt.AlignTop)
-        layWspolrzedne.addWidget(QtGui.QLabel("Z"), 2, 1, 1, 1, QtCore.Qt.AlignRight)
+        layWspolrzedne.addWidget(QtWidgets.QLabel("Z"), 2, 1, 1, 1, QtCore.Qt.AlignRight)
         layWspolrzedne.addWidget(self.pozZ, 2, 2, 1, 1, QtCore.Qt.AlignTop)
         layWspolrzedne.setRowStretch(6, 10)
         layWspolrzedne.setColumnStretch(2, 10)
@@ -81,8 +81,8 @@ class createAssemblyGui(QtGui.QWidget):
         ########################
         # layouts
         ########################
-        mainLay = QtGui.QGridLayout()
-        mainLay.addWidget(QtGui.QLabel(u"File"), 0, 0, 1, 1)
+        mainLay = QtWidgets.QGridLayout()
+        mainLay.addWidget(QtWidgets.QLabel(u"File"), 0, 0, 1, 1)
         mainLay.addWidget(self.fileName, 0, 1, 1, 1)
         mainLay.addWidget(pickFile, 0, 2, 1, 1)
         mainLay.addLayout(layWspolrzedne, 1, 0, 1, 3)
@@ -90,7 +90,7 @@ class createAssemblyGui(QtGui.QWidget):
         self.setLayout(mainLay)
     
     def chooseFile(self):
-        dial = QtGui.QFileDialog().getOpenFileName(self, u"Choose file", "~", "*.fcstd")
+        dial = QtWidgets.QFileDialog().getOpenFileName(self, u"Choose file", "~", "*.fcstd")
         if dial:
             self.fileName.setText(dial[0])
         

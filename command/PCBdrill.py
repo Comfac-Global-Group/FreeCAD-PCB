@@ -25,7 +25,7 @@
 #*                                                                          *
 #****************************************************************************
 
-from PySide import QtCore, QtGui
+from PySide6 import QtCore, QtGui, QtWidgets
 import FreeCAD
 #
 from PCBobjects import layerSilkObject, viewProviderLayerSilkObject
@@ -102,15 +102,15 @@ def createDrillcenter(size, color):
     
 
 
-class createDrillcenter_Gui(QtGui.QWidget):
+class createDrillcenter_Gui(QtWidgets.QWidget):
     def __init__(self, parent=None):
-        QtGui.QWidget.__init__(self, parent)
+        QtWidgets.QWidget.__init__(self, parent)
         
         self.form = self
         self.form.setWindowTitle(u"Create drill center")
         self.form.setWindowIcon(QtGui.QIcon(":/data/img/drilling.svg"))
         #
-        self.holeSize = QtGui.QDoubleSpinBox()
+        self.holeSize = QtWidgets.QDoubleSpinBox()
         self.holeSize.setValue(0.4)
         self.holeSize.setMinimum(0.1)
         self.holeSize.setSuffix('mm')
@@ -120,10 +120,10 @@ class createDrillcenter_Gui(QtGui.QWidget):
         self.pcbColor.setColor(getFromSettings_Color_1('CenterDrillColor', 4294967295))
         self.pcbColor.setToolTip(u"Click to change color")
         #
-        lay = QtGui.QGridLayout(self)
-        lay.addWidget(QtGui.QLabel('Hole size'), 0, 0, 1, 1)
+        lay = QtWidgets.QGridLayout(self)
+        lay.addWidget(QtWidgets.QLabel('Hole size'), 0, 0, 1, 1)
         lay.addWidget(self.holeSize, 0, 1, 1, 1)
-        lay.addWidget(QtGui.QLabel(u'Color:'), 1, 0, 1, 1)
+        lay.addWidget(QtWidgets.QLabel(u'Color:'), 1, 0, 1, 1)
         lay.addWidget(self.pcbColor, 1, 1, 1, 1)
         
     def accept(self):
