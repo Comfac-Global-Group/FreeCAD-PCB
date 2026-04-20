@@ -1,0 +1,5 @@
+# FreeCAD-PCB Python dependencies
+# Install via: pip install -r requirements.txt
+# Or inside FreeCAD's Python environment as appropriate for your platform.
+
+SQLAlchemy>=1.4

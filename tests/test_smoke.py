@@ -40,3 +40,8 @@ def test_agpl_license_file_exists():
     assert lic.exists()
     text = lic.read_text()
     assert "GNU AFFERO GENERAL PUBLIC LICENSE" in text
+
+
+def test_no_vendored_sqlalchemy():
+    """Vendored SQLAlchemy directory must have been removed."""
+    assert not (REPO_ROOT / "sqlalchemy").exists(), "Vendored sqlalchemy/ directory should be removed; use 'pip install -r requirements.txt' instead"
