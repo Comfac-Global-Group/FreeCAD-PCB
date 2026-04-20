@@ -26,10 +26,7 @@
 #****************************************************************************
 
 import FreeCAD
-try:
-    import builtins
-except:
-    import __builtin__ as builtins
+import builtins
 import glob
 import re
 import os

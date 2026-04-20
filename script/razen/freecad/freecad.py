@@ -29,7 +29,7 @@
 from rzn.api import Plugin
 import os
 import glob
-import ConfigParser
+import configparser
 
 
 __currentPath__ = os.path.dirname(os.path.abspath(__file__))
@@ -39,7 +39,7 @@ class FreeCADExportPlugin(Plugin):
     def __init__(self):
         Plugin.__init__(self, "FreeCAD", Plugin.EXPORT)
         
-        self.config = ConfigParser.RawConfigParser()
+        self.config = configparser.RawConfigParser()
         self.config.read(os.path.join(__currentPath__, "conf.cfg"))
         
     def main(self, ui):
@@ -55,6 +55,6 @@ class FreeCADExportPlugin(Plugin):
             elif systemUzytkownika == "posix":
                 os.popen("\"{0}\" \"{1}\" &".format(self.config.get('option', 'programPath_LIN'), plikRZP))
             else:
-                print 'Operating system not recognized.'
+                print('Operating system not recognized.')
         else:
-            print 'File path issue, incorrect path: `{0}`'.format(proj.filename())
+            print('File path issue, incorrect path: `{0}`'.format(proj.filename()))

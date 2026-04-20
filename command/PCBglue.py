@@ -30,10 +30,7 @@ if FreeCAD.GuiUp:
 import Part
 from math import degrees
 import importlib
-try:
-    import builtins
-except:
-    import __builtin__ as builtins
+import builtins
 #
 from PCBobjects import layerSilkObject
 from PCBfunctions import kolorWarstwy, mathFunctions

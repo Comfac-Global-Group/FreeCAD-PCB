@@ -29,10 +29,7 @@ import FreeCAD
 import FreeCADGui
 from PySide import QtGui
 import importlib
-try:
-    import builtins
-except:
-    import __builtin__ as builtins
+import builtins
 #
 import PCBconf
 from PCBpartManaging import partsManaging

@@ -29,10 +29,7 @@ import FreeCAD
 import Part
 import re
 from math import sqrt, atan2, sin, cos, atan, tan
-try:
-    import builtins
-except:
-    import __builtin__ as builtins
+import builtins
 #import os
 #
 from PCBconf import softLayers, spisTekstow

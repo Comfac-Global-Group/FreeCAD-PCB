@@ -30,10 +30,7 @@ import FreeCADGui
 import Part
 import os
 import re
-try:
-    import builtins
-except:
-    import __builtin__ as builtins
+import builtins
 import glob
 import unicodedata
 import ImportGui

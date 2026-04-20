@@ -27,10 +27,7 @@
 
 import FreeCAD
 import Part
-try:
-    import builtins
-except:
-    import __builtin__ as builtins
+import builtins
 from math import sqrt
 #
 from PCBfunctions import mathFunctions

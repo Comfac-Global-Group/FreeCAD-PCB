@@ -26,10 +26,7 @@
 #****************************************************************************
 
 import FreeCAD
-try:
-    import builtins
-except:
-    import __builtin__ as builtins
+import builtins
 import re
 from math import radians
 from PySide import QtCore, QtGui

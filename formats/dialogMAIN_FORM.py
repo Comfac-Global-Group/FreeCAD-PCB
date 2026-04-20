@@ -28,10 +28,7 @@
 import FreeCAD
 if FreeCAD.GuiUp:
     from PySide import QtCore, QtGui
-try:
-    import builtins
-except:
-    import __builtin__ as builtins
+import builtins
 import importlib
 import unicodedata
 #

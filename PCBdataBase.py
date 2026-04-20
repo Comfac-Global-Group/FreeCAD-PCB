@@ -27,10 +27,7 @@
 import os.path
 import shutil
 import copy
-try:
-    import configparser
-except:
-    import ConfigParser as configparser
+import configparser
 import FreeCAD
 from PySide import QtGui
 from sqlalchemy.ext.declarative import declarative_base

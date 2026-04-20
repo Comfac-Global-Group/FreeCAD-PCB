@@ -26,10 +26,7 @@
 #****************************************************************************
 
 import FreeCAD
-try:
-    import builtins
-except:
-    import __builtin__ as builtins
+import builtins
 import json
 import os
 from math import sqrt, atan2
