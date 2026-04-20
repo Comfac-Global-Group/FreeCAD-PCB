@@ -1,15 +1,19 @@
 # -*- coding: utf8 -*-
+# SPDX-License-Identifier: AGPL-3.0-or-later
 #****************************************************************************
 #*                                                                          *
 #*   Printed Circuit Board Workbench for FreeCAD             PCB            *
 #*                                                                          *
 #*   Copyright (c) 2013-2019                                                *
-#*   marmni <marmni@onet.eu>                                                *
+#*   marmni <marmni@onet.eu>
+#*                                                                          *
+#*   Copyright (c) 2026                                                     *
+#*   Comfac-Global-Group (CGG R&D)                                          *                                                *
 #*                                                                          *
 #*                                                                          *
 #*   This program is free software; you can redistribute it and/or modify   *
-#*   it under the terms of the GNU Lesser General Public License (LGPL)     *
-#*   as published by the Free Software Foundation; either version 2 of      *
+#*   it under the terms of the GNU Affero General Public License (AGPL)     *
+#*   as published by the Free Software Foundation; either version 3 of      *
 #*   the License, or (at your option) any later version.                    *
 #*   for detail see the LICENCE text file.                                  *
 #*                                                                          *
@@ -56,8 +60,7 @@ class baseModel(mathFunctions):
                 else:
                     holesObject.addGeometry(Part.Circle(FreeCAD.Vector(x, y, 0.), FreeCAD.Vector(0, 0, 1), r))
         except Exception as e:
-            print("Error in addHoleToObject(): " + e)
-        
+            FreeCAD.Console.PrintError("Error in addHoleToObject(): " + str(e) + "\n")
         return holesList
     
     def detectIntersectingHoles(self, holesList, x, y, r):

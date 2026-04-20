@@ -1,15 +1,19 @@
 # -*- coding: utf8 -*-
+# SPDX-License-Identifier: AGPL-3.0-or-later
 #****************************************************************************
 #*                                                                          *
 #*   Printed Circuit Board Workbench for FreeCAD             PCB            *
 #*                                                                          *
 #*   Copyright (c) 2013-2019                                                *
-#*   marmni <marmni@onet.eu>                                                *
+#*   marmni <marmni@onet.eu>
+#*                                                                          *
+#*   Copyright (c) 2026                                                     *
+#*   Comfac-Global-Group (CGG R&D)                                          *                                                *
 #*                                                                          *
 #*                                                                          *
 #*   This program is free software; you can redistribute it and/or modify   *
-#*   it under the terms of the GNU Lesser General Public License (LGPL)     *
-#*   as published by the Free Software Foundation; either version 2 of      *
+#*   it under the terms of the GNU Affero General Public License (AGPL)     *
+#*   as published by the Free Software Foundation; either version 3 of      *
 #*   the License, or (at your option) any later version.                    *
 #*   for detail see the LICENCE text file.                                  *
 #*                                                                          *
@@ -207,7 +211,7 @@ class KiCadv3_PCB(baseModel):
                     wymiary.append([x1, y1, x2, y2, x3, y3, '', lineWidth])
                 
                 except Exception as e:
-                    print(e)      
+                    FreeCAD.Console.PrintError(str(e) + "\n")
         #
         return wymiary
     
@@ -430,7 +434,7 @@ class KiCadv3_PCB(baseModel):
                             'data': j
                         })
                     except Exception as e:
-                        print(e)
+                        FreeCAD.Console.PrintError(str(e) + "\n")
         #
         return pads
 
@@ -550,8 +554,7 @@ class KiCadv3_PCB(baseModel):
                     'strokeType': strokeType
             }
         except Exception as e:
-            print(e)
-    
+            FreeCAD.Console.PrintError(str(e) + "\n")
     def getLine(self, layer, source, oType, parentCoord=[0,0]):
         data = []
         #
@@ -597,8 +600,7 @@ class KiCadv3_PCB(baseModel):
                     'fill': fill,
                 }
         except Exception as e:
-            print(e)
-            
+            FreeCAD.Console.PrintError(str(e) + "\n")
     def getCircle(self, layer, source, oType, parentCoord=[0,0]):
         data = []
         #
@@ -684,8 +686,7 @@ class KiCadv3_PCB(baseModel):
                     'strokeType': strokeType,
                 }
         except Exception as e:
-            print(e)
-
+            FreeCAD.Console.PrintError(str(e) + "\n")
     def getArc(self, layer, source, oType, parentCoord=[0,0]):
         data = []
         #
@@ -954,7 +955,7 @@ class KiCadv3_PCB(baseModel):
                     
                     areas[-1][-1].append(['Line', x1, y1, x2, y2])
             except Exception as e:
-                print(e)
+                FreeCAD.Console.PrintError(str(e) + "\n")
         #
         return areas
         

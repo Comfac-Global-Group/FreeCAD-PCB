@@ -1,10 +1,14 @@
 # -*- coding: utf8 -*-
+# SPDX-License-Identifier: AGPL-3.0-or-later
 # ****************************************************************************
 # *                                                                          *
 # *   Printed Circuit Board Workbench for FreeCAD             PCB            *
 # *                                                                          *
 # *   Copyright (c) 2013-2019                                                *
-# *   marmni <marmni@onet.eu>                                                *
+# *   marmni <marmni@onet.eu>
+#*                                                                          *
+#*   Copyright (c) 2026                                                     *
+#*   Comfac-Global-Group (CGG R&D)                                          *                                                *
 # *                                                                          *
 # *                                                                          *
 # *   This program is free software; you can redistribute it and/or modify   *

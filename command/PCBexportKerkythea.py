@@ -1,9 +1,13 @@
 # -*- coding: utf8 -*-
+# SPDX-License-Identifier: AGPL-3.0-or-later
 #****************************************************************************
 #*                                                                          
 #*   Kerkythea exporter v1.2                                                
 #*   Copyright (c) 2014, 2015                                                     
-#*   marmni <marmni@onet.eu>                                                
+#*   marmni <marmni@onet.eu>
+#*                                                                          *
+#*   Copyright (c) 2026                                                     *
+#*   Comfac-Global-Group (CGG R&D)                                          *                                                
 #*                                                                          
 #*                                                                          
 #*   This program is free software; you can redistribute it and/or modify   
@@ -37,7 +41,10 @@
 #****************************************************************************
 
 __title__ ="Kerkythea exporter v1.2"
-__author__ = "marmni <marmni@onet.eu>"
+__author__ = "marmni <marmni@onet.eu>
+#*                                                                          *
+#*   Copyright (c) 2026                                                     *
+#*   Comfac-Global-Group (CGG R&D)                                          *"
 __url__ = ["https://freecad.org"]
 
 

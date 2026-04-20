@@ -595,12 +595,12 @@ class partsManaging(mathFunctions):
                         annotation.Rot = paramData[0].rz + newPart['rot']
                         annotation.Spin = paramData[0].spin
                     except Exception as e:
-                        print(e)
+                        FreeCAD.Console.PrintError(str(e) + "\n")
             #
             annotation.generate(False)
             step_model.PartName = annotation.Annotation
         except Exception as e:
-            print(e)
+            FreeCAD.Console.PrintError(str(e) + "\n")
         ##################################################################
         ## part value object
         ##################################################################
@@ -656,7 +656,7 @@ class partsManaging(mathFunctions):
                         annotation.Rot = paramData[0].rz + newPart['rot']
                         annotation.Spin = paramData[0].spin
                     except Exception as e:
-                        print(e)
+                        FreeCAD.Console.PrintError(str(e) + "\n")
             #
             annotation.generate(False)
             step_model.PartValue = annotation.Annotation

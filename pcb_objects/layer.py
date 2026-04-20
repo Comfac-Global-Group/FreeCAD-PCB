@@ -402,10 +402,9 @@ class layerSilkObject(objectWire):
                                 # Part.show(new.cut(a))
                                 # obj = obj.cut(a)
                         except Exception as e:
-                            print(e)
+                            FreeCAD.Console.PrintError(str(e) + "\n")
         except Exception as e:
-            print(e)
-        
+            FreeCAD.Console.PrintError(str(e) + "\n")
         if len(data):
             for i in range(0, len(data)):
                 a = obj
@@ -443,8 +442,7 @@ class layerSilkObject(objectWire):
                 #
                 fp.ViewObject.DiffuseColor = data
         except Exception as e:
-            print(e)
-        
+            FreeCAD.Console.PrintError(str(e) + "\n")
         return colorsList
         
     # def setFace(self, extrude=True, height=None, signalName=None):
