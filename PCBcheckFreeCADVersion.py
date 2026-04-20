@@ -6,30 +6,20 @@
 #*   Copyright (c) 2013-2019                                                *
 #*   marmni <marmni@onet.eu>                                                *
 #*                                                                          *
+#*   Copyright (c) 2026                                                     *
+#*   Comfac-Global-Group (CGG R&D)                                          *
 #*                                                                          *
 #*   This program is free software; you can redistribute it and/or modify   *
-#*   it under the terms of the GNU Lesser General Public License (LGPL)     *
-#*   as published by the Free Software Foundation; either version 2 of      *
-#*   the License, or (at your option) any later version.                    *
-#*   for detail see the LICENCE text file.                                  *
-#*                                                                          *
-#*   This program is distributed in the hope that it will be useful,        *
-#*   but WITHOUT ANY WARRANTY; without even the implied warranty of         *
-#*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          *
-#*   GNU Library General Public License for more details.                   *
-#*                                                                          *
-#*   You should have received a copy of the GNU Library General Public      *
-#*   License along with this program; if not, write to the Free Software    *
-#*   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307   *
-#*   USA                                                                    *
+#*   it under the terms of the GNU Affero General Public License v3.0       *
+#*   as published by the Free Software Foundation.                          *
 #*                                                                          *
 #****************************************************************************
+import sys
 import FreeCAD
-from PySide import QtGui
 
-__scriptVersion__ = 5.0
-__pythonVersion__ = 3.6
-__requiredFreeCADVersion__ = (0.18, 0.20)  # (min, max)
+__scriptVersion__ = 7.0
+__pythonVersion__ = 3.10
+__requiredFreeCADVersion__ = (0.21, None)  # (min, max) — None means no upper bound
 
 
 def currentFreeCADVersion():
@@ -38,22 +28,42 @@ def currentFreeCADVersion():
     return float(data[0] + '.' + (data[1][:data[1].index('.')] if '.' in data[1] else data[1]))
 
 
-# def checkCompatibility():
-    # ''' InitGui -> Initialize() '''
-    # currentFCVersion = currentFreeCADVersion()
-    # #
-    # if currentFCVersion >= __requiredFreeCADVersion__[0] and currentFCVersion <= __requiredFreeCADVersion__[1]:
-        # # if float("{0}.{1}".format(sys.version_info[0], sys.version_info[1])) < __pythonVersion__:
-            # # FreeCAD.Console.PrintWarning("PCB Workbench: Error. Minimum required Python version: {0}.\n".format(__pythonVersion__))
-            # # return [False]
-        # # else:
-        # return [True]
-    # elif currentFCVersion <= __requiredFreeCADVersion__[0]:
-        # FreeCAD.Console.PrintError("PCB Workbench: Error\n\tYour version of FreeCAD is too old. Supported versions => {0}.\n".format(__requiredFreeCADVersion__[0]))
-        # return [False]
-    # else:
-        # FreeCAD.Console.PrintWarning("PCB Workbench: Warning\n\tIncompatible FreeCAD version. Supported versions: {0}-{1}.\n".format(__requiredFreeCADVersion__[0], __requiredFreeCADVersion__[1]))
-        # return [True]
+def checkCompatibility():
+    '''InitGui -> Initialize()'''
+    currentFCVersion = currentFreeCADVersion()
+    currentPyVersion = float("{0}.{1}".format(sys.version_info[0], sys.version_info[1]))
+    ok = True
+
+    # Check Python version
+    if currentPyVersion < __pythonVersion__:
+        FreeCAD.Console.PrintError(
+            "PCB Workbench: Error\n\t"
+            "Python {0}+ is required. You are running {1}.\n"
+            "\tPlease upgrade Python or use a newer FreeCAD build.\n"
+            .format(__pythonVersion__, currentPyVersion)
+        )
+        ok = False
+
+    # Check FreeCAD minimum version
+    if currentFCVersion < __requiredFreeCADVersion__[0]:
+        FreeCAD.Console.PrintError(
+            "PCB Workbench: Error\n\t"
+            "FreeCAD >= {0} is required. You are running {1}.\n"
+            "\tPlease upgrade FreeCAD to continue.\n"
+            .format(__requiredFreeCADVersion__[0], currentFCVersion)
+        )
+        ok = False
+
+    # Check FreeCAD maximum version (if set)
+    if __requiredFreeCADVersion__[1] is not None and currentFCVersion > __requiredFreeCADVersion__[1]:
+        FreeCAD.Console.PrintWarning(
+            "PCB Workbench: Warning\n\t"
+            "FreeCAD {0} is newer than the tested maximum ({1}).\n"
+            "\tThe workbench may not function correctly.\n"
+            .format(currentFCVersion, __requiredFreeCADVersion__[1])
+        )
+
+    return [ok]
 
 
 def setDefaultValues():

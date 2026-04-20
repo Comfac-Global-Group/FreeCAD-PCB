@@ -119,8 +119,10 @@ static char * D:\Program Files\FreeCAD 0_18_4\Mod\PCB\RC_test\svg\modelKopia_xpm
 
     def Initialize(self):
         import PCBcheckFreeCADVersion
-        #result = PCBcheckFreeCADVersion.checkCompatibility()
-        #if result[0]:
+        result = PCBcheckFreeCADVersion.checkCompatibility()
+        if not result[0]:
+            FreeCAD.Console.PrintError("PCB Workbench initialization aborted due to version incompatibility.\n")
+            return
         PCBcheckFreeCADVersion.setDefaultValues()
         #
         import PCBtoolBar
